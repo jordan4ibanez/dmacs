@@ -4,22 +4,43 @@ import gio.Application : GioApplication = Application;
 import gtk.Application;
 import gtk.ApplicationWindow;
 import gtk.Label;
+import gtk.ScrolledWindow;
+import gtk.TextBuffer;
+import gtk.TextView;
+import gtk.VBox;
 
 static final const class Dmacs {
 static:
 private:
 
-    ApplicationWindow window;
+    ApplicationWindow masterWindow;
 
 protected:
 
     void initialize(Application application) {
-        window = new ApplicationWindow(application);
+        masterWindow = new ApplicationWindow(application);
 
-        window.setTitle("GtkD");
-        window.setBorderWidth(10);
-        window.add(new Label("Hello World"));
-        window.showAll();
+        masterWindow.setTitle("Dmacs");
+        masterWindow.setBorderWidth(10);
+
+        // ScrolledWindow window = new ScrolledWindow();
+
+        // window.setBorderWidth(10);
+
+        TextView view = new TextView();
+
+        view.setHscrollPolicy(GtkScrollablePolicy.NATURAL);
+        view.setVscrollPolicy(GtkScrollablePolicy.NATURAL);
+
+        TextBuffer buf = view.getBuffer();
+
+        // window.add(window);
+
+        // window.add(new VBox(false, 0));
+
+        masterWindow.add(view);
+
+        masterWindow.showAll();
     }
 
 public:
