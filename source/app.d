@@ -5,20 +5,24 @@ import gtk.Application;
 import gtk.ApplicationWindow;
 import gtk.Label;
 
-class HelloWorld : ApplicationWindow {
+static final const class Dmacs {
+static:
+private:
 
-    this(Application application) {
+    ApplicationWindow window;
 
-        super(application);
+protected:
 
-        setTitle("Dmacs");
+    void initialize(Application application) {
+        window = new ApplicationWindow(application);
 
-        setBorderWidth(10);
-
-        add(new Label("Hello World"));
-
-        showAll();
+        window.setTitle("GtkD");
+        window.setBorderWidth(10);
+        window.add(new Label("Hello World"));
+        window.showAll();
     }
+
+public:
 
 }
 
@@ -26,7 +30,8 @@ int main(string[] args) {
     Application application = new Application("org.dmacs", GApplicationFlags.FLAGS_NONE);
 
     application.addOnActivate(delegate void(GioApplication app) {
-        new HelloWorld(application);
+        Dmacs.initialize(application);
     });
+
     return application.run(args);
 }
