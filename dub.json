@@ -1,0 +1,12 @@
+{
+	"authors": [
+		"jordan4ibanez"
+	],
+	"copyright": "Copyright © 2025, jordan4ibanez",
+	"dependencies": {
+		"gtk-d": "~>3.11.0"
+	},
+	"description": "A minimal D application.",
+	"license": "GPL-3.0-or-later",
+	"name": "dmacs"
+}
