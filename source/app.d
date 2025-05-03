@@ -30,11 +30,11 @@ static:
 private:
 
     // Different components of the OS environment.
-    Display masterDisplay;
-    MonitorG masterMonitor;
+    Display __masterDisplay;
+    MonitorG __masterMonitor;
 
     // These are modular components of Dmacs.
-    string masterFrameSuffix = " - Dmacs";
+    string __masterFrameSuffix = " - Dmacs";
 
     // These are global variables for the state of Dmacs.
     Container focusedNode;
@@ -53,14 +53,14 @@ protected:
 
     void initialize(Application application) {
         masterFrame = new ApplicationWindow(application);
-        masterDisplay = masterFrame.getDisplay();
-        masterMonitor = masterDisplay.getPrimaryMonitor();
+        __masterDisplay = masterFrame.getDisplay();
+        __masterMonitor = __masterDisplay.getPrimaryMonitor();
         masterFrame.setBorderWidth(2);
-        masterFrame.setTitle("*nothing*" ~ masterFrameSuffix);
+        masterFrame.setTitle("*nothing*" ~ __masterFrameSuffix);
 
         { // Set the window to half the monitor size by default.
             GdkRectangle rect;
-            masterMonitor.getWorkarea(rect);
+            __masterMonitor.getWorkarea(rect);
             masterFrame.setSizeRequest(rect.width / 2, rect.height / 2);
             masterFrame.setPosition(GtkWindowPosition.CENTER);
         }
@@ -74,19 +74,30 @@ protected:
             focusedNode = masterNode;
         }
 
-        {
+        { // Split the existing node vertically.
             if (TextView thisNode = instanceof!TextView(focusedNode)) {
-                Widget parent = thisNode.getParent();
+
+                // First pop this off GTK.
+                if (ApplicationWindow win = instanceof!ApplicationWindow(thisNode.getParent())) {
+                    win.remove(thisNode);
+                } else {
+                    throw new Error("Not programmed yet");
+                }
+
+                // Attempt to get the text buffer.
                 TextBuffer thisBuffer = thisNode.getBuffer();
                 if (thisBuffer is null) {
-                    throw new Error("how");
+                    throw new Error("This buffer is null. How did something get a null buffer?");
                 }
-                string ID = bufferNameLookup[thisBuffer];
 
-                writeln(ID);
+                // Now attempt to get the buffer's ID.
+                string bufferID = bufferNameLookup[thisBuffer];
+                if (bufferID.length == 0) {
+                    throw new Error("This buffer id is null. How.");
+                }
 
             } else {
-                throw new Error("how");
+                throw new Error("How did this even get reached?");
             }
 
         }
@@ -146,7 +157,7 @@ public:
 
     /// Sets the text that comes after the current buffer.
     void setMasterFrameSuffix(string newSuffix) {
-        masterFrameSuffix = newSuffix;
+        __masterFrameSuffix = newSuffix;
     }
 
     /// Create a text buffer. Returns the newly created buffer.
