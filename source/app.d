@@ -1,6 +1,7 @@
 import std.stdio;
 
 import gdk.Display;
+import gdk.Event;
 import gdk.MonitorG;
 import gdk.Rectangle;
 import gio.Application : GioApplication = Application;
@@ -42,6 +43,10 @@ private:
     // In Emacs terminology, a "frame" is what most window managers (Windows, OSX, GNOME, KDE, etc.) would call a "window".
     ApplicationWindow masterFrame;
 
+    // This is a linked list and gets so complex I can't really explain it.
+    // But, it holds 2 major components:
+    // window (TextView)
+    // split window (Paned)
     Container masterNode;
 
     // When you use [C-x C-f] to invoke command find-file, Emacs opens the file you request, and puts its contents into a buffer with the same name as the file.
@@ -61,7 +66,7 @@ protected:
         { // Set the window to half the monitor size by default.
             GdkRectangle rect;
             __masterMonitor.getWorkarea(rect);
-            masterFrame.setSizeRequest(rect.width / 2, rect.height / 2);
+            masterFrame.setDefaultSize(rect.width / 2, rect.height / 2);
             masterFrame.setPosition(GtkWindowPosition.CENTER);
         }
 
@@ -69,23 +74,36 @@ protected:
 
             TextBuffer scratch = createBuffer("*scratch*");
             scratch.setText("this is a scratch pad");
-            masterNode = new TextView(scratch);
-            masterFrame.add(masterNode);
+
+            ScrolledWindow window = createWindow("*scratch*");
+
+            masterNode = window;
             focusedNode = masterNode;
+            masterFrame.add(masterNode);
+
         }
 
-        { // Split the existing node vertically.
-            if (TextView thisNode = instanceof!TextView(focusedNode)) {
+        masterFrame.addOnKeyPress((Event e, Widget w) {
+
+            writeln("hi");
+
+            return false;
+        });
+
+        if (true) { // Split the existing node horizontally.
+            if (ScrolledWindow thisNode = instanceof!ScrolledWindow(focusedNode)) {
+
+                Widget oldParent = thisNode.getParent();
 
                 // First pop this off GTK.
-                if (ApplicationWindow win = instanceof!ApplicationWindow(thisNode.getParent())) {
+                if (ApplicationWindow win = instanceof!ApplicationWindow(oldParent)) {
                     win.remove(thisNode);
                 } else {
                     throw new Error("Not programmed yet");
                 }
 
                 // Attempt to get the text buffer.
-                TextBuffer thisBuffer = thisNode.getBuffer();
+                TextBuffer thisBuffer = (cast(TextView) thisNode.getChild()).getBuffer();
                 if (thisBuffer is null) {
                     throw new Error("This buffer is null. How did something get a null buffer?");
                 }
@@ -96,10 +114,24 @@ protected:
                     throw new Error("This buffer id is null. How.");
                 }
 
+                // todo: Allow creating a new buffer if not exists.
+                // fixme: for now, duplicate the current buffer.
+                ScrolledWindow newWindow = createWindow(bufferID);
+
+                // Create a new Paned instance and plop a new window into it.
+                Paned splitView = new Paned(GtkOrientation.HORIZONTAL);
+                splitView.add(thisNode, newWindow);
+
+                // First pop this off GTK.
+                if (ApplicationWindow win = instanceof!ApplicationWindow(oldParent)) {
+                    win.add(splitView);
+                } else {
+                    throw new Error("Not programmed yet");
+                }
+
             } else {
                 throw new Error("How did this even get reached?");
             }
-
         }
 
         // Paned workArea = new Paned(GtkOrientation.HORIZONTAL);
@@ -107,10 +139,6 @@ protected:
         // masterWindow.add(workArea);
 
         // {
-        //     ScrolledWindow scrollContainer = new ScrolledWindow();
-        //     scrollContainer.setBorderWidth(4);
-        //     scrollContainer.setHexpand(true);
-        //     scrollContainer.setVexpand(true);
 
         //     workArea.add(scrollContainer, null);
 
@@ -172,6 +200,27 @@ public:
         bufferNameLookup[buffers[name]] = name;
 
         return buffers[name];
+    }
+
+    /// Create a new window into a buffer.
+    /// If this buffer does not exist, it will warn you and select
+    /// the scratch pad.
+    /// This will return the container that holds the view into the buffer.
+    ScrolledWindow createWindow(string buffer) {
+        string temp = buffer;
+        if (temp !in buffers) {
+            temp = "*scratch*";
+        }
+
+        TextView newWindow = new TextView(buffers[temp]);
+
+        ScrolledWindow scrollContainer = new ScrolledWindow();
+        scrollContainer.setBorderWidth(4);
+        scrollContainer.setHexpand(true);
+        scrollContainer.setVexpand(true);
+        scrollContainer.add(newWindow);
+
+        return scrollContainer;
     }
 
 }
