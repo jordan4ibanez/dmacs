@@ -68,19 +68,22 @@ protected:
         { // Create the scratch pad buffer with a default view. This is the buffer that should never be deleted.
 
             TextBuffer scratch = createBuffer("*scratch*");
-            // buffers["*scratch*"]
             scratch.setText("this is a scratch pad");
-
             masterNode = new TextView(scratch);
-
             masterFrame.add(masterNode);
-
             focusedNode = masterNode;
         }
 
         {
-            if (TextView blah = instanceof!TextView(focusedNode)) {
-                Widget parent = blah.getParent();
+            if (TextView thisNode = instanceof!TextView(focusedNode)) {
+                Widget parent = thisNode.getParent();
+                TextBuffer thisBuffer = thisNode.getBuffer();
+                if (thisBuffer is null) {
+                    throw new Error("how");
+                }
+                string ID = bufferNameLookup[thisBuffer];
+
+                writeln(ID);
 
             } else {
                 throw new Error("how");
