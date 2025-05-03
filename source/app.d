@@ -45,7 +45,7 @@ private:
 
     // This is a linked list and gets so complex I can't really explain it.
     // But, it holds 2 major components:
-    // window (TextView)
+    // ScrollWindow -> TextView (window)
     // split window (Paned)
     Container masterNode;
 
