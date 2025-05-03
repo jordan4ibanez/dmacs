@@ -6,6 +6,7 @@ import gdk.Rectangle;
 import gio.Application : GioApplication = Application;
 import gtk.Application;
 import gtk.ApplicationWindow;
+import gtk.Container;
 import gtk.Frame;
 import gtk.Grid;
 import gtk.Label;
@@ -16,6 +17,13 @@ import gtk.TextTagTable;
 import gtk.TextView;
 import gtk.TreeView;
 import gtk.VBox;
+import gtk.Widget;
+
+/// Check if an object is an instance of a class.
+pragma(inline, true)
+T instanceof(T)(Object o) if (is(T == class)) {
+    return cast(T) o;
+}
 
 static final const class Dmacs {
 static:
@@ -29,18 +37,17 @@ private:
     string masterFrameSuffix = " - Dmacs";
 
     // These are global variables for the state of Dmacs.
-    string currentFocusedWindow = null;
+    Container focusedNode;
 
     // In Emacs terminology, a "frame" is what most window managers (Windows, OSX, GNOME, KDE, etc.) would call a "window".
     ApplicationWindow masterFrame;
 
-    // In Emacs terminology, a "window" is a container in which a buffer is displayed. 
-    // This may be confusing at first; if so, think "pane" whenever you see "window" in an Emacs context until you get used to it.
-    TextView[string] windows;
+    Container masterNode;
 
     // When you use [C-x C-f] to invoke command find-file, Emacs opens the file you request, and puts its contents into a buffer with the same name as the file.
     // Instead of thinking that you are editing a file, think that you are editing text in a buffer. When you save the buffer, the file is updated to reflect your edits. 
     TextBuffer[string] buffers;
+    string[TextBuffer] bufferNameLookup;
 
 protected:
 
@@ -61,14 +68,24 @@ protected:
         { // Create the scratch pad buffer with a default view. This is the buffer that should never be deleted.
 
             buffers["*scratch*"] = new TextBuffer(new TextTagTable());
+            // buffers["*scratch*"]
             buffers["*scratch*"].setText("this is a scratch pad");
-            windows["base"] = new TextView(buffers["*scratch*"]);
 
-            masterFrame.add(windows["base"]);
-            masterFrame.remove(windows["base"]);
-            masterFrame.add(windows["base"]);
+            masterNode = new TextView(buffers["*scratch*"]);
 
-            currentFocusedWindow = "base";
+            masterFrame.add(masterNode);
+
+            focusedNode = masterNode;
+        }
+
+        {
+            if (TextView blah = instanceof!TextView(focusedNode)) {
+                Widget parent = blah.getParent();
+
+            } else {
+                throw new Error("how");
+            }
+
         }
 
         // Paned workArea = new Paned(GtkOrientation.HORIZONTAL);
@@ -127,6 +144,20 @@ public:
     /// Sets the text that comes after the current buffer.
     void setMasterFrameSuffix(string newSuffix) {
         masterFrameSuffix = newSuffix;
+    }
+
+    /// Create a text buffer. Returns the newly created buffer.
+    /// If this buffer already exists, it will warn you and return the existing one.
+    TextBuffer createBuffer(string name) {
+        if (name in buffers) {
+            writeln("Buffer " ~ name ~ " already exists");
+            return buffers[name];
+        }
+
+        buffers[name] = new TextBuffer(new TextTagTable());
+        bufferNameLookup[buffers[name]] = name;
+
+        return buffers[name];
     }
 
 }
