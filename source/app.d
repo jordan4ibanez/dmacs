@@ -67,11 +67,11 @@ protected:
 
         { // Create the scratch pad buffer with a default view. This is the buffer that should never be deleted.
 
-            buffers["*scratch*"] = new TextBuffer(new TextTagTable());
+            TextBuffer scratch = createBuffer("*scratch*");
             // buffers["*scratch*"]
-            buffers["*scratch*"].setText("this is a scratch pad");
+            scratch.setText("this is a scratch pad");
 
-            masterNode = new TextView(buffers["*scratch*"]);
+            masterNode = new TextView(scratch);
 
             masterFrame.add(masterNode);
 
