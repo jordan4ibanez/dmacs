@@ -1,192 +1,199 @@
+import core.atomic;
+import core.stdc.signal;
+import gdk.display;
+import gdk.monitor;
+import gdk.rectangle;
+import gio.action;
+import gio.action_group;
+import gio.application;
+import gio.application_command_line;
+import gio.list_model;
+import gio.menu_model;
+import gio.simple_action;
+import gio.types;
+import glib.global;
+import glib.types;
+import glib.variant;
+import gobject.object;
+import gobject.param_spec;
+import gtk.about_dialog;
+import gtk.application;
+import gtk.application_window;
+import gtk.builder;
+import gtk.label;
+import gtk.paned;
+import gtk.scrolled_window;
+import gtk.signal_action;
+import gtk.text_buffer;
+import gtk.text_view;
+import gtk.types;
+import gtk.window;
 import std.stdio;
-
-import gdk.Display;
-import gdk.Event;
-import gdk.MonitorG;
-import gdk.Rectangle;
-import gio.Application : GioApplication = Application;
-import gtk.Application;
-import gtk.ApplicationWindow;
-import gtk.Container;
-import gtk.Frame;
-import gtk.Grid;
-import gtk.Label;
-import gtk.Paned;
-import gtk.ScrolledWindow;
-import gtk.TextBuffer;
-import gtk.TextTagTable;
-import gtk.TextView;
-import gtk.TreeView;
-import gtk.VBox;
-import gtk.Widget;
 
 /// Check if an object is an instance of a class.
 pragma(inline, true)
-T instanceof(T)(Object o) if (is(T == class)) {
+public T instanceof(T)(Object o) if (is(T == class)) {
     return cast(T) o;
 }
 
+/// This is the master program.
+/// If you want to do anything in Dmacs, this is what you want to talk to.
 static final const class Dmacs {
 static:
 private:
 
-    // Different components of the OS environment.
-    Display __masterDisplay;
-    MonitorG __masterMonitor;
+    /// This gets triggered if you ctrl+c Dmacs in the terminal.
+    __gshared bool __DMACS_DIE_NOW;
 
-    // These are modular components of Dmacs.
+    Display __masterDisplay;
+    MonitorWrap __masterMonitor;
+
+    /// These are modular components of Dmacs.
     string __masterFrameSuffix = " - Dmacs";
 
-    // These are global variables for the state of Dmacs.
-    Container focusedNode;
+    /// The GTK4 app which Dmacs controls.
+    gtk.application.Application app;
 
-    // In Emacs terminology, a "frame" is what most window managers (Windows, OSX, GNOME, KDE, etc.) would call a "window".
+    /// In Emacs terminology, a "frame" is what most window managers (Windows, OSX, GNOME, KDE, etc.) would call a "window".
     ApplicationWindow masterFrame;
 
-    // This is a linked list and gets so complex I can't really explain it.
-    // But, it holds 2 major components:
-    // ScrollWindow -> TextView (window)
-    // split window (Paned)
-    Container masterNode;
-
-    // When you use [C-x C-f] to invoke command find-file, Emacs opens the file you request, and puts its contents into a buffer with the same name as the file.
-    // Instead of thinking that you are editing a file, think that you are editing text in a buffer. When you save the buffer, the file is updated to reflect your edits. 
+    /// When you use [C-x C-f] to invoke command find-file, Emacs opens the file you request, and puts its contents into a buffer with the same name as the file.
+    /// Instead of thinking that you are editing a file, think that you are editing text in a buffer. When you save the buffer, the file is updated to reflect your edits. 
     TextBuffer[string] buffers;
     string[TextBuffer] bufferNameLookup;
 
 protected:
 
-    void initialize(Application application) {
-        masterFrame = new ApplicationWindow(application);
-        __masterDisplay = masterFrame.getDisplay();
-        __masterMonitor = __masterDisplay.getPrimaryMonitor();
-        masterFrame.setBorderWidth(2);
-        masterFrame.setTitle("*nothing*" ~ __masterFrameSuffix);
+    void __initialize(string[] args) {
+        app = new gtk.application.Application("org.dmacs", ApplicationFlags.DefaultFlags);
 
-        { // Set the window to half the monitor size by default.
-            GdkRectangle rect;
-            __masterMonitor.getWorkarea(rect);
-            masterFrame.setDefaultSize(rect.width / 2, rect.height / 2);
-            masterFrame.setPosition(GtkWindowPosition.CENTER);
-        }
+        app.connectStartup(&onStartup);
+        app.connectActivate(&onActivate);
 
-        { // Create the scratch pad buffer with a default view. This is the buffer that should never be deleted.
+        // If you hit CTRL+C in the terminal it exits gracefully.
+        __DMACS_DIE_NOW.atomicStore(false);
 
-            TextBuffer scratch = createBuffer("*scratch*");
-            scratch.setText("this is a scratch pad");
+        signal(SIGINT, &__terminationHandler);
+        signal(SIGTERM, &__terminationHandler);
 
-            ScrolledWindow window = createWindow("*scratch*");
+        timeoutAdd(PRIORITY_DEFAULT, 100, () {
+            if (__DMACS_DIE_NOW.atomicLoad()) {
+                onQuit(masterFrame);
+                return SOURCE_REMOVE;
+            }
 
-            masterNode = window;
-            focusedNode = masterNode;
-            masterFrame.add(masterNode);
-
-        }
-
-        masterFrame.addOnKeyPress((Event e, Widget w) {
-
-            writeln("hi");
-
-            return false;
+            return SOURCE_CONTINUE;
         });
 
-        if (true) { // Split the existing node horizontally.
-            if (ScrolledWindow thisNode = instanceof!ScrolledWindow(focusedNode)) {
+        app.run();
+    }
 
-                Widget oldParent = thisNode.getParent();
+    extern (C) void __terminationHandler(int _) nothrow @nogc {
+        __DMACS_DIE_NOW.atomicStore(true);
+    }
 
-                // First pop this off GTK.
-                if (ApplicationWindow win = instanceof!ApplicationWindow(oldParent)) {
-                    win.remove(thisNode);
-                } else {
-                    throw new Error("Not programmed yet");
-                }
+    void onStartup() {
 
-                // Attempt to get the text buffer.
-                TextBuffer thisBuffer = (cast(TextView) thisNode.getChild()).getBuffer();
-                if (thisBuffer is null) {
-                    throw new Error("This buffer is null. How did something get a null buffer?");
-                }
+        writeln("Welcome to Dmacs.");
 
-                // Now attempt to get the buffer's ID.
-                string bufferID = bufferNameLookup[thisBuffer];
-                if (bufferID.length == 0) {
-                    throw new Error("This buffer id is null. How.");
-                }
+        // todo: set up base hooks.
 
-                // todo: Allow creating a new buffer if not exists.
-                // fixme: for now, duplicate the current buffer.
-                ScrolledWindow newWindow = createWindow(bufferID);
+        createBuffer("*scratch*");
 
-                // Create a new Paned instance and plop a new window into it.
-                Paned splitView = new Paned(GtkOrientation.HORIZONTAL);
-                splitView.add(thisNode, newWindow);
+    }
 
-                // First pop this off GTK.
-                if (ApplicationWindow win = instanceof!ApplicationWindow(oldParent)) {
-                    win.add(splitView);
-                } else {
-                    throw new Error("Not programmed yet");
-                }
+    void onActivate() {
 
-            } else {
-                throw new Error("How did this even get reached?");
-            }
+        if (masterFrame is null) {
+            masterFrame = new ApplicationWindow(app);
+
+            __masterDisplay = masterFrame.getDisplay();
+
         }
 
-        // Paned workArea = new Paned(GtkOrientation.HORIZONTAL);
-        // workArea.setBorderWidth(4);
-        // masterWindow.add(workArea);
+        masterFrame.setTitle("*nothing*" ~ __masterFrameSuffix);
 
-        // {
+        { // Set the window up.
+            // gtk4 has no concept of a primary monitor.
+            // No concept of centering a window.
+            // So:
+            // Whatever display your mouse is hovering over is where this will open.
+            // It will be wherever it wants.
 
-        //     workArea.add(scrollContainer, null);
+            gio.list_model.ListModel blah = __masterDisplay.getMonitors();
 
-        //     TextView view = new TextView();
-        //     TextBuffer buf = view.getBuffer();
-        //     buf.setText("hi");
-        //     scrollContainer.add(view);
-        // }
+            if (blah.getNItems == 0) {
+                throw new Error("Can't do headless mode.");
+            }
 
-        // {
-        //     ScrolledWindow scrollContainer = new ScrolledWindow();
-        //     scrollContainer.setBorderWidth(4);
-        //     scrollContainer.setHexpand(true);
-        //     scrollContainer.setVexpand(true);
-        //     workArea.add(scrollContainer);
+            MonitorWrap m = cast(MonitorWrap) blah.getItem(0);
+            gdk.rectangle.Rectangle size;
+            m.getGeometry(size);
 
-        //     TextView view = new TextView();
-        //     TextBuffer buf = view.getBuffer();
-        //     buf.setText("hi");
-        //     scrollContainer.add(view);
-        // }
+            masterFrame.setDefaultSize(size.width / 2, size.height / 2);
 
-        // TextView view2 = new TextView();
-        // TextBuffer buf2 = view2.getBuffer();
-        // buf2.setText("bye");
-        // window.add(view2);
+        }
 
-        // buf.insert("hi");
+        { // Create the default scratch buffer.
+            createBuffer("*scratch*");
+        }
 
-        // window.add(window);
+        { // Create the base window.
+            Paned base = createWindow();
 
-        // window.add(new VBox(false, 0));
+            masterFrame.child(base);
 
-        // masterWindow.add(view);
+        }
 
-        masterFrame.showAll();
+        masterFrame.present();
+        writeln("Activation complete.");
+
+        afterActivate();
+    }
+
+    void afterActivate() {
+
+        if (Paned base = instanceof!Paned(masterFrame.getChild())) {
+
+            writeln(base.getHeight);
+            Paned extension = createWindow();
+            base.setEndChild(extension);
+
+            // base.startChild.hexpand(true);
+            // base.endChild.hexpand(true);
+
+            // base.shrinkStartChild(true);
+            // base.shrinkEndChild(true);
+
+            // int mdoof = base.minPosition();
+            // int mlarf = base.maxPosition();
+
+            // writeln(mdoof, " , ", mlarf);
+
+            // base.resizeEndChild();
+
+            // base.resizeStartChild();
+
+            // base.setPosition(50);
+
+            // writeln(base.getEndChild().getSize(base.orientation));
+
+            // int blah = base.getSize(Orientation.Vertical);
+
+            // writeln(blah);
+
+        }
+
+    }
+
+    bool onQuit(gtk.window.Window window) {
+        // todo: save buffers here.
+        write("\033[K\rThank you for using Dmacs.");
+        app.quit();
+        return true;
     }
 
 public:
-
-    void newWindow(string buffer) {
-
-    }
-
-    /// Sets the text that comes after the current buffer.
-    void setMasterFrameSuffix(string newSuffix) {
-        __masterFrameSuffix = newSuffix;
-    }
 
     /// Create a text buffer. Returns the newly created buffer.
     /// If this buffer already exists, it will warn you and return the existing one.
@@ -196,41 +203,72 @@ public:
             return buffers[name];
         }
 
-        buffers[name] = new TextBuffer(new TextTagTable());
+        buffers[name] = new TextBuffer();
         bufferNameLookup[buffers[name]] = name;
 
         return buffers[name];
+    }
+
+    /// Delete a text buffer.
+    /// If any windows are currently using this buffer, they will get set to the scratch pad.
+    void deleteBuffer(string name) {
+        if (name == "*scratch*") {
+            writeln("do not attempt to delete the scratch buffer.");
+            return;
+        }
+
+        if (name !in buffers) {
+            writeln("buffer " ~ name ~ " does not exist. Cannot delete.");
+            return;
+        }
+
+        // todo: search for any windows using this buffer and then set them to the scratch pad.
+
+        bufferNameLookup.remove(buffers[name]);
+        buffers.remove(name);
     }
 
     /// Create a new window into a buffer.
     /// If this buffer does not exist, it will warn you and select
     /// the scratch pad.
     /// This will return the container that holds the view into the buffer.
-    ScrolledWindow createWindow(string buffer) {
+    /// This is also a Paned (split window) with only 1 item in it.
+    Paned createWindow(string buffer = "*scratch*") {
         string temp = buffer;
+
         if (temp !in buffers) {
             temp = "*scratch*";
         }
 
-        TextView newWindow = new TextView(buffers[temp]);
+        /*
+        pane ->
+        scroll -> 
+        text view ->
+        buffer
+        */
 
-        ScrolledWindow scrollContainer = new ScrolledWindow();
-        scrollContainer.setBorderWidth(4);
-        scrollContainer.setHexpand(true);
-        scrollContainer.setVexpand(true);
-        scrollContainer.add(newWindow);
+        Paned split = new Paned(Orientation.Horizontal);
+        ScrolledWindow scroll = new ScrolledWindow();
 
-        return scrollContainer;
+        TextBuffer thisBuffer = buffers[temp];
+
+        TextView thisWindow = new TextView();
+        thisWindow.setBuffer(thisBuffer);
+
+        scroll.setChild(thisWindow);
+
+        split.setStartChild(scroll);
+
+        return split;
+    }
+
+    /// Sets the text that comes after the current buffer.
+    void setMasterFrameSuffix(string newSuffix) {
+        __masterFrameSuffix = newSuffix;
     }
 
 }
 
-int main(string[] args) {
-    Application application = new Application("org.dmacs", GApplicationFlags.FLAGS_NONE);
-
-    application.addOnActivate(delegate void(GioApplication app) {
-        Dmacs.initialize(application);
-    });
-
-    return application.run(args);
+void main(string[] args) {
+    Dmacs.__initialize(args);
 }
