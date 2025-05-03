@@ -3,6 +3,7 @@ import std.stdio;
 import gio.Application : GioApplication = Application;
 import gtk.Application;
 import gtk.ApplicationWindow;
+import gtk.Grid;
 import gtk.Label;
 import gtk.ScrolledWindow;
 import gtk.TextBuffer;
@@ -15,30 +16,58 @@ private:
 
     ApplicationWindow masterWindow;
 
+    
+
 protected:
 
     void initialize(Application application) {
         masterWindow = new ApplicationWindow(application);
 
         masterWindow.setTitle("Dmacs");
-        masterWindow.setBorderWidth(10);
+        // masterWindow.setBorderWidth(4);
 
-        // ScrolledWindow window = new ScrolledWindow();
+        Grid workArea = new Grid();
+        workArea.setBorderWidth(4);
+        masterWindow.add(workArea);
 
-        // window.setBorderWidth(10);
+        {
+            ScrolledWindow scrollContainer = new ScrolledWindow();
+            scrollContainer.setBorderWidth(4);
+            scrollContainer.setHexpand(true);
+            scrollContainer.setVexpand(true);
+            workArea.add(scrollContainer);
 
-        TextView view = new TextView();
+            TextView view = new TextView();
+            TextBuffer buf = view.getBuffer();
+            buf.setText("hi");
+            scrollContainer.add(view);
+        }
 
-        view.setHscrollPolicy(GtkScrollablePolicy.NATURAL);
-        view.setVscrollPolicy(GtkScrollablePolicy.NATURAL);
+        {
+            ScrolledWindow scrollContainer = new ScrolledWindow();
+            scrollContainer.setBorderWidth(4);
+            scrollContainer.setHexpand(true);
+            scrollContainer.setVexpand(true);
+            workArea.add(scrollContainer);
 
-        TextBuffer buf = view.getBuffer();
+            TextView view = new TextView();
+            TextBuffer buf = view.getBuffer();
+            buf.setText("hi");
+            scrollContainer.add(view);
+        }
+
+        // TextView view2 = new TextView();
+        // TextBuffer buf2 = view2.getBuffer();
+        // buf2.setText("bye");
+        // window.add(view2);
+
+        // buf.insert("hi");
 
         // window.add(window);
 
         // window.add(new VBox(false, 0));
 
-        masterWindow.add(view);
+        // masterWindow.add(view);
 
         masterWindow.showAll();
     }
