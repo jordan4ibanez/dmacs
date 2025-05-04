@@ -179,10 +179,6 @@ protected:
             masterFrame.setDefaultSize(size.width / 2, size.height / 2);
         }
 
-        { // Create the default scratch buffer.
-            createBuffer("*scratch*");
-        }
-
         { // Create the master module.
 
             masterModule = new Module;
