@@ -265,19 +265,27 @@ public:
 
         split.setStartChild(scroll);
 
+        frame.setChild(split);
+
+        // Put some condiments on.
         split.hexpandSet(true);
         scroll.hexpandSet(true);
         thisWindow.hexpandSet(true);
 
-        split.setWideHandle(true);
+        frame.vexpandSet(true);
+        split.vexpandSet(true);
+        scroll.vexpandSet(true);
+        thisWindow.vexpandSet(true);
 
         split.setResizeEndChild(true);
         split.setResizeEndChild(true);
 
+        frame.setHexpand(true);
         split.setHexpand(true);
         scroll.setHexpand(true);
         thisWindow.setHexpand(true);
 
+        frame.setVexpand(true);
         split.setVexpand(true);
         scroll.setVexpand(true);
         thisWindow.setVexpand(true);
