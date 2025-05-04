@@ -162,12 +162,14 @@ protected:
     }
 
     void afterActivate() {
+        //!!! BEGIN TESTING BUFFER SPLITTING !!!
         Paned newWin = createWindow();
         masterWidget.setStartChild(newWin);
 
         Paned newWin2 = createWindow();
-
         masterWidget.setEndChild(newWin2);
+
+        Paned ender = masterWidget.endChild();
 
     }
 
