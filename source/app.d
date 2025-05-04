@@ -55,7 +55,11 @@ final class Module : Frame {
     Paned pane;
     ScrolledWindow scroll;
     TextView text;
+
     TextBuffer buf;
+
+    // The split.
+    Module child;
 
     this(string buffer = "*scratch*") {
         isMasterModule = _____doom2_____;
@@ -66,15 +70,52 @@ final class Module : Frame {
         text = new TextView();
         buf = Dmacs.getBuffer(buffer);
 
-        frame.setChild(pane);
-        pane.setStartChild(scroll);
-        scroll.setChild(text);
         text.setBuffer(buf);
+        scroll.setChild(text);
+        pane.setStartChild(scroll);
+        frame.setChild(pane);
+
+        frame.hexpandSet(true);
+        pane.hexpandSet(true);
+        scroll.hexpandSet(true);
+        text.hexpandSet(true);
+
+        frame.vexpandSet(true);
+        pane.vexpandSet(true);
+        scroll.vexpandSet(true);
+        text.vexpandSet(true);
+
+        pane.setResizeEndChild(true);
+        pane.setResizeEndChild(true);
+
+        frame.setHexpand(true);
+        pane.setHexpand(true);
+        scroll.setHexpand(true);
+        text.setHexpand(true);
+
+        frame.setVexpand(true);
+        pane.setVexpand(true);
+        scroll.setVexpand(true);
+        text.setVexpand(true);
+
+        frame.setSizeRequest(100, 100);
 
         if (isMasterModule) {
             Dmacs.masterModule = this;
             Dmacs.masterFrame.setChild(this.frame);
+
         }
+    }
+
+    void split(Module newMod) {
+        child = newMod;
+        pane.setEndChild(child.frame);
+
+        pane.setResizeStartChild(true);
+        pane.setResizeEndChild(true);
+
+        pane.setShrinkStartChild(true);
+        pane.setShrinkEndChild(true);
     }
 
 }
@@ -152,37 +193,27 @@ protected:
 
         if (masterFrame is null) {
             masterFrame = new ApplicationWindow(app);
-
             __masterDisplay = masterFrame.getDisplay();
-
         }
-
         masterFrame.setTitle("*nothing*" ~ __masterFrameSuffix);
-
         { // Set the window up.
             // gtk4 has no concept of a primary monitor.
             // No concept of centering a window.
             // So:
             // Whatever display your mouse is hovering over is where this will open.
             // It will be wherever it wants.
-
             gio.list_model.ListModel blah = __masterDisplay.getMonitors();
-
             if (blah.getNItems == 0) {
                 throw new Error("Can't do headless mode.");
             }
-
             MonitorWrap m = cast(MonitorWrap) blah.getItem(0);
             gdk.rectangle.Rectangle size;
             m.getGeometry(size);
-
             masterFrame.setDefaultSize(size.width / 2, size.height / 2);
         }
 
         { // Create the master module.
-
             masterModule = new Module;
-
         }
 
         masterFrame.present();
@@ -192,7 +223,7 @@ protected:
     }
 
     void afterActivate() {
-
+        masterModule.split(new Module);
     }
 
     bool onQuit(gtk.window.Window window) {
