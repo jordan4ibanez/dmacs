@@ -57,6 +57,9 @@ private:
     /// In Emacs terminology, a "frame" is what most window managers (Windows, OSX, GNOME, KDE, etc.) would call a "window".
     ApplicationWindow masterFrame;
 
+    /// This is so you can start iterating into the widgets and not have to start at the master frame.
+    Paned masterWidget;
+
     /// When you use [C-x C-f] to invoke command find-file, Emacs opens the file you request, and puts its contents into a buffer with the same name as the file.
     /// Instead of thinking that you are editing a file, think that you are editing text in a buffer. When you save the buffer, the file is updated to reflect your edits. 
     TextBuffer[string] buffers;
