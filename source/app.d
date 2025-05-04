@@ -225,7 +225,14 @@ public:
     /// Create a new window into a buffer.
     /// If this buffer does not exist, it will warn you and select
     /// the scratch pad.
-    /// This will return the container that holds the view into the buffer.
+    ///
+    /// This will return the.
+    /// (1) frame that holds the ->
+    /// (2) paned that holds the ->
+    /// (3) scroll window that holds the ->
+    /// (4) text view with the view into ->
+    /// (5) the text buffer.
+    ///
     /// This is also a Paned (split window) with only 1 item in it.
     Paned createWindow(string buffer = "*scratch*") {
         string temp = buffer;
