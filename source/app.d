@@ -258,6 +258,7 @@ public:
         */
 
         Paned split = new Paned(Orientation.Horizontal);
+
         ScrolledWindow scroll = new ScrolledWindow();
 
         TextBuffer thisBuffer = buffers[temp];
@@ -268,6 +269,23 @@ public:
         scroll.setChild(thisWindow);
 
         split.setStartChild(scroll);
+
+        split.hexpandSet(true);
+        scroll.hexpandSet(true);
+        thisWindow.hexpandSet(true);
+
+        split.setWideHandle(true);
+
+        split.setResizeEndChild(true);
+        split.setResizeEndChild(true);
+
+        split.setHexpand(true);
+        scroll.setHexpand(true);
+        thisWindow.setHexpand(true);
+
+        split.setVexpand(true);
+        scroll.setVexpand(true);
+        thisWindow.setVexpand(true);
 
         return split;
     }
