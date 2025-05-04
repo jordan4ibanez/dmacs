@@ -38,9 +38,23 @@ public T instanceof(T)(Object o) if (is(T == class)) {
 }
 
 final class Module : Frame {
+    // Nothing to see here.
+    private static bool _____doom = false;
+    private static bool _____doom2() {
+        const bool m = !_____doom;
+        if (!_____doom)
+            _____doom = true;
+        return m;
+    }
+    // Move along.
 
-    
-    
+    const bool isMasterModule;
+
+    this() {
+        isMasterModule = _____doom2;
+        writeln(isMasterModule);
+    }
+
 }
 
 /// This is the master program.
