@@ -39,11 +39,11 @@ public T instanceof(T)(Object o) if (is(T == class)) {
 
 final class Module : Frame {
     // Nothing to see here.
-    private static bool _____doom = false;
-    private static bool _____doom2() {
-        const bool m = !_____doom;
-        if (!_____doom)
-            _____doom = true;
+    private static bool _____doom_____ = false;
+    private static bool _____doom2_____() {
+        const bool m = !_____doom_____;
+        if (!_____doom_____)
+            _____doom_____ = true;
         return m;
     }
     // Move along.
@@ -51,8 +51,8 @@ final class Module : Frame {
     const bool isMasterModule;
 
     this() {
-        isMasterModule = _____doom2;
-        writeln(isMasterModule);
+        isMasterModule = _____doom2_____;
+        
     }
 
 }
@@ -79,7 +79,7 @@ private:
     ApplicationWindow masterFrame;
 
     /// This is so you can start iterating into the widgets and not have to start at the master frame.
-    Paned masterWidget;
+    Module masterModule;
 
     /// When you use [C-x C-f] to invoke command find-file, Emacs opens the file you request, and puts its contents into a buffer with the same name as the file.
     /// Instead of thinking that you are editing a file, think that you are editing text in a buffer. When you save the buffer, the file is updated to reflect your edits. 
@@ -161,10 +161,9 @@ protected:
             createBuffer("*scratch*");
         }
 
-        { // Create the base pane to hang the base window on.
+        { // Create the master module.
 
-            auto flop = new Module;
-            auto flop2 = new Module;
+            masterModule = new Module;
 
         }
 
