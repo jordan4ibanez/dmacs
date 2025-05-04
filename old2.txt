@@ -103,3 +103,21 @@
             }
         }
     }
+
+
+            // Frame frame = new Frame();
+
+            // masterFrame.setChild(frame);
+
+            // masterWidget = new Paned(Orientation.Horizontal);
+
+            // frame.setChild(masterWidget);
+
+            // masterWidget.hexpandSet(true);
+            // masterWidget.setWideHandle(true);
+            // masterWidget.setResizeEndChild(true);
+            // masterWidget.setResizeEndChild(true);
+            // masterWidget.setHexpand(true);
+            // masterWidget.setVexpand(true);
+
+            // masterWidget.setSizeRequest(-1, -1);
