@@ -98,24 +98,24 @@ final class Module : Frame {
         scroll.setVexpand(true);
         text.setVexpand(true);
 
-        frame.setSizeRequest(100, 100);
+        frame.setSizeRequest(50, 50);
 
         if (isMasterModule) {
             Dmacs.masterModule = this;
             Dmacs.masterFrame.setChild(this.frame);
-
         }
     }
 
-    void split(Module newMod) {
+    void splitRight(Module newMod, Orientation orientation = Orientation.Horizontal) {
         child = newMod;
+        pane.setOrientation(orientation);
         pane.setEndChild(child.frame);
 
-        pane.setResizeStartChild(true);
-        pane.setResizeEndChild(true);
+        // pane.setResizeStartChild(true);
+        // pane.setResizeEndChild(true);
 
-        pane.setShrinkStartChild(true);
-        pane.setShrinkEndChild(true);
+        // pane.setShrinkStartChild(true);
+        // pane.setShrinkEndChild(true);
     }
 
 }
@@ -223,7 +223,13 @@ protected:
     }
 
     void afterActivate() {
-        masterModule.split(new Module);
+        masterModule.splitRight(new Module);
+
+        masterModule.child.splitRight(new Module, Orientation.Vertical);
+        masterModule.child.child.splitRight(new Module, Orientation.Vertical);
+        masterModule.child.child.child.splitRight(new Module, Orientation.Horizontal);
+        masterModule.child.child.child.child.splitRight(new Module, Orientation.Horizontal);
+        masterModule.child.child.child.child.child.splitRight(new Module, Orientation.Vertical);
     }
 
     bool onQuit(gtk.window.Window window) {
