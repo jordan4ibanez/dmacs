@@ -37,6 +37,12 @@ public T instanceof(T)(Object o) if (is(T == class)) {
     return cast(T) o;
 }
 
+final class Module : Frame {
+
+    
+    
+}
+
 /// This is the master program.
 /// If you want to do anything in Dmacs, this is what you want to talk to.
 static final const class Dmacs {
@@ -144,7 +150,13 @@ protected:
 
         { // Create the base pane to hang the base window on.
 
+            Frame frame = new Frame();
+
+            masterFrame.setChild(frame);
+
             masterWidget = new Paned(Orientation.Horizontal);
+
+            frame.setChild(masterWidget);
 
             masterWidget.hexpandSet(true);
             masterWidget.setWideHandle(true);
@@ -153,7 +165,8 @@ protected:
             masterWidget.setHexpand(true);
             masterWidget.setVexpand(true);
 
-            masterFrame.child(masterWidget);
+            masterWidget.setSizeRequest(-1, -1);
+
         }
 
         masterFrame.present();
@@ -164,20 +177,25 @@ protected:
 
     void afterActivate() {
         //!!! BEGIN TESTING BUFFER SPLITTING !!! AHHHHHHHHHHHH
-        Paned newWin = createWindow();
+        Frame newWin = createWindow();
         masterWidget.setStartChild(newWin);
 
-        // Paned newWin2 = createWindow();
-        // masterWidget.setEndChild(newWin2);
+        Frame newWin2 = createWindow();
+        masterWidget.setEndChild(newWin2);
 
-        // // if (Paned blorf = instanceof!Paned(masterWidget.endChild)) {
+        if (Frame frameHolder = instanceof!Frame(masterWidget.endChild)) {
+            writeln(frameHolder.getWidth());
+            frameHolder.widthRequest(-1);
+            if (Paned pane = instanceof!Paned(frameHolder.child)) {
 
-        // //     // Split vertically.
-        // //     blorf.setOrientation(Orientation.Vertical);
+                //     // Split vertically.
+                pane.setOrientation(Orientation.Vertical);
+                // pane.setSizeRequest(20,-1);
 
-        // //     blorf.endChild(createWindow);
-        // // }
+                // pane.endChild(createWindow);
 
+            }
+        }
     }
 
     bool onQuit(gtk.window.Window window) {
@@ -276,31 +294,33 @@ public:
 
         // Put some condiments on.
 
-        frame.hexpandSet(true);
-        split.hexpandSet(true);
-        scroll.hexpandSet(true);
-        thisWindow.hexpandSet(true);
+        split.setSizeRequest(200, 200);
 
-        frame.vexpandSet(true);
-        split.vexpandSet(true);
-        scroll.vexpandSet(true);
-        thisWindow.vexpandSet(true);
+        // frame.hexpandSet(true);
+        // split.hexpandSet(true);
+        // scroll.hexpandSet(true);
+        // thisWindow.hexpandSet(true);
 
-        split.setResizeEndChild(true);
-        split.setResizeEndChild(true);
+        // frame.vexpandSet(true);
+        // split.vexpandSet(true);
+        // scroll.vexpandSet(true);
+        // thisWindow.vexpandSet(true);
 
-        frame.setHexpand(true);
-        split.setHexpand(true);
-        scroll.setHexpand(true);
-        thisWindow.setHexpand(true);
+        // split.setResizeEndChild(true);
+        // split.setResizeEndChild(true);
 
-        frame.setVexpand(true);
-        split.setVexpand(true);
-        scroll.setVexpand(true);
-        thisWindow.setVexpand(true);
+        // frame.setHexpand(true);
+        // split.setHexpand(true);
+        // scroll.setHexpand(true);
+        // thisWindow.setHexpand(true);
+
+        // frame.setVexpand(true);
+        // split.setVexpand(true);
+        // scroll.setVexpand(true);
+        // thisWindow.setVexpand(true);
 
         // You get your sandwich now.
-        return split;
+        return frame;
     }
 
     /// Sets the text that comes after the current buffer.
