@@ -155,7 +155,6 @@ protected:
             m.getGeometry(size);
 
             masterFrame.setDefaultSize(size.width / 2, size.height / 2);
-
         }
 
         { // Create the default scratch buffer.
@@ -164,22 +163,8 @@ protected:
 
         { // Create the base pane to hang the base window on.
 
-            Frame frame = new Frame();
-
-            masterFrame.setChild(frame);
-
-            masterWidget = new Paned(Orientation.Horizontal);
-
-            frame.setChild(masterWidget);
-
-            masterWidget.hexpandSet(true);
-            masterWidget.setWideHandle(true);
-            masterWidget.setResizeEndChild(true);
-            masterWidget.setResizeEndChild(true);
-            masterWidget.setHexpand(true);
-            masterWidget.setVexpand(true);
-
-            masterWidget.setSizeRequest(-1, -1);
+            auto flop = new Module;
+            auto flop2 = new Module;
 
         }
 
@@ -233,89 +218,6 @@ public:
 
         bufferNameLookup.remove(buffers[name]);
         buffers.remove(name);
-    }
-
-    /// Create a new window into a buffer.
-    /// If this buffer does not exist, it will warn you and select
-    /// the scratch pad.
-    ///
-    /// This will return the.
-    /// (1) frame that holds the ->
-    /// (2) paned that holds the ->
-    /// (3) scroll window that holds the ->
-    /// (4) text view with the view into ->
-    /// (5) the text buffer.
-    ///
-    /// This is also a Paned (split window) with only 1 item in it.
-    Frame createWindow(string buffer = "*scratch*") {
-        string temp = buffer;
-
-        if (temp !in buffers) {
-            temp = "*scratch*";
-        }
-
-        /*
-        frame ->
-        paned ->
-        scroll -> 
-        text view (start) ->
-        buffer
-        */
-
-        // Create the sandwich parts.
-
-        Frame frame = new Frame();
-
-        Paned split = new Paned(Orientation.Horizontal);
-
-        ScrolledWindow scroll = new ScrolledWindow();
-
-        TextView thisWindow = new TextView();
-
-        TextBuffer thisBuffer = buffers[temp];
-
-        // Start stacking the sandwich up.
-
-        thisWindow.setBuffer(thisBuffer);
-
-        scroll.setChild(thisWindow);
-
-        split.setStartChild(scroll);
-
-        frame.setChild(split);
-
-        // We need some thick crust on the bread.
-        split.setWideHandle(true);
-
-        // Put some condiments on.
-
-        split.setSizeRequest(200, 200);
-
-        // frame.hexpandSet(true);
-        // split.hexpandSet(true);
-        // scroll.hexpandSet(true);
-        // thisWindow.hexpandSet(true);
-
-        // frame.vexpandSet(true);
-        // split.vexpandSet(true);
-        // scroll.vexpandSet(true);
-        // thisWindow.vexpandSet(true);
-
-        // split.setResizeEndChild(true);
-        // split.setResizeEndChild(true);
-
-        // frame.setHexpand(true);
-        // split.setHexpand(true);
-        // scroll.setHexpand(true);
-        // thisWindow.setHexpand(true);
-
-        // frame.setVexpand(true);
-        // split.setVexpand(true);
-        // scroll.setVexpand(true);
-        // thisWindow.setVexpand(true);
-
-        // You get your sandwich now.
-        return frame;
     }
 
     /// Sets the text that comes after the current buffer.
