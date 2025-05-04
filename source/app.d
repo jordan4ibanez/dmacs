@@ -162,37 +162,12 @@ protected:
     }
 
     void afterActivate() {
+        Paned newWin = createWindow();
+        masterWidget.setStartChild(newWin);
 
-        if (Paned base = instanceof!Paned(masterFrame.getChild())) {
+        Paned newWin2 = createWindow();
 
-            writeln(base.getHeight);
-            Paned extension = createWindow();
-            base.setEndChild(extension);
-
-            // base.startChild.hexpand(true);
-            // base.endChild.hexpand(true);
-
-            // base.shrinkStartChild(true);
-            // base.shrinkEndChild(true);
-
-            // int mdoof = base.minPosition();
-            // int mlarf = base.maxPosition();
-
-            // writeln(mdoof, " , ", mlarf);
-
-            // base.resizeEndChild();
-
-            // base.resizeStartChild();
-
-            // base.setPosition(50);
-
-            // writeln(base.getEndChild().getSize(base.orientation));
-
-            // int blah = base.getSize(Orientation.Vertical);
-
-            // writeln(blah);
-
-        }
+        masterWidget.setEndChild(newWin2);
 
     }
 
