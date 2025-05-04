@@ -267,6 +267,8 @@ public:
 
         frame.setChild(split);
 
+        split.setWideHandle(true);
+
         // Put some condiments on.
         split.hexpandSet(true);
         scroll.hexpandSet(true);
