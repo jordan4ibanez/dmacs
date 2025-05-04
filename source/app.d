@@ -141,11 +141,18 @@ protected:
             createBuffer("*scratch*");
         }
 
-        { // Create the base window.
-            Paned base = createWindow();
+        { // Create the base pane to hang the base window on..
 
-            masterFrame.child(base);
+            masterWidget = new Paned(Orientation.Horizontal);
 
+            masterWidget.hexpandSet(true);
+            masterWidget.setWideHandle(true);
+            masterWidget.setResizeEndChild(true);
+            masterWidget.setResizeEndChild(true);
+            masterWidget.setHexpand(true);
+            masterWidget.setVexpand(true);
+
+            masterFrame.child(masterWidget);
         }
 
         masterFrame.present();
