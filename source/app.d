@@ -20,6 +20,7 @@ import gtk.about_dialog;
 import gtk.application;
 import gtk.application_window;
 import gtk.builder;
+import gtk.frame;
 import gtk.label;
 import gtk.paned;
 import gtk.scrolled_window;
