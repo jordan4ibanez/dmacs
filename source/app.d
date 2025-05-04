@@ -249,6 +249,7 @@ public:
         buffer
         */
 
+        // Create the sandwich parts.
 
         Frame frame = new Frame();
 
@@ -259,6 +260,9 @@ public:
         TextBuffer thisBuffer = buffers[temp];
 
         TextView thisWindow = new TextView();
+
+        // Start stacking the sandwich up.
+
         thisWindow.setBuffer(thisBuffer);
 
         scroll.setChild(thisWindow);
@@ -267,6 +271,7 @@ public:
 
         frame.setChild(split);
 
+        // We need some thick crust on the bread.
         split.setWideHandle(true);
 
         // Put some condiments on.
@@ -294,6 +299,7 @@ public:
         scroll.setVexpand(true);
         thisWindow.setVexpand(true);
 
+        // You get your sandwich now.
         return split;
     }
 
