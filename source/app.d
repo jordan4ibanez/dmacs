@@ -50,9 +50,31 @@ final class Module : Frame {
 
     const bool isMasterModule;
 
-    this() {
+    // This is to be kept in order.
+    Frame frame;
+    Paned pane;
+    ScrolledWindow scroll;
+    TextView text;
+    TextBuffer buf;
+
+    this(string buffer = "*scratch*") {
         isMasterModule = _____doom2_____;
-        
+
+        frame = new Frame();
+        pane = new Paned(Orientation.Horizontal);
+        scroll = new ScrolledWindow();
+        text = new TextView();
+        buf = Dmacs.getBuffer(buffer);
+
+        frame.setChild(pane);
+        pane.setStartChild(scroll);
+        scroll.setChild(text);
+        text.setBuffer(buf);
+
+        if (isMasterModule) {
+            Dmacs.masterModule = this;
+            Dmacs.masterFrame.setChild(this.frame);
+        }
     }
 
 }
@@ -198,6 +220,17 @@ public:
         bufferNameLookup[buffers[name]] = name;
 
         return buffers[name];
+    }
+
+    /// Get a text buffer.
+    /// Warns you and returns the scratch buffer if it doesn't exist.
+    TextBuffer getBuffer(string name) {
+        string temp = name;
+        if (temp !in buffers) {
+            writeln("Buffer " ~ temp ~ " does not exists. Returning *scratch*");
+            temp = "*scratch*";
+        }
+        return buffers[temp];
     }
 
     /// Delete a text buffer.
