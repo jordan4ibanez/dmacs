@@ -242,9 +242,10 @@ public:
         }
 
         /*
-        pane ->
+        frame ->
+        paned ->
         scroll -> 
-        text view ->
+        text view (start) ->
         buffer
         */
 
