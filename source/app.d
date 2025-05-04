@@ -190,26 +190,7 @@ protected:
     }
 
     void afterActivate() {
-        //!!! BEGIN TESTING BUFFER SPLITTING !!! AHHHHHHHHHHHH
-        Frame newWin = createWindow();
-        masterWidget.setStartChild(newWin);
 
-        Frame newWin2 = createWindow();
-        masterWidget.setEndChild(newWin2);
-
-        if (Frame frameHolder = instanceof!Frame(masterWidget.endChild)) {
-            writeln(frameHolder.getWidth());
-            frameHolder.widthRequest(-1);
-            if (Paned pane = instanceof!Paned(frameHolder.child)) {
-
-                //     // Split vertically.
-                pane.setOrientation(Orientation.Vertical);
-                // pane.setSizeRequest(20,-1);
-
-                // pane.endChild(createWindow);
-
-            }
-        }
     }
 
     bool onQuit(gtk.window.Window window) {
