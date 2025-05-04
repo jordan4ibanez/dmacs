@@ -270,6 +270,8 @@ public:
         split.setWideHandle(true);
 
         // Put some condiments on.
+
+        frame.hexpandSet(true);
         split.hexpandSet(true);
         scroll.hexpandSet(true);
         thisWindow.hexpandSet(true);
