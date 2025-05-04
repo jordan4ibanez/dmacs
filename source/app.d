@@ -234,7 +234,7 @@ public:
     /// (5) the text buffer.
     ///
     /// This is also a Paned (split window) with only 1 item in it.
-    Paned createWindow(string buffer = "*scratch*") {
+    Frame createWindow(string buffer = "*scratch*") {
         string temp = buffer;
 
         if (temp !in buffers) {
