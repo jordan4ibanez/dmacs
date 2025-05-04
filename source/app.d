@@ -257,9 +257,9 @@ public:
 
         ScrolledWindow scroll = new ScrolledWindow();
 
-        TextBuffer thisBuffer = buffers[temp];
-
         TextView thisWindow = new TextView();
+
+        TextBuffer thisBuffer = buffers[temp];
 
         // Start stacking the sandwich up.
 
