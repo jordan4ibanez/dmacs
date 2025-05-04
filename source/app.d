@@ -162,14 +162,20 @@ protected:
     }
 
     void afterActivate() {
-        //!!! BEGIN TESTING BUFFER SPLITTING !!!
+        //!!! BEGIN TESTING BUFFER SPLITTING !!! AHHHHHHHHHHHH
         Paned newWin = createWindow();
         masterWidget.setStartChild(newWin);
 
-        Paned newWin2 = createWindow();
-        masterWidget.setEndChild(newWin2);
+        // Paned newWin2 = createWindow();
+        // masterWidget.setEndChild(newWin2);
 
-        Paned ender = masterWidget.endChild();
+        // // if (Paned blorf = instanceof!Paned(masterWidget.endChild)) {
+
+        // //     // Split vertically.
+        // //     blorf.setOrientation(Orientation.Vertical);
+
+        // //     blorf.endChild(createWindow);
+        // // }
 
     }
 
