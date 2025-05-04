@@ -141,7 +141,7 @@ protected:
             createBuffer("*scratch*");
         }
 
-        { // Create the base pane to hang the base window on..
+        { // Create the base pane to hang the base window on.
 
             masterWidget = new Paned(Orientation.Horizontal);
 
