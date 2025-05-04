@@ -249,6 +249,9 @@ public:
         buffer
         */
 
+
+        Frame frame = new Frame();
+
         Paned split = new Paned(Orientation.Horizontal);
 
         ScrolledWindow scroll = new ScrolledWindow();
