@@ -1,4 +1,4 @@
-module dmacs;
+module dmacs.dmacs;
 
 import core.atomic;
 import core.stdc.signal;
