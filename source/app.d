@@ -33,25 +33,17 @@ protected:
 
         { // Open the window centered.
             int currentMonitor = GetCurrentMonitor();
-
             SetConfigFlags(ConfigFlags.FLAG_WINDOW_RESIZABLE | ConfigFlags.FLAG_WINDOW_HIDDEN);
-
             InitWindow(1, 1, "Dmacs");
-
             setWindowtitle("*nothing*" ~ __masterFrameSuffix);
-
             int monitorWidth = GetMonitorWidth(currentMonitor);
             int monitorHeight = GetMonitorHeight(currentMonitor);
-
             // You can thank fyrstikkeske for this fix. I simply added onto it.
             SetWindowSize(monitorWidth / 2, monitorHeight / 2);
-
             Vector2 currentMonitorPosition = GetMonitorPosition(currentMonitor);
-
             SetWindowPosition(
                 cast(int) currentMonitorPosition.x + (monitorWidth / 4),
                 cast(int) currentMonitorPosition.y + (monitorHeight / 4));
-
             ClearWindowState(ConfigFlags.FLAG_WINDOW_HIDDEN);
         }
 
