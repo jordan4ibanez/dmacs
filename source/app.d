@@ -32,11 +32,14 @@ protected:
         createBuffer("*scratch*");
 
         { // Open the window centered.
+            int currentMonitor = GetCurrentMonitor();
+
+            SetConfigFlags(ConfigFlags.FLAG_WINDOW_RESIZABLE | ConfigFlags.FLAG_WINDOW_HIDDEN);
+
             InitWindow(1, 1, "Dmacs");
 
             setWindowtitle("*nothing*" ~ __masterFrameSuffix);
 
-            int currentMonitor = GetCurrentMonitor();
             int monitorWidth = GetMonitorWidth(currentMonitor);
             int monitorHeight = GetMonitorHeight(currentMonitor);
 
@@ -49,6 +52,7 @@ protected:
                 cast(int) currentMonitorPosition.x + (monitorWidth / 4),
                 cast(int) currentMonitorPosition.y + (monitorHeight / 4));
 
+            ClearWindowState(ConfigFlags.FLAG_WINDOW_HIDDEN);
         }
 
     }
@@ -64,7 +68,7 @@ protected:
 
     void run() {
         while (true) {
-            if (WindowShouldClose() || __DMACS_DIE_NOW) {
+            if (WindowShouldClose() || __DMACS_DIE_NOW.atomicLoad()) {
                 onQuit();
                 return;
             }
