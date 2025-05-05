@@ -69,6 +69,11 @@ protected:
         }
     }
 
+    /// Set the Dmacs window title.
+    void setWindowtitle(string input) {
+        SetWindowTitle(input.toStringz);
+    }
+
 public:
 
     /// Create a text buffer. Returns the newly created buffer.
