@@ -1,13 +1,19 @@
+import bindbc.glfw;
 import core.atomic;
 import core.stdc.signal;
 import gdk.Display;
+import gdk.GLContext;
 import gdk.MonitorG;
 import gdk.Rectangle;
 import gio.Application : GioApplication = Application;
 import glib.Timeout;
 import gtk.Application;
 import gtk.ApplicationWindow;
+import gtk.Frame;
+import gtk.FrameAccessible;
+import gtk.GLArea;
 import gtk.TextView;
+import raylib;
 import std.stdio;
 
 /// Check if an object is an instance of a class.
@@ -33,10 +39,19 @@ protected:
     Application app;
     ApplicationWindow win;
     Timeout quitCheck;
+    GLArea ren;
 
     /// When you use [C-x C-f] to invoke command find-file, Emacs opens the file you request, and puts its contents into a buffer with the same name as the file.
     /// Instead of thinking that you are editing a file, think that you are editing text in a buffer. When you save the buffer, the file is updated to reflect your edits. 
     string[string] buffers;
+
+    void glfwThing() {
+        GLFWSupport ret = loadGLFW();
+        if (ret != glfwSupport) {
+            throw new Error(ret.stringof);
+        }
+        writeln("glfw loaded");
+    }
 
     int initialize(string[] args) {
         app = new Application("org.dmacs", GApplicationFlags.FLAGS_NONE);
@@ -44,6 +59,7 @@ protected:
             win = new ApplicationWindow(app);
             onActivate(a);
         });
+        glfwThing();
         return app.run(args);
     }
 
@@ -68,7 +84,16 @@ protected:
 
         createBuffer("*scratch*");
 
-        win.setBorderWidth(2);
+        win.setBorderWidth(0);
+
+        ren = new GLArea();
+        win.add(ren);
+
+        // ren.addOnRender((GLContext c, GLArea a) {
+        //     writeln(c, "| ", a);
+        //     // c.gdkGLContext
+        //     return true;
+        // });
 
         win.setTitle("*nothing*" ~ __masterFrameSuffix);
 

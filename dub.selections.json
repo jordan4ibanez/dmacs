@@ -1,6 +1,8 @@
 {
 	"fileVersion": 1,
 	"versions": {
+		"bindbc-glfw": "1.1.1",
+		"bindbc-loader": "1.1.5",
 		"gtk-d": "3.11.0",
 		"raylib-d": "5.5.1"
 	}
