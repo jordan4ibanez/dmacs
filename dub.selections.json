@@ -1,6 +1,7 @@
 {
 	"fileVersion": 1,
 	"versions": {
-		"gtk-d": "3.11.0"
+		"gtk-d": "3.11.0",
+		"raylib-d": "5.5.1"
 	}
 }

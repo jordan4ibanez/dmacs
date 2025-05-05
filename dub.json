@@ -1,12 +1,1 @@
-{
-	"authors": [
-		"jordan4ibanez"
-	],
-	"copyright": "Copyright © 2025, jordan4ibanez",
-	"dependencies": {
-		"gtk-d": "~>3.11.0"
-	},
-	"description": "A minimal D application.",
-	"license": "GPL-3.0-or-later",
-	"name": "dmacs"
-}
+{"libs" : ["raylib"], "lflags-posix" : ["-L."], "lflags-osx" : ["-rpath", "@executable_path/"], "lflags-linux" : ["-rpath=$$ORIGIN"], "description" : "A minimal D application.", "name" : "dmacs", "dependencies" : {"raylib-d" : "~>5.5.1", "gtk-d" : "~>3.11.0"}, "authors" : ["jordan4ibanez"], "copyright" : "Copyright © 2025, jordan4ibanez", "license" : "GPL-3.0-or-later"}
