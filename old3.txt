@@ -52,8 +52,7 @@ private:
     /// In Emacs terminology, a "frame" is what most window managers (Windows, OSX, GNOME, KDE, etc.) would call a "window".
     ApplicationWindow masterFrame;
 
-    /// This is so you can start iterating into the widgets and not have to start at the master frame.
-    Module masterModule;
+    
 
     
 
@@ -133,7 +132,37 @@ protected:
 
 public:
 
-  
+          // text.setBuffer(buf);
+        // scroll.setChild(text);
+        // pane.setStartChild(scroll);
+        // frame.setChild(pane);
+
+        // frame(true);
+        // pane.hexpandSet(true);
+        // scroll.hexpandSet(true);
+        // text.hexpandSet(true);
+
+        // frame.vexpandSet(true);
+        // pane.vexpandSet(true);
+        // scroll.vexpandSet(true);
+        // text.vexpandSet(true);
+
+        // pane.setResizeEndChild(true);
+        // pane.setResizeEndChild(true);
+
+        // frame.setHexpand(true);
+        // pane.setHexpand(true);
+        // scroll.setHexpand(true);
+        // text.setHexpand(true);
+
+        // frame.setVexpand(true);
+        // pane.setVexpand(true);
+        // scroll.setVexpand(true);
+        // text.setVexpand(true);
+
+        // const pixels = 50;
+
+        // frame.setSizeRequest(50, 50);
 
 
 
