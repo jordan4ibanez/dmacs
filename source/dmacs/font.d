@@ -11,7 +11,8 @@ package:
     dstring cars;
 
     void __initialize() {
-        writeln("Hello I am font");
+        foreach (char i; 0 .. 256)
+            cars ~= i;
     }
 
 }

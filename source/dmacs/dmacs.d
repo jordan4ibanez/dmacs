@@ -55,6 +55,8 @@ package:
             ClearWindowState(ConfigFlags.FLAG_WINDOW_HIDDEN);
         }
 
+        Font.__initialize();
+
     }
 
     extern (C) void __terminationHandler(int _) nothrow @nogc {
