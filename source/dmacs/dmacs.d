@@ -2,6 +2,7 @@ module dmacs.dmacs;
 
 import core.atomic;
 import core.stdc.signal;
+import dmacs.render;
 import raylib;
 import std.stdio;
 import std.string;
@@ -71,11 +72,7 @@ package:
                 return;
             }
 
-            BeginDrawing();
-            {
-
-            }
-            EndDrawing();
+            Render.__r();
         }
     }
 
