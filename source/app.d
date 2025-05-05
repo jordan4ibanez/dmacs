@@ -16,94 +16,32 @@ static:
 protected:
 
     /// This gets triggered if you ctrl+c Dmacs in the terminal.
-    __gshared bool __DMACS_DIE_NOW;
+    bool __DMACS_DIE_NOW = false;
 
     /// These are modular components of Dmacs.
     string __masterFrameSuffix = " - Dmacs";
-
-    // Different components of the OS environment.
-    Display __masterDisplay;
-    MonitorG __masterMonitor;
-
-    Application app;
-    ApplicationWindow win;
-    Timeout quitCheck;
-    GLArea ren;
 
     /// When you use [C-x C-f] to invoke command find-file, Emacs opens the file you request, and puts its contents into a buffer with the same name as the file.
     /// Instead of thinking that you are editing a file, think that you are editing text in a buffer. When you save the buffer, the file is updated to reflect your edits. 
     string[string] buffers;
 
-    void glfwThing() {
-        GLFWSupport ret = loadGLFW();
-        if (ret != glfwSupport) {
-            throw new Error(ret.stringof);
-        }
-        InitWindow(100, 100, "hi");
-
-        glfwInit();
-
-    }
-
-    int initialize(string[] args) {
-        app = new Application("org.dmacs", GApplicationFlags.FLAGS_NONE);
-        app.addOnActivate((GioApplication a) {
-
-            win = new ApplicationWindow(app);
-
-            onActivate(a);
-        });
-        glfwThing();
-        return app.run(args);
-    }
-
-    void onActivate(GioApplication _) {
-
-        __masterDisplay = win.getDisplay();
-        __masterMonitor = __masterDisplay.getPrimaryMonitor();
-
-        // If you hit CTRL+C in the terminal it exits gracefully.
-        __DMACS_DIE_NOW.atomicStore(false);
+    void initialize(string[] args) {
 
         signal(SIGINT, &__terminationHandler);
         signal(SIGTERM, &__terminationHandler);
 
-        quitCheck = new Timeout(100, () {
-            if (__DMACS_DIE_NOW.atomicLoad()) {
-                onQuit();
-                return SOURCE_REMOVE;
-            }
-            return true;
-        });
-
         createBuffer("*scratch*");
 
-        win.setBorderWidth(0);
+        InitWindow(100, 100, "Dmacs");
 
-        ren = new GLArea();
-        win.add(ren);
+        // win.setTitle("*nothing*" ~ __masterFrameSuffix);
 
-        // ren.addOnRender((GLContext c, GLArea a) {
-        //     writeln(c, "| ", a);
-        //     // c.gdkGLContext
-        //     return true;
-        // });
-
-        win.setTitle("*nothing*" ~ __masterFrameSuffix);
-
-        { // Set the window to half the monitor size by default.
-            GdkRectangle rect;
-            __masterMonitor.getWorkarea(rect);
-            win.setDefaultSize(rect.width / 2, rect.height / 2);
-            win.setPosition(GtkWindowPosition.CENTER);
-        }
-
-        win.showAll();
-
-        deploy();
-    }
-
-    void deploy() {
+        // { // Set the window to half the monitor size by default.
+        //     GdkRectangle rect;
+        //     __masterMonitor.getWorkarea(rect);
+        //     win.setDefaultSize(rect.width / 2, rect.height / 2);
+        //     win.setPosition(GtkWindowPosition.CENTER);
+        // }
 
     }
 
@@ -111,11 +49,24 @@ protected:
         __DMACS_DIE_NOW.atomicStore(true);
     }
 
-    bool onQuit() {
+    void onQuit() {
         // todo: save buffers here.
-        write("\033[K\rThank you for using Dmacs.");
-        app.quit();
-        return true;
+        write("\\e[K\rThank you for using Dmacs.\n");
+    }
+
+    void run() {
+        while (true) {
+            if (WindowShouldClose() || __DMACS_DIE_NOW) {
+                onQuit();
+                return;
+            }
+
+            BeginDrawing();
+            {
+
+            }
+            EndDrawing();
+        }
     }
 
 public:
@@ -169,6 +120,7 @@ public:
 
 }
 
-int main(string[] args) {
-    return Dmacs.initialize = args;
+void main(string[] args) {
+    Dmacs.initialize = args;
+    Dmacs.run;
 }
