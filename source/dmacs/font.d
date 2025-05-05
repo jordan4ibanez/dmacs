@@ -8,11 +8,11 @@ static:
 package:
 
     FontStruct[string] db;
-    dstring cars;
+    const dstring codePointAsciiString;
 
     void __initialize() {
         foreach (char i; 0 .. 256)
-            cars ~= i;
+            cast(dstring) codePointAsciiString ~= i;
     }
 
 }
