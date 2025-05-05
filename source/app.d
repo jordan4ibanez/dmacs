@@ -159,6 +159,8 @@ protected:
             return true;
         });
 
+        createBuffer("*scratch*");
+
         win.setBorderWidth(2);
 
         win.setTitle("*nothing*" ~ __masterFrameSuffix);
