@@ -7,10 +7,6 @@ import gio.Application : GioApplication = Application;
 import glib.Timeout;
 import gtk.Application;
 import gtk.ApplicationWindow;
-import gtk.Frame;
-import gtk.Paned;
-import gtk.ScrolledWindow;
-import gtk.TextBuffer;
 import gtk.TextView;
 import std.stdio;
 
@@ -40,8 +36,7 @@ protected:
 
     /// When you use [C-x C-f] to invoke command find-file, Emacs opens the file you request, and puts its contents into a buffer with the same name as the file.
     /// Instead of thinking that you are editing a file, think that you are editing text in a buffer. When you save the buffer, the file is updated to reflect your edits. 
-    TextBuffer[string] buffers;
-    string[TextBuffer] bufferNameLookup;
+    string[string] buffers;
 
     int initialize(string[] args) {
         app = new Application("org.dmacs", GApplicationFlags.FLAGS_NONE);
@@ -108,21 +103,20 @@ public:
 
     /// Create a text buffer. Returns the newly created buffer.
     /// If this buffer already exists, it will warn you and return the existing one.
-    TextBuffer createBuffer(string name) {
+    string createBuffer(string name) {
         if (name in buffers) {
             writeln("Buffer " ~ name ~ " already exists");
             return buffers[name];
         }
 
-        buffers[name] = new TextBuffer(null, false);
-        bufferNameLookup[buffers[name]] = name;
+        buffers[name] = "";
 
         return buffers[name];
     }
 
     /// Get a text buffer.
     /// Warns you and returns the scratch buffer if it doesn't exist.
-    TextBuffer getBuffer(string name) {
+    string getBuffer(string name) {
         string temp = name;
         if (temp !in buffers) {
             writeln("Buffer " ~ temp ~ " does not exists. Returning *scratch*");
@@ -146,7 +140,6 @@ public:
 
         // todo: search for any windows using this buffer and then set them to the scratch pad.
 
-        bufferNameLookup.remove(buffers[name]);
         buffers.remove(name);
     }
 
