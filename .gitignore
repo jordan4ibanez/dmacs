@@ -14,3 +14,6 @@ dmacs-test-*
 *.o
 *.obj
 *.lst
+libraylib.so
+libraylib.so.5.5.0
+libraylib.so.550
