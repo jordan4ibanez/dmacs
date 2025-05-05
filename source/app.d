@@ -14,6 +14,8 @@ import gtk.FrameAccessible;
 import gtk.GLArea;
 import gtk.TextView;
 import raylib;
+import raylib.reasings;
+import raylib.rlgl;
 import std.stdio;
 
 /// Check if an object is an instance of a class.
@@ -50,13 +52,20 @@ protected:
         if (ret != glfwSupport) {
             throw new Error(ret.stringof);
         }
-        writeln("glfw loaded");
+        InitWindow(100, 100, "hi");
+
+        glfwInit();
+
     }
 
     int initialize(string[] args) {
         app = new Application("org.dmacs", GApplicationFlags.FLAGS_NONE);
         app.addOnActivate((GioApplication a) {
+
             win = new ApplicationWindow(app);
+
+
+
             onActivate(a);
         });
         glfwThing();
