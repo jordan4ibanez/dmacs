@@ -2,7 +2,7 @@ module dmacs.dmacs;
 
 import core.atomic;
 import core.stdc.signal;
-import dmacs.dumpster.dumpster;
+import dmacs.dumpster.dmacs_dumpster;
 import dmacs.font;
 import dmacs.render;
 import std.stdio;

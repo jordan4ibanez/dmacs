@@ -1,6 +1,7 @@
 module dmacs.font;
 
 import raylib : FontStruct = Font;
+import std.stdio;
 
 static final const package class Font {
 static:
@@ -10,7 +11,7 @@ package:
     dstring cars;
 
     void __initialize() {
-        
+        writeln("Hello I am font");
     }
 
 }
