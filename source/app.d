@@ -1,5 +1,7 @@
 import core.atomic;
 import core.stdc.signal;
+import gdk.Display;
+import gdk.MonitorG;
 import gio.Application : GioApplication = Application;
 import glib.Timeout;
 import gtk.Application;
@@ -113,6 +115,10 @@ private:
     /// These are modular components of Dmacs.
     string __masterFrameSuffix = " - Dmacs";
 
+    // Different components of the OS environment.
+    Display __masterDisplay;
+    MonitorG __masterMonitor;
+
     Application app;
     ApplicationWindow win;
     Timeout quitCheck;
@@ -135,6 +141,9 @@ protected:
 
     void onActivate(GioApplication _) {
 
+        __masterDisplay = win.getDisplay();
+        __masterMonitor = __masterDisplay.getPrimaryMonitor();
+
         // If you hit CTRL+C in the terminal it exits gracefully.
         __DMACS_DIE_NOW.atomicStore(false);
 
@@ -146,13 +155,23 @@ protected:
                 onQuit();
                 return SOURCE_REMOVE;
             }
-
             return true;
         });
 
-        win.add(new Frame(null, false));
+        win.setBorderWidth(2);
+
+        win.setTitle("*nothing*" ~ __masterFrameSuffix);
+
+        { // Set the window to half the monitor size by default.
+            GdkRectangle rect;
+            __masterMonitor.getWorkarea(rect);
+            win.setDefaultSize(rect.width / 2, rect.height / 2);
+            win.setPosition(GtkWindowPosition.CENTER);
+        }
 
         win.showAll();
+
+        deploy();
     }
 
     extern (C) void __terminationHandler(int _) nothrow @nogc {
@@ -166,7 +185,11 @@ protected:
         return true;
     }
 
-public: 
+    void deploy() {
+
+    }
+
+public:
 
     /// Create a text buffer. Returns the newly created buffer.
     /// If this buffer already exists, it will warn you and return the existing one.

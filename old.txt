@@ -30,9 +30,7 @@ static final const class Dmacs {
 static:
 private:
 
-    // Different components of the OS environment.
-    Display __masterDisplay;
-    MonitorG __masterMonitor;
+    
 
     // These are modular components of Dmacs.
     string __masterFrameSuffix = " - Dmacs";
@@ -58,17 +56,11 @@ protected:
 
     void initialize(Application application) {
         masterFrame = new ApplicationWindow(application);
-        __masterDisplay = masterFrame.getDisplay();
-        __masterMonitor = __masterDisplay.getPrimaryMonitor();
-        masterFrame.setBorderWidth(2);
+        
+        
         masterFrame.setTitle("*nothing*" ~ __masterFrameSuffix);
 
-        { // Set the window to half the monitor size by default.
-            GdkRectangle rect;
-            __masterMonitor.getWorkarea(rect);
-            masterFrame.setDefaultSize(rect.width / 2, rect.height / 2);
-            masterFrame.setPosition(GtkWindowPosition.CENTER);
-        }
+
 
         { // Create the scratch pad buffer with a default view. This is the buffer that should never be deleted.
 
