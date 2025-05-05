@@ -9,8 +9,6 @@ static final const class Render {
 static:
 package: // Don't you dare blow this thing up by making this public.
 
-    
-
     pragma(inline, true)
     void __r() {
         BeginDrawing();
@@ -19,7 +17,7 @@ package: // Don't you dare blow this thing up by making this public.
     }
 
     void render() {
-
+        DrawText("hi".toStringz, 0, 0, 20, Colors.WHITE);
     }
 
 }
