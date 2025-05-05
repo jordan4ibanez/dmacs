@@ -1,5 +1,4 @@
-import core.atomic;
-import core.stdc.signal;
+
 import gdk.display;
 import gdk.monitor;
 import gdk.rectangle;
@@ -40,14 +39,12 @@ static final const class Dmacs {
 static:
 private:
 
-    /// This gets triggered if you ctrl+c Dmacs in the terminal.
-    __gshared bool __DMACS_DIE_NOW;
+    
 
     Display __masterDisplay;
     MonitorWrap __masterMonitor;
 
-    /// These are modular components of Dmacs.
-    string __masterFrameSuffix = " - Dmacs";
+    
 
     /// The GTK4 app which Dmacs controls.
     gtk.application.Application app;
@@ -58,10 +55,7 @@ private:
     /// This is so you can start iterating into the widgets and not have to start at the master frame.
     Module masterModule;
 
-    /// When you use [C-x C-f] to invoke command find-file, Emacs opens the file you request, and puts its contents into a buffer with the same name as the file.
-    /// Instead of thinking that you are editing a file, think that you are editing text in a buffer. When you save the buffer, the file is updated to reflect your edits. 
-    TextBuffer[string] buffers;
-    string[TextBuffer] bufferNameLookup;
+    
 
 protected:
 
@@ -71,17 +65,10 @@ protected:
         app.connectStartup(&onStartup);
         app.connectActivate(&onActivate);
 
-        // If you hit CTRL+C in the terminal it exits gracefully.
-        __DMACS_DIE_NOW.atomicStore(false);
-
-        signal(SIGINT, &__terminationHandler);
-        signal(SIGTERM, &__terminationHandler);
+        
 
         timeoutAdd(PRIORITY_DEFAULT, 100, () {
-            if (__DMACS_DIE_NOW.atomicLoad()) {
-                onQuit(masterFrame);
-                return SOURCE_REMOVE;
-            }
+            
 
             return SOURCE_CONTINUE;
         });
@@ -89,18 +76,14 @@ protected:
         app.run();
     }
 
-    extern (C) void __terminationHandler(int _) nothrow @nogc {
-        __DMACS_DIE_NOW.atomicStore(true);
-    }
+    
 
     void onStartup() {
-
         writeln("Welcome to Dmacs.");
 
         // todo: set up base hooks.
 
         createBuffer("*scratch*");
-
     }
 
     void onActivate() {
@@ -146,63 +129,13 @@ protected:
         masterModule.child.child.child.child.child.splitRight(new Module, Orientation.Vertical);
     }
 
-    bool onQuit(gtk.window.Window window) {
-        // todo: save buffers here.
-        write("\033[K\rThank you for using Dmacs.");
-        app.quit();
-        return true;
-    }
+
 
 public:
 
-    /// Create a text buffer. Returns the newly created buffer.
-    /// If this buffer already exists, it will warn you and return the existing one.
-    TextBuffer createBuffer(string name) {
-        if (name in buffers) {
-            writeln("Buffer " ~ name ~ " already exists");
-            return buffers[name];
-        }
+  
 
-        buffers[name] = new TextBuffer();
-        bufferNameLookup[buffers[name]] = name;
 
-        return buffers[name];
-    }
-
-    /// Get a text buffer.
-    /// Warns you and returns the scratch buffer if it doesn't exist.
-    TextBuffer getBuffer(string name) {
-        string temp = name;
-        if (temp !in buffers) {
-            writeln("Buffer " ~ temp ~ " does not exists. Returning *scratch*");
-            temp = "*scratch*";
-        }
-        return buffers[temp];
-    }
-
-    /// Delete a text buffer.
-    /// If any windows are currently using this buffer, they will get set to the scratch pad.
-    void deleteBuffer(string name) {
-        if (name == "*scratch*") {
-            writeln("do not attempt to delete the scratch buffer.");
-            return;
-        }
-
-        if (name !in buffers) {
-            writeln("buffer " ~ name ~ " does not exist. Cannot delete.");
-            return;
-        }
-
-        // todo: search for any windows using this buffer and then set them to the scratch pad.
-
-        bufferNameLookup.remove(buffers[name]);
-        buffers.remove(name);
-    }
-
-    /// Sets the text that comes after the current buffer.
-    void setMasterFrameSuffix(string newSuffix) {
-        __masterFrameSuffix = newSuffix;
-    }
 
 }
 

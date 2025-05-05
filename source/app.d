@@ -1,12 +1,15 @@
+import core.atomic;
+import core.stdc.signal;
 import gio.Application : GioApplication = Application;
+import glib.Timeout;
 import gtk.Application;
 import gtk.ApplicationWindow;
 import gtk.Frame;
 import gtk.Paned;
+import gtk.ScrolledWindow;
 import gtk.TextBuffer;
 import gtk.TextView;
 import std.stdio;
-import gtk.ScrolledWindow;
 
 /// Check if an object is an instance of a class.
 pragma(inline, true)
@@ -104,10 +107,22 @@ static final const class Dmacs {
 static:
 private:
 
+    /// This gets triggered if you ctrl+c Dmacs in the terminal.
+    __gshared bool __DMACS_DIE_NOW;
+
+    /// These are modular components of Dmacs.
+    string __masterFrameSuffix = " - Dmacs";
+
     Application app;
     ApplicationWindow win;
+    Timeout quitCheck;
 
-public:
+    /// When you use [C-x C-f] to invoke command find-file, Emacs opens the file you request, and puts its contents into a buffer with the same name as the file.
+    /// Instead of thinking that you are editing a file, think that you are editing text in a buffer. When you save the buffer, the file is updated to reflect your edits. 
+    TextBuffer[string] buffers;
+    string[TextBuffer] bufferNameLookup;
+
+protected:
 
     int initialize(string[] args) {
         app = new Application("org.dmacs", GApplicationFlags.FLAGS_NONE);
@@ -119,11 +134,87 @@ public:
     }
 
     void onActivate(GioApplication _) {
-        writeln("hi");
+
+        // If you hit CTRL+C in the terminal it exits gracefully.
+        __DMACS_DIE_NOW.atomicStore(false);
+
+        signal(SIGINT, &__terminationHandler);
+        signal(SIGTERM, &__terminationHandler);
+
+        quitCheck = new Timeout(100, () {
+            if (__DMACS_DIE_NOW.atomicLoad()) {
+                onQuit();
+                return SOURCE_REMOVE;
+            }
+
+            return true;
+        });
 
         win.add(new Frame(null, false));
 
         win.showAll();
+    }
+
+    extern (C) void __terminationHandler(int _) nothrow @nogc {
+        __DMACS_DIE_NOW.atomicStore(true);
+    }
+
+    bool onQuit() {
+        // todo: save buffers here.
+        write("\033[K\rThank you for using Dmacs.");
+        app.quit();
+        return true;
+    }
+
+public: 
+
+    /// Create a text buffer. Returns the newly created buffer.
+    /// If this buffer already exists, it will warn you and return the existing one.
+    TextBuffer createBuffer(string name) {
+        if (name in buffers) {
+            writeln("Buffer " ~ name ~ " already exists");
+            return buffers[name];
+        }
+
+        buffers[name] = new TextBuffer(null, false);
+        bufferNameLookup[buffers[name]] = name;
+
+        return buffers[name];
+    }
+
+    /// Get a text buffer.
+    /// Warns you and returns the scratch buffer if it doesn't exist.
+    TextBuffer getBuffer(string name) {
+        string temp = name;
+        if (temp !in buffers) {
+            writeln("Buffer " ~ temp ~ " does not exists. Returning *scratch*");
+            temp = "*scratch*";
+        }
+        return buffers[temp];
+    }
+
+    /// Delete a text buffer.
+    /// If any windows are currently using this buffer, they will get set to the scratch pad.
+    void deleteBuffer(string name) {
+        if (name == "*scratch*") {
+            writeln("do not attempt to delete the scratch buffer.");
+            return;
+        }
+
+        if (name !in buffers) {
+            writeln("buffer " ~ name ~ " does not exist. Cannot delete.");
+            return;
+        }
+
+        // todo: search for any windows using this buffer and then set them to the scratch pad.
+
+        bufferNameLookup.remove(buffers[name]);
+        buffers.remove(name);
+    }
+
+    /// Sets the text that comes after the current buffer.
+    void setMasterFrameSuffix(string newSuffix) {
+        __masterFrameSuffix = newSuffix;
     }
 
 }
