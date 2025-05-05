@@ -20,11 +20,15 @@ protected:
     /// These are modular components of Dmacs.
     string __masterFrameSuffix = " - Dmacs";
 
+    string[] __args;
+
     /// When you use [C-x C-f] to invoke command find-file, Emacs opens the file you request, and puts its contents into a buffer with the same name as the file.
     /// Instead of thinking that you are editing a file, think that you are editing text in a buffer. When you save the buffer, the file is updated to reflect your edits. 
     string[string] buffers;
 
     void initialize(string[] args) {
+
+        __args = args;
 
         signal(SIGINT, &__terminationHandler);
         signal(SIGTERM, &__terminationHandler);
