@@ -5,7 +5,7 @@ import raylib;
 import std.stdio;
 import std.string;
 
-static final const class Render {
+static final const package class Render {
 static:
 package: // Don't you dare blow this thing up by making this public.
 
