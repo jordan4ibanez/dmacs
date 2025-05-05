@@ -6,6 +6,11 @@ static final const package class Font {
 static:
 package:
 
-    FontStruct blah;
+    FontStruct[string] db;
+    dstring cars;
+
+    void __initialize() {
+        
+    }
 
 }
