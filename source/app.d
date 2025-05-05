@@ -1,9 +1,8 @@
 import core.atomic;
 import core.stdc.signal;
 import raylib;
-import raylib.reasings;
-import raylib.rlgl;
 import std.stdio;
+import std.string;
 
 /// Check if an object is an instance of a class.
 pragma(inline, true)
@@ -32,16 +31,25 @@ protected:
 
         createBuffer("*scratch*");
 
-        InitWindow(100, 100, "Dmacs");
+        { // Open the window centered.
+            InitWindow(1, 1, "Dmacs");
 
-        // win.setTitle("*nothing*" ~ __masterFrameSuffix);
+            setWindowtitle("*nothing*" ~ __masterFrameSuffix);
 
-        // { // Set the window to half the monitor size by default.
-        //     GdkRectangle rect;
-        //     __masterMonitor.getWorkarea(rect);
-        //     win.setDefaultSize(rect.width / 2, rect.height / 2);
-        //     win.setPosition(GtkWindowPosition.CENTER);
-        // }
+            int currentMonitor = GetCurrentMonitor();
+            int monitorWidth = GetMonitorWidth(currentMonitor);
+            int monitorHeight = GetMonitorHeight(currentMonitor);
+
+            // You can thank fyrstikkeske for this fix. I simply added onto it.
+            SetWindowSize(monitorWidth / 2, monitorHeight / 2);
+
+            Vector2 currentMonitorPosition = GetMonitorPosition(currentMonitor);
+
+            SetWindowPosition(
+                cast(int) currentMonitorPosition.x + (monitorWidth / 4),
+                cast(int) currentMonitorPosition.y + (monitorHeight / 4));
+
+        }
 
     }
 
