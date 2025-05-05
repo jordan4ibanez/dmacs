@@ -126,6 +126,18 @@ public:
         buffers.remove(name);
     }
 
+    /// Get the arguments that Dmacs was started with.
+    /// The first is (usually) the working directory.
+    string[] getArgs() {
+        // Pointer redirection.
+        string[] temp;
+        foreach(a; __args) {
+            const string temp1 = a;
+            temp ~= temp1;
+        }
+        return temp;
+    }
+
     /// Sets the text that comes after the current buffer.
     void setMasterFrameSuffix(string newSuffix) {
         __masterFrameSuffix = newSuffix;
