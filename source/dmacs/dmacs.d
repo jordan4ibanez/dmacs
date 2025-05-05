@@ -2,8 +2,9 @@ module dmacs.dmacs;
 
 import core.atomic;
 import core.stdc.signal;
+import dmacs.dumpster.dumpster;
+import dmacs.font;
 import dmacs.render;
-import raylib;
 import std.stdio;
 import std.string;
 
