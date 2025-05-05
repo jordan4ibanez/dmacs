@@ -2,6 +2,7 @@ import core.atomic;
 import core.stdc.signal;
 import gdk.Display;
 import gdk.MonitorG;
+import gdk.Rectangle;
 import gio.Application : GioApplication = Application;
 import glib.Timeout;
 import gtk.Application;
