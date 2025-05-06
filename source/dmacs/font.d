@@ -1,5 +1,6 @@
 module dmacs.font;
 
+import core.memory;
 import raylib : FontStruct = Font, GCP = GetCodepoint, GGI = GetGlyphIndex, LF = LoadFontEx, STF = SetTextureFilter, TF = TextureFilter;
 import std.stdio;
 import std.string;
@@ -11,16 +12,15 @@ private:
     FontStruct[string] db;
     const dstring codePointAsciiString;
 
+    /// I wrote this like a true elisp function.
     float getCharWidth(FontStruct* f, char c) {
-        int bs = 0;
-        int gcp = GCP(&c, &bs);
-        int ggi = GGI(*f, gcp);
-        return (f.recs + ggi).width;
+        return (f.recs + GGI(*f, GCP(&c, new int(0)))).width;
     }
 
     FontStruct loadFont(string location) {
         auto l = LF(location.toStringz, 64, cast(int*) codePointAsciiString, 0);
         STF(l.texture, TF.TEXTURE_FILTER_ANISOTROPIC_16X);
+        writeln(getCharWidth(&l, 'w'));
 
         return l;
     }
