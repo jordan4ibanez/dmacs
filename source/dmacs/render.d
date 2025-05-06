@@ -21,8 +21,8 @@ package: // Don't you dare blow this thing up by making this public.
     }
 
     void render() {
-        DrawText("hi".toStringz, 0, 0, 64, Colors.WHITE);
-
+        // Font.drawChar("default", 'h');
+        Font.drawChar("default", 'a');
     }
 
 }
