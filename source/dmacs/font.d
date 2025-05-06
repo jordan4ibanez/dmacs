@@ -1,7 +1,7 @@
 module dmacs.font;
 
-import core.memory;
-import raylib : FontStruct = Font, GCP = GetCodepoint, GGI = GetGlyphIndex, LF = LoadFontEx, STF = SetTextureFilter, TF = TextureFilter;
+import dmacs.option;
+import raylib : FontStruct = Font, GCP = GetCodepoint, GGI = GetGlyphIndex, IFV = IsFontValid, LF = LoadFontEx, STF = SetTextureFilter, TF = TextureFilter;
 import std.stdio;
 import std.string;
 
@@ -12,18 +12,24 @@ private:
     FontStruct[string] db;
     const dstring codePointAsciiString;
 
-    // I wrote this like a true elisp function.
+    // I wrote this like true elisp. It's just basic stuff, won't be doing this again lol.
+
     /// Get the size of a character in a font.
     float getCharWidth(FontStruct* f, char c) {
         return *(cast(float*)(f.recs + (GGI(*f, GCP(&c, new int(0))))) + 2);
     }
 
-    FontStruct loadFont(string location) {
+    /// Load up a font.
+    Option!FontStruct loadFont(string location) {
         auto l = LF(location.toStringz, 64, cast(int*) codePointAsciiString, 0);
+        Option!FontStruct r;
+        bool i = IFV(l);
+        if (!i)
+            writeln("Font " ~ location ~ " is not a font.");
+        if (!i)
+            return r;
         STF(l.texture, TF.TEXTURE_FILTER_ANISOTROPIC_16X);
-        writeln(getCharWidth(&l, 'w'));
-        writeln(getCharWidth(&l, 'i'));
-        return l;
+        return r.Some(l);
     }
 
 package:
@@ -33,7 +39,8 @@ package:
             throw new Error("Do not init twice");
         foreach (char i; 0 .. 256)
             cast(dstring) codePointAsciiString ~= i;
-        db["default"] = loadFont("fonts/IosevkaTerm-Regular.ttf");
+        db["default"] = loadFont("fonts/IosevkaTerm-Regular.ttf").expect(
+            "Please put the default font back.");
     }
 
 }
