@@ -12,17 +12,17 @@ private:
     FontStruct[string] db;
     const dstring codePointAsciiString;
 
-    /// I wrote this like a true elisp function.
+    // I wrote this like a true elisp function.
     /// Get the size of a character in a font.
     float getCharWidth(FontStruct* f, char c) {
-        return (f.recs + GGI(*f, GCP(&c, new int(0)))).width;
+        return *(cast(float*)(f.recs + (GGI(*f, GCP(&c, new int(0))))) + 2);
     }
 
     FontStruct loadFont(string location) {
         auto l = LF(location.toStringz, 64, cast(int*) codePointAsciiString, 0);
         STF(l.texture, TF.TEXTURE_FILTER_ANISOTROPIC_16X);
         writeln(getCharWidth(&l, 'w'));
-
+        writeln(getCharWidth(&l, 'i'));
         return l;
     }
 
