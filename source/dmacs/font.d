@@ -53,7 +53,7 @@ package:
             cast(dstring) codePointAsciiString ~= cast(char) i;
         db["default"] = loadFont("fonts/IosevkaTerm-Regular.ttf").expect(
             "Please put the default font back.");
-
+        // loadFont("fonts/Ubuntu-Light.ttf");
     }
 
     void drawChar(string font, char c) {
