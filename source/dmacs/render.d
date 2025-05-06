@@ -10,9 +10,6 @@ static final const package class Render {
 static:
 package: // Don't you dare blow this thing up by making this public.
 
-    //todo: monospace font check.
-    //todo: check if font M is the same as i.
-
     pragma(inline, true)
     void __r() {
         BeginDrawing();
