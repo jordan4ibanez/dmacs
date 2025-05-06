@@ -19,7 +19,10 @@ package: // Don't you dare blow this thing up by making this public.
 
     void render() {
         // Font.drawChar("default", 'h');
-        Font.drawChar("default", 'a');
+
+        foreach (int q; 33 .. 127) {
+            Font.drawChar("default", cast(char)q);
+        }
     }
 
 }
