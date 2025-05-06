@@ -39,7 +39,6 @@ private:
             writeln(me);
         if (me.length > 0)
             return r;
-
         STF(l.texture, TF.TEXTURE_FILTER_ANISOTROPIC_16X);
         return r.Some(l);
     }
