@@ -1,7 +1,7 @@
 module dmacs.font;
 
 import dmacs.option;
-import raylib : Color, Colors, DrawTextEx, FontStruct = Font, GCP = GetCodepoint, GGI = GetGlyphIndex, IFV = IsFontValid, LF = LoadFontEx, STF = SetTextureFilter, TF = TextureFilter, Vector2;
+import raylib : Color, Colors, DrawTextEx, FontStruct = Font, GCP = GetCodepoint, GGI = GetGlyphIndex, IFV = IsFontValid, LF = LoadFontEx, MeasureTextEx, STF = SetTextureFilter, TF = TextureFilter, Vector2;
 import std.stdio;
 import std.string;
 
@@ -16,7 +16,8 @@ private:
 
     /// Get the size of a character in a font.
     float getCharWidth(FontStruct* f, char c) {
-        // float w = MeasureTextEx(*f, [c].toStringz, 64, 0).x;
+        Vector2 w = MeasureTextEx(*f, [c].toStringz, 64, 0);
+        writeln(w);
         // writeln(z, " <", c, "> ", w);
         return f.glyphs[GGI(*f, GCP([c].toStringz, new int(0)))].advanceX;
     }
@@ -53,7 +54,6 @@ package:
         db["default"] = loadFont("fonts/IosevkaTerm-Regular.ttf").expect(
             "Please put the default font back.");
 
-        loadFont("fonts/Ubuntu-Light.ttf");
     }
 
     void drawChar(string font, char c) {
