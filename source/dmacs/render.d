@@ -1,7 +1,8 @@
 module dmacs.render;
 
-import dmacs.dmacs : dmacs = Dmacs; // I don't feel like typing the capital D. (ironic)
-import raylib;
+import dmacs.dmacs : dmacs = Dmacs;
+import dmacs.font;
+import raylib : BeginDrawing, EndDrawing;
 import std.stdio;
 import std.string;
 
