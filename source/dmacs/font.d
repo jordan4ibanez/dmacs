@@ -1,7 +1,7 @@
 module dmacs.font;
 
 import dmacs.option;
-import raylib : Color, Colors, DrawTextEx, DT = DrawTextEx, FontStruct = Font, GCP = GetCodepoint, GetCodepoint, GGI = GetGlyphIndex, GlyphInfo, IFV = IsFontValid, LF = LoadFontEx, LoadFontEx, MeasureTextEx, STF = SetTextureFilter, TF = TextureFilter, Vector2;
+import raylib : Color, Colors, DrawTextEx, FontStruct = Font, GCP = GetCodepoint, GGI = GetGlyphIndex, IFV = IsFontValid, LF = LoadFontEx, STF = SetTextureFilter, TF = TextureFilter, Vector2;
 import std.stdio;
 import std.string;
 
