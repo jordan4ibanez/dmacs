@@ -13,6 +13,7 @@ private:
     const dstring codePointAsciiString;
 
     /// I wrote this like a true elisp function.
+    /// Get the size of a character in a font.
     float getCharWidth(FontStruct* f, char c) {
         return (f.recs + GGI(*f, GCP(&c, new int(0)))).width;
     }
