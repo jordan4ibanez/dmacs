@@ -16,10 +16,9 @@ private:
 
     /// Get the size of a character in a font.
     float getCharWidth(FontStruct* f, char c) {
-        Vector2 w = MeasureTextEx(*f, [c].toStringz, 64, 0);
-        writeln(w);
-        // writeln(z, " <", c, "> ", w);
-        return f.glyphs[GGI(*f, GCP([c].toStringz, new int(0)))].advanceX;
+        // Vector2 w = MeasureTextEx(*f, [c].toStringz, 64, 0);
+        // writeln(z, " <", c, "> ", w.x);
+        return *((cast(int*)(f.glyphs + GGI(*f, GCP([c].toStringz, new int(0))))) + 3);
     }
 
     /// Load up a font.
