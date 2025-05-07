@@ -40,6 +40,7 @@ package:
         createBuffer("*scratch*");
 
         { // Open the window centered.
+            SetTraceLogLevel(TraceLogLevel.LOG_WARNING);
             int currentMonitor = GetCurrentMonitor();
             SetConfigFlags(ConfigFlags.FLAG_WINDOW_RESIZABLE | ConfigFlags.FLAG_WINDOW_HIDDEN);
             InitWindow(1, 1, "Dmacs");
