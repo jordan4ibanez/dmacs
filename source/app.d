@@ -39,6 +39,11 @@ private:
         f.close();
     }
 
+    void dClose(JSONValue[] blah) {
+        writeln(blah);
+        wv.terminate();
+    }
+
 public:
 
     void __initialize() {
@@ -48,6 +53,7 @@ public:
         g = true;
         wv = WebView(true);
         wv.bindJs!dMain;
+        wv.bindJs!dClose;
         wv.title("Dmacs");
 
         __scriptify();
