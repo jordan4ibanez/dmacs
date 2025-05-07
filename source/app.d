@@ -48,7 +48,6 @@ public:
 
         wv.navigate("file://" ~ getcwd() ~ "/lib/main.html");
         wv.run();
-
     }
 
     string quote(string input) {
