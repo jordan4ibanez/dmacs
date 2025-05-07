@@ -15,7 +15,7 @@ private:
     string scripts;
 
     void dMain() {
-        setBackgroundColor("black");
+        // setBackgroundColor("black");
         writeln("hi from D in js");
     }
 
