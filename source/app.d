@@ -9,7 +9,7 @@ private:
     bool g = false;
     WebView wv;
     string __head = "<html><head>\n";
-    string __tail = "<script>onload=dMain();</script></head><body></body></html>";
+    string __tail = "<script>onload=dMain();</script>\n</head><body></body></html>";
     string scripts;
 
     void dMain() {
