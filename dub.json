@@ -4,24 +4,9 @@
 	],
 	"copyright": "Copyright © 2025, jordan4ibanez",
 	"dependencies": {
-		"bindbc-glfw": "~>1.1.1",
-		"gtk-d": "~>3.11.0",
-		"raylib-d": "~>5.5.1"
+		"guino": "~>0.2.0"
 	},
 	"description": "A minimal D application.",
-	"lflags-linux": [
-		"-rpath=$$ORIGIN"
-	],
-	"lflags-osx": [
-		"-rpath",
-		"@executable_path/"
-	],
-	"lflags-posix": [
-		"-L."
-	],
-	"libs": [
-		"raylib"
-	],
 	"license": "GPL-3.0-or-later",
 	"name": "dmacs"
 }
