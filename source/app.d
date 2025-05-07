@@ -25,7 +25,6 @@ private:
             if (baseName(filestr) == "main.js") {
                 continue;
             }
-
             scripts ~= "<script type=\"text/javascript\" src=" ~ quote(
                 "./" ~ filestr[4 .. filestr.length]) ~ "></script>\n";
         }
