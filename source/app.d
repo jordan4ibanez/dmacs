@@ -46,8 +46,7 @@ public:
         __scriptify();
         __htmlify();
 
-        string cwd = "file://" ~ getcwd() ~ "/lib/main.html";
-        wv.navigate(cwd);
+        wv.navigate("file://" ~ getcwd() ~ "/lib/main.html");
         wv.run();
 
     }
