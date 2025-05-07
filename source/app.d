@@ -61,14 +61,18 @@ public:
         }
         g = true;
         wv = WebView(true);
+
         wv.bindJs!dMain;
         wv.bindJs!dClose;
+        wv.bindJs!println;
+
         wv.title("Dmacs");
 
         __scriptify();
         __htmlify();
 
         wv.navigate("file://" ~ getcwd() ~ "/lib/main.html");
+
         wv.run();
     }
 
