@@ -32,6 +32,15 @@ private:
         scripts ~= "<script type=\"text/javascript\" src=\"./main.js\"></script>\n";
     }
 
+    // I do not feel like typing console.log over and over.
+    void println(JSONValue[] data) {
+        write("[js]: ");
+        foreach (JSONValue e; data) {
+            write(e, " ");
+        }
+        write("\n");
+    }
+
     void __htmlify() {
         // writeln(getcwd() ~ "/lib/main.html");
         File f = File(getcwd() ~ "/lib/main.html", "w");
