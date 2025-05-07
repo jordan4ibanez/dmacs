@@ -11,6 +11,7 @@ private:
 
     FontStruct[string] db;
     const dstring codePointAsciiString;
+    char[1] __drawc;
 
     // I wrote this like true elisp. It's just basic stuff, won't be doing this again lol.
 
@@ -63,9 +64,8 @@ package:
             writeln("font: " ~ font ~ " doesn't exist, defaulting");
             f = db["default"];
         }
-        string a;
-        a ~= c;
-        DrawTextEx(f, toStringz(a), Vector2(0, 0), 64, 0, Colors.WHITE);
+        __drawc[0] = c;
+        DrawTextEx(f, __drawc.ptr, Vector2(0, 0), 64, 0, Colors.WHITE);
 
     }
 
