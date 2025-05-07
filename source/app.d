@@ -1,4 +1,5 @@
 import guino;
+import std.file;
 import std.stdio;
 
 static final const class Dmacs {
@@ -7,6 +8,29 @@ private:
 
     bool g = false;
     WebView wv;
+    string __head = "<html><head>\n";
+    string __tail = "<script>onload=dMain();</script></head><body></body></html>";
+    string scripts;
+
+    void dMain() {
+        setBackgroundColor("black");
+        writeln("hi from D in js");
+        // runJS("alert(window.location)");
+    }
+
+    void __scriptify() {
+        foreach (string filestr; dirEntries("lib", "*.js", SpanMode.depth)) {
+            scripts ~= "<script type=\"text/javascript\" src=" ~ quote(
+                "./" ~ filestr[4 .. filestr.length]) ~ "></script>\n";
+        }
+    }
+
+    void __htmlify() {
+        writeln(getcwd() ~ "/lib/main.html");
+        File f = File(getcwd() ~ "/lib/main.html", "w");
+        f.write(__head ~ scripts ~ __tail);
+        f.close();
+    }
 
 public:
 
@@ -16,15 +40,16 @@ public:
         }
         g = true;
         wv = WebView(true);
-        wv.html("<html><head><script>onload=jsMain();</script></head><body></body></html>");
-        wv.bindJs!jsMain;
+        wv.bindJs!dMain;
+        wv.title("Dmacs");
+
+        __scriptify();
+        __htmlify();
+
+        string cwd = "file://" ~ getcwd() ~ "/lib/main.html";
+        wv.navigate(cwd);
         wv.run();
-    }
 
-    void jsMain() {
-        writeln("hi!");
-
-        setBackgroundColor("black");
     }
 
     string quote(string input) {
@@ -32,7 +57,7 @@ public:
     }
 
     void runJS(string input) {
-        wv.eval(input ~ ";");
+        wv.eval(input);
     }
 
     void setBackgroundColor(string color) {
