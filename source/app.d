@@ -1,5 +1,6 @@
 import guino;
 import std.file;
+import std.path;
 import std.stdio;
 
 static final const class Dmacs {
@@ -15,18 +16,24 @@ private:
     void dMain() {
         setBackgroundColor("black");
         writeln("hi from D in js");
-        // runJS("alert(window.location)");
     }
 
     void __scriptify() {
+
         foreach (string filestr; dirEntries("lib", "*.js", SpanMode.depth)) {
+            if (baseName(filestr) == "main.js") {
+                continue;
+            }
+
             scripts ~= "<script type=\"text/javascript\" src=" ~ quote(
                 "./" ~ filestr[4 .. filestr.length]) ~ "></script>\n";
         }
+
+        scripts ~= "<script type=\"text/javascript\" src=\"./main.js\"></script>\n";
     }
 
     void __htmlify() {
-        writeln(getcwd() ~ "/lib/main.html");
+        // writeln(getcwd() ~ "/lib/main.html");
         File f = File(getcwd() ~ "/lib/main.html", "w");
         f.write(__head ~ scripts ~ __tail);
         f.close();
