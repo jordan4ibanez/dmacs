@@ -17,3 +17,6 @@ dmacs-test-*
 libraylib.so
 libraylib.so.5.5.0
 libraylib.so.550
+libwebview.so
+libwebview.so.0.12
+libwebview.so.0.12.0
