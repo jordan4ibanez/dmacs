@@ -4,6 +4,9 @@
 	"[javascript]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
 	"d.enableAutoComplete": true,
 	"d.enableCoverageDecoration": true,
 	"d.enableDubLinting": true,
