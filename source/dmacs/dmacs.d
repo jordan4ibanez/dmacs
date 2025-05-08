@@ -16,7 +16,7 @@ private:
 
     void dMain() {
         // setBackgroundColor("black");
-        writeln("hi from D in js");
+        // writeln("hi from D in js");
     }
 
     // I do not feel like typing console.log over and over.
