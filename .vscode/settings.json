@@ -1,8 +1,14 @@
 {
-	"editor.defaultFormatter": "esbenp.prettier-vscode",
+	"json.format.enable": true,
+	"javascript.format.enable": true,
 	"[javascript]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
+	"d.enableAutoComplete": true,
+	"d.enableCoverageDecoration": true,
+	"d.enableDubLinting": true,
+	"d.enableFormatting": true,
+	"prettier.enable": true,
 	"prettier.bracketSpacing": true,
 	"prettier.eslintIntegration": true,
 	"prettier.tabWidth": 4,
