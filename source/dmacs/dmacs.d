@@ -1,5 +1,6 @@
 module dmacs.dmacs;
 
+import dmacs.buffer;
 import dmacs.html_ducttape;
 import guino;
 import std.file;
@@ -42,9 +43,13 @@ public:
         g = true;
         wv = WebView(true);
 
+        // Regular Dmacs utilities.
         wv.bindJs!dMain;
         wv.bindJs!dClose;
         wv.bindJs!println;
+
+        // Buffer utilities.
+        wv.bindJs!(Buffer.createBuffer);
 
         wv.title("Dmacs");
 
