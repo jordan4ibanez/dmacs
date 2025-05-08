@@ -1,3 +1,6 @@
 {
-    "javascript.format.semicolons": "insert"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
