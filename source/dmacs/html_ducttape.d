@@ -28,15 +28,21 @@ private:
         // First, init.js
         lines ~= "<script type=\"text/javascript\" src=\"./init.js\"></script>";
 
-        // Gather the libraries to load.
-        foreach (string filestr; dirEntries("lib", "*.js", SpanMode.depth)) {
-            if (baseName(filestr) == "main.js") {
-                continue;
+        if (exists(getcwd() ~ "/lib/__loadorder.txt")) {
+            File f = File(getcwd() ~ "/lib/__loadorder.txt");
+
+        } else {
+            writeln("Warning: missing: [./__loadorder.txt]. Defaulting to manual scan");
+            // Gather the libraries to load.
+            foreach (string filestr; dirEntries("lib", "*.js", SpanMode.depth)) {
+                if (baseName(filestr) == "main.js") {
+                    continue;
+                }
+                if (baseName(filestr) == "init.js") {
+                    continue;
+                }
+                lines ~= "<script type=\"text/javascript\" src=\"./" ~ filestr[4 .. filestr.length] ~ "\"></script>";
             }
-            if (baseName(filestr) == "init.js") {
-                continue;
-            }
-            lines ~= "<script type=\"text/javascript\" src=\"./" ~ filestr[4 .. filestr.length] ~ "\"></script>";
         }
 
         // Dump the entry point JS function in.
