@@ -1,6 +1,8 @@
 module dmacs.html_ducttape;
 
+import std.algorithm;
 import std.array;
+import std.conv;
 import std.file;
 import std.json;
 import std.path;
@@ -28,8 +30,19 @@ private:
         // First, init.js
         lines ~= "<script type=\"text/javascript\" src=\"./init.js\"></script>";
 
-        if (exists(getcwd() ~ "/lib/__loadorder.txt")) {
-            File f = File(getcwd() ~ "/lib/__loadorder.txt");
+        if (exists(getcwd() ~ "/lib/__loadorder.conf")) {
+            File f = File(getcwd() ~ "/lib/__loadorder.conf");
+            foreach (l; f.byLine) {
+                // That's a comment.
+                if (l.startsWith("#")) {
+                    continue;
+                }
+                if (l.empty()) {
+                    continue;
+                }
+                lines ~= "<script type=\"text/javascript\" src=\"./" ~ to!string(l) ~ "\"></script>";
+                // writeln(l);
+            }
 
         } else {
             writeln("Warning: missing: [./__loadorder.txt]. Defaulting to manual scan");
