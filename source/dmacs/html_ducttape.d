@@ -20,7 +20,9 @@ private:
         // Create the entry point into the html.
         lines ~= [
             "<html>",
-            "<head>"
+            "<head>",
+            "</head>",
+            "<body>"
         ];
 
         // Gather the libraries to load.
@@ -38,8 +40,7 @@ private:
         // This allows the D and JS to have access to the full page. I have no idea why I have
         // to do this like this but it works.
         lines ~= [
-            "</head>",
-            "<body>",
+
             "<script>onload=dMain();</script>",
             "<script>onload=jsMain();</script>",
             "</body>",
