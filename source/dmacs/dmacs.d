@@ -12,26 +12,10 @@ private:
 
     bool g = false;
     WebView wv;
-    string __head = "<html><head>\n";
-    string __tail = "<script>onload=dMain();</script>\n</head><body></body></html>";
-    string scripts;
 
     void dMain() {
         // setBackgroundColor("black");
         writeln("hi from D in js");
-    }
-
-    void __scriptify() {
-
-        foreach (string filestr; dirEntries("lib", "*.js", SpanMode.depth)) {
-            if (baseName(filestr) == "main.js") {
-                continue;
-            }
-            scripts ~= "<script type=\"text/javascript\" src=" ~ quote(
-                "./" ~ filestr[4 .. filestr.length]) ~ "></script>\n";
-        }
-
-        scripts ~= "<script type=\"text/javascript\" src=\"./main.js\"></script>\n";
     }
 
     // I do not feel like typing console.log over and over.
@@ -41,13 +25,6 @@ private:
             write(e, " ");
         }
         write("\n");
-    }
-
-    void __htmlify() {
-        // writeln(getcwd() ~ "/lib/main.html");
-        File f = File(getcwd() ~ "/lib/main.html", "w");
-        f.write(__head ~ scripts ~ __tail);
-        f.close();
     }
 
     void dClose(JSONValue[] blah) {
@@ -70,11 +47,10 @@ public:
 
         wv.title("Dmacs");
 
-        __scriptify();
+        // __scriptify();
         // __htmlify();
 
         wv.navigate("file://" ~ getcwd() ~ "/lib/main.html");
-
 
         wv.run();
     }
