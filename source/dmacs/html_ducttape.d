@@ -39,9 +39,6 @@ private:
             lines ~= "<script type=\"text/javascript\" src=\"./" ~ filestr[4 .. filestr.length] ~ "\"></script>";
         }
 
-        // Next, deploy init.js.
-        lines ~= "<script>onload=initJSDeploy();</script>";
-
         // Dump the entry point JS function in.
         lines ~= "<script type=\"text/javascript\" src=\"./main.js\"></script>";
 
@@ -49,6 +46,7 @@ private:
         // This allows the D and JS to have access to the full page. I have no idea why I have
         // to do this like this but it works.
         lines ~= [
+            "<script>onload=initJSDeploy();</script>",
             "<script>onload=dMain();</script>",
             "<script>onload=jsMain();</script>",
             "</body>",
