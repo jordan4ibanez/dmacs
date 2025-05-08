@@ -35,20 +35,18 @@ private:
         lines ~= "<script type=\"text/javascript\" src=\"./main.js\"></script>";
 
         // Dump the entry point D function in.
-        lines ~= "<script>onload=dMain();</script>";
 
-        // Create the rest of this, with the actual payload to load the JS entry point.
-        // This allows the JS to have access to the full page. I have no idea why I have
+        // Create the rest of this, with the actual payload to load the D then JS entry point.
+        // This allows the D and JS to have access to the full page. I have no idea why I have
         // to do this like this but it works.
         lines ~= [
             "</head>",
             "<body>",
+            "<script>onload=dMain();</script>",
             "<script>onload=jsMain();</script>",
             "</body>",
             "</html>"
         ];
-
-        // writeln(lines);
     }
 
     void __htmlify() {
