@@ -1,5 +1,6 @@
 module dmacs.dmacs;
 
+import dmacs.html_ducttape;
 import guino;
 import std.file;
 import std.json;
@@ -47,8 +48,7 @@ public:
 
         wv.title("Dmacs");
 
-        // __scriptify();
-        // __htmlify();
+        HTMLDuctTape.ductape();
 
         wv.navigate("file://" ~ getcwd() ~ "/lib/main.html");
 
