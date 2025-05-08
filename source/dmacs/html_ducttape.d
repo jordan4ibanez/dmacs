@@ -7,6 +7,7 @@ import std.file;
 import std.json;
 import std.path;
 import std.stdio;
+import std.string;
 
 static final const class HTMLDuctTape {
 static:
@@ -37,7 +38,8 @@ private:
                 if (l.startsWith("#")) {
                     continue;
                 }
-                if (l.empty()) {
+                // Blank line.
+                if (to!string(l).strip().empty()) {
                     continue;
                 }
                 lines ~= "<script type=\"text/javascript\" src=\"./" ~ to!string(l) ~ "\"></script>";
