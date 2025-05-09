@@ -6,7 +6,8 @@ Init.deploy("KeyInput", () => {
 
 //? BEGIN IMPLEMENTATION.
 
-const keyDownListenerEvents = new Map();
+const keyDownListenerEvents: Map<string, (a: KeyboardEvent) => void> =
+	new Map();
 
 /**
  * What happens when a key is pressed.
@@ -33,7 +34,7 @@ function onKeyUp(keyReleaseEvent: KeyboardEvent): void {
  * @param key The name of the listener.
  * @param fn The function to run.
  */
-export function setListener(key: string, fn: () => void): void {
+export function setListener(key: string, fn: (a: KeyboardEvent) => void): void {
 	// This will override any listeners.
 	keyDownListenerEvents.set(key, fn);
 }
