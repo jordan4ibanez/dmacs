@@ -1,5 +1,5 @@
 function tsMain(): void {
-	println("hi");
+	writeln("hi");
 }
 
 console.log("hello");
