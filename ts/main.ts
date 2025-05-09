@@ -1,6 +1,6 @@
 import * as CSS from "./css";
-import * as Deploy from "./module_deploy";
-Deploy.run();
+import * as Deploy from "./init";
+Deploy.____run();
 
 function loadDefaultCSS() {
 	CSS.set({
