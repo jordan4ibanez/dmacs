@@ -1,5 +1,4 @@
 var ____deployed: boolean = false;
-
 export function ____deploy() {
 	if (____deployed) {
 		throw new Error("CSS initialized twice.");
@@ -11,6 +10,8 @@ export function ____deploy() {
 	styleSheet.textContent = "";
 	document.head.appendChild(styleSheet);
 }
+
+//? BEGIN IMPLEMENTATION.
 
 var cssClassContainer: { [id: string]: { [id: string]: string } } = {};
 
