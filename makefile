@@ -1,4 +1,5 @@
 default:
+	@tsc
 	@DFLAGS="--linker=mold" dub run --build=debug
 # @./dmacs
 
