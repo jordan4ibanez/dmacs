@@ -55,3 +55,53 @@ export function createSplit(
 
 	return newSplit;
 }
+
+/**
+ * Create a textarea node.
+ * @param id The ID of this text area.
+ * @param buffer Which text buffer this text area is attached to.
+ * @returns The new textarea node.
+ */
+export function createTextArea(
+	id: string,
+	buffer: string
+): HTMLTextAreaElement {
+	if (buffer == null) {
+		buffer = "*scratch*";
+	}
+	if (id == null) {
+		throw new Error("id is null");
+	}
+
+	const newTextArea: HTMLTextAreaElement = document.createElement("textarea");
+	newTextArea.className = "textarea";
+	newTextArea.id = id;
+
+	newTextArea.oncut = () => {
+		return false;
+	};
+	newTextArea.onpaste = () => {
+		return false;
+	};
+	newTextArea.onkeydown = () => {
+		return false;
+	};
+	newTextArea.ondragenter = () => {
+		return false;
+	};
+	newTextArea.ondragleave = () => {
+		return false;
+	};
+	newTextArea.ondragover = () => {
+		return false;
+	};
+	newTextArea.ondrop = () => {
+		return false;
+	};
+
+	newTextArea.addEventListener("input", () => {
+		// println(newTextArea.value);
+	});
+
+	return newTextArea;
+}

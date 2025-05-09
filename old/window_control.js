@@ -3,50 +3,13 @@ const WindowControl = new (function () {
 	
 
 	/**
-	 * Create a textarea node.
-	 * @param {string} id The ID of this text area.
-	 * @param {*} buffer Which text buffer this text area is attached to.
-	 * @returns Textarea node.
+	 * 
+	 * @param {string} id 
+	 * @param {*} buffer 
+	 * @returns Textarea 
 	 */
-	this.createTextArea = (id, buffer) => {
-		if (buffer == null) {
-			buffer = "*scratch*";
-		}
-		if (id == null) {
-			throw new Error("id is null");
-		}
-
-		const newTextArea = document.createElement("textarea");
-		newTextArea.className = "textarea";
-		newTextArea.id = id;
-
-		newTextArea.oncut = () => {
-			return false;
-		};
-		newTextArea.onpaste = () => {
-			return false;
-		};
-		newTextArea.onkeydown = () => {
-			return false;
-		};
-		newTextArea.ondragenter = () => {
-			return false;
-		};
-		newTextArea.ondragleave = () => {
-			return false;
-		};
-		newTextArea.ondragover = () => {
-			return false;
-		};
-		newTextArea.ondrop = () => {
-			return false;
-		};
-
-		newTextArea.addEventListener("input", () => {
-			// println(newTextArea.value);
-		});
-
-		return newTextArea;
+	this.createTextArea = () => {
+		
 	};
 
 	Init.deployFunction(() => {
