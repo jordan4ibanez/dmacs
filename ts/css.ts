@@ -17,7 +17,7 @@ var cssClassContainer: { [id: string]: { [id: string]: string } } = {};
 /**
  * Updates the CSS of the page.
  */
-export function rebuild() {
+function rebuild() {
 	var rebuild: string[] = [];
 
 	rebuild.push("\n");
