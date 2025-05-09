@@ -1,0 +1,1 @@
+function println(any): void;
