@@ -14,8 +14,8 @@ export function createSplit(
 	id: string,
 	attachTo: Node,
 	orientation: Orientation
-): HTMLElement {
-	var newSplit = document.createElement("div");
+): HTMLDivElement {
+	var newSplit: HTMLDivElement = document.createElement("div");
 	newSplit.className = "split";
 	newSplit.id = id;
 	newSplit.style.height = "100%";
