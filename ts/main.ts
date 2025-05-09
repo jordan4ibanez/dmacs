@@ -51,13 +51,11 @@ function loadDefaultCSS() {
 	});
 }
 
-function close_window() {
+function closeWindow() {
 	if (confirm("Close Window?")) {
 		dClose("hi");
 	}
 }
-
-
 
 (function main() {
 	createBuffer("*scratch*");
