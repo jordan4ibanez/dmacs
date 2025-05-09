@@ -1,6 +1,6 @@
 import * as CSS from "./css";
 import * as Deploy from "./init";
-Deploy.____run();
+Deploy.z____run();
 
 function loadDefaultCSS() {
 	CSS.set({

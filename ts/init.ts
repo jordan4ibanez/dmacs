@@ -28,7 +28,7 @@ var __deployed: boolean = false;
 /**
  * Deploys all the modules to load up at initialization.
  */
-export function ____run() {
+export function z____run() {
 	if (__deployed) {
 		throw new Error("Deploy run twice.");
 	}
