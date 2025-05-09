@@ -8,8 +8,6 @@ function close_window() {
 function jsMain() {
 	createBuffer("*scratch*");
 
-	loadDefaultCSS();
-
 	
 
 	// Create the frame to put the textareas on.
