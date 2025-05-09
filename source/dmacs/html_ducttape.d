@@ -67,7 +67,7 @@ private:
         // This allows the D and JS to have access to the full page. I have no idea why I have
         // to do this like this but it works.
         lines ~= [
-            "<script>onload=Init.__deploy();</script>",
+            "<script>onload=Init.z____payload____();</script>",
             "<script>onload=dMain();</script>",
             "<script>onload=jsMain();</script>",
             "</body>",
