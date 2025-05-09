@@ -108,7 +108,7 @@ export function createTextArea(
 	return newTextArea;
 }
 
-Init.deploy("WindowControl", () => {
+export function z____deploy() {
 	// The secret element is the master container.
 	const rootDiv = document.createElement("div");
 	rootDiv.className = "root";
@@ -127,4 +127,4 @@ Init.deploy("WindowControl", () => {
 
 	writeln("hi");
 	// rootDiv.appendChild
-});
+}
