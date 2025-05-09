@@ -110,4 +110,5 @@ function registerDefaultChords(): void {
 
 Init.deploy("chord", () => {
 	KeyInput.setListener("chord_recorder_5000", doLogic);
+	registerDefaultChords();
 });
