@@ -52,5 +52,5 @@ function loadDefaultCSS() {
 }
 
 (function main() {
-	CSS.set({});
+	loadDefaultCSS();
 })();
