@@ -7,5 +7,5 @@ export function run() {
 		throw new Error("Deploy run twice.");
 	}
 	__deployed = true;
-	CSS.deploy();
+	CSS.____deploy();
 }
