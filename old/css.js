@@ -1,8 +1,5 @@
 Init.deployFunction(() => {
-	var styleSheet = document.createElement("style");
-	styleSheet.id = "SuperCSS";
-	styleSheet.textContent = "";
-	document.head.appendChild(styleSheet);
+	
 });
 
 const CSS = new (function () {
