@@ -58,8 +58,6 @@ export function set(
 	keyOrBulk: string | { [id: string]: string },
 	value: any
 ) {
-	// const typeClassOrBulk = ;
-
 	if (typeof clazzOrBulk === "string") {
 		if (cssClassContainer[clazzOrBulk] == null) {
 			cssClassContainer[clazzOrBulk] = {};
@@ -68,6 +66,7 @@ export function set(
 		//? Non bulk.
 		if (typeof keyOrBulk === "string") {
 			cssClassContainer[clazzOrBulk][keyOrBulk] = value;
+
 			//? Semi-bulk.
 		} else if (typeof keyOrBulk === "object") {
 			for (let [key, value] of Object.entries(keyOrBulk)) {
@@ -76,6 +75,7 @@ export function set(
 		} else {
 			throw new Error("wrong type! [1]");
 		}
+
 		//? Bulk.
 	} else if (typeof clazzOrBulk === "object") {
 		for (let [clazz, entry] of Object.entries(clazzOrBulk)) {
@@ -87,7 +87,6 @@ export function set(
 			if (cssClassContainer[clazz] == null) {
 				cssClassContainer[clazz] = {};
 			}
-
 			for (let [key, value] of Object.entries(entry)) {
 				if (typeof key === "string") {
 					if (typeof value === "string") {
