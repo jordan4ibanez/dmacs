@@ -3,32 +3,10 @@ Init.deployFunction(() => {
 });
 
 const CSS = new (function () {
-	const cssClassContainer = {};
+	
 
-	/**
-	 * Updates the CSS of the page.
-	 */
-	this.rebuild = () => {
-		var rebuild = [];
-		rebuild.push("\n");
-		for (let [clazz, component] of Object.entries(cssClassContainer)) {
-			if (clazz === "*") {
-				rebuild.push(`${clazz} {\n`);
-			} else {
-				rebuild.push(`.${clazz} {\n`);
-			}
-
-			for (let [key, value] of Object.entries(component)) {
-				// print(key, value);
-				rebuild.push(`  ${key}: ${value};\n`);
-			}
-			rebuild.push(`}\n\n`);
-		}
-
-		const f = rebuild.join("");
-		// console.log(f);
-		document.getElementById("SuperCSS").textContent = f;
-	};
+	
+	
 
 	/**
 	 * Set CSS through javascript.
