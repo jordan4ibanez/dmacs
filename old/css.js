@@ -1,11 +1,6 @@
-Init.deployFunction(() => {
-	
-});
+
 
 const CSS = new (function () {
-	
-
-	
 	
 
 	/**

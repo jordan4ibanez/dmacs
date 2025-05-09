@@ -12,6 +12,7 @@ export function ____deploy() {
 	document.head.appendChild(styleSheet);
 }
 
+// todo: fix this disaster.
 var cssClassContainer: Object = new Object();
 
 /**
