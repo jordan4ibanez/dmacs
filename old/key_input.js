@@ -1,5 +1,5 @@
 const KeyInput = new (function () {
-	const keyDownListenerEvents = new Map();
+	
 
 	/**
 	 * What happens when a key is pressed.
@@ -21,19 +21,7 @@ const KeyInput = new (function () {
 		// print(key, "UP");
 	}
 
-	/**
-	 * Set a listener for key presses.
-	 * @param {string} key The name of this listener.
-	 * @param {function(KeyboardEvent): void} fn The function to run.
-	 */
-	this.setListener = (key, fn) => {
-		// This will override any listeners.
-		keyDownListenerEvents.set(key, fn);
-	};
-
-	this.removeListener = (key) => {
-		keyDownListenerEvents.delete(key);
-	};
+	
 
 	Init.deployFunction(() => {
 		document.addEventListener("keydown", onKeyDown);
