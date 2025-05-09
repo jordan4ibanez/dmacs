@@ -2,7 +2,7 @@ import * as Buffer from "./buffer";
 import * as KeyInput from "./key_input";
 
 var __inInteractiveMode: boolean = false;
-var __lastInteractive: ((a: KeyboardEvent) => void) | null = null; // todo: name this type
+var __lastInteractive: ((a: KeyboardEvent) => void) | null = null;
 var reentry: boolean = false;
 var __eventListener: (() => void) | null = null;
 
