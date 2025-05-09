@@ -28,48 +28,16 @@ private:
             "<body>"
         ];
 
-        // First, init.js
-        lines ~= "<script type=\"text/javascript\" src=\"./init.js\"></script>";
-
-        if (exists(getcwd() ~ "/lib/__loadorder.conf")) {
-            File f = File(getcwd() ~ "/lib/__loadorder.conf");
-            foreach (l; f.byLine) {
-                // That's a comment.
-                if (l.startsWith("#")) {
-                    continue;
-                }
-                // Blank line.
-                if (to!string(l).strip().empty()) {
-                    continue;
-                }
-                lines ~= "<script type=\"text/javascript\" src=\"./" ~ to!string(l) ~ "\"></script>";
-                // writeln(l);
-            }
-
-        } else {
-            writeln("Warning: missing: [./__loadorder.txt]. Defaulting to manual scan");
-            // Gather the libraries to load.
-            foreach (string filestr; dirEntries("lib", "*.js", SpanMode.depth)) {
-                if (baseName(filestr) == "main.js") {
-                    continue;
-                }
-                if (baseName(filestr) == "init.js") {
-                    continue;
-                }
-                lines ~= "<script type=\"text/javascript\" src=\"./" ~ filestr[4 .. filestr.length] ~ "\"></script>";
-            }
-        }
-
-        // Dump the entry point JS function in.
-        lines ~= "<script type=\"text/javascript\" src=\"./main.js\"></script>";
+        // Add the compiled typescript code in.
+        lines ~= "<script type=\"text/javascript\" src=\"./dmacs.js\"></script>";
 
         // Create the rest of this, with the actual payload to load the D then JS entry point.
         // This allows the D and JS to have access to the full page. I have no idea why I have
         // to do this like this but it works.
         lines ~= [
-            "<script>onload=Init.z____payload____();</script>",
+            // "<script>onload=Init.z____payload____();</script>",
             "<script>onload=dMain();</script>",
-            "<script>onload=jsMain();</script>",
+            "<script>onload=tsMain();</script>",
             "</body>",
             "</html>"
         ];
