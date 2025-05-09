@@ -21,10 +21,10 @@ private:
         lines ~= [
             "<html>",
             "<head>",
-            "<script data-main=\"dmacs\" src=\"./require.js\"></script>",
             "</head>",
             "<body>",
-            // "<script>onload=dMain();</script>",
+            "<script data-main=\"main\" src=\"./require.js\"></script>",
+            "<script>onload=dMain();</script>",
             "</body>",
             "</html>"
         ];
