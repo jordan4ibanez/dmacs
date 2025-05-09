@@ -1,4 +1,6 @@
 import * as MiniBuffer from "./mini_buffer";
+import * as Init from "./init";
+import * as KeyInput from "./key_input";
 
 var inChord: boolean = false;
 var currentChord: string = "";
@@ -89,3 +91,23 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 		}
 	}
 }
+
+/**
+ * Cancel the current recording, if any.
+ * Resets the state.
+ */
+export function exitRecord(): void {
+	if (inChord) {
+		inChord = false;
+		currentChord = "";
+		chordCount = 0;
+	}
+}
+
+function registerDefaultChords(): void {
+	// todo: Register the default chords.
+}
+
+Init.deploy("chord", () => {
+	KeyInput.setListener("chord_recorder_5000", doLogic);
+});
