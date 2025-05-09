@@ -1,5 +1,5 @@
 var ____deployed: boolean = false;
-export function ____deploy() {
+export function ____deploy(): void {
 	if (____deployed) {
 		throw new Error("CSS initialized twice.");
 	}
@@ -18,7 +18,7 @@ var cssClassContainer: { [id: string]: { [id: string]: string } } = {};
 /**
  * Updates the CSS of the page.
  */
-function rebuild() {
+function rebuild(): void {
 	var rebuild: string[] = [];
 
 	rebuild.push("\n");
@@ -58,7 +58,7 @@ export function set(
 	clazzOrBulk: string | { [id: string]: { [id: string]: string } },
 	keyOrBulk?: string | { [id: string]: string },
 	value?: any
-) {
+): void {
 	if (typeof clazzOrBulk === "string") {
 		if (cssClassContainer[clazzOrBulk] == null) {
 			cssClassContainer[clazzOrBulk] = {};
