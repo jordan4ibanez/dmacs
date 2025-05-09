@@ -10,7 +10,7 @@ const keyDownListenerEvents = new Map();
 
 /**
  * What happens when a key is pressed.
- * @param {KeyboardEvent} keyPressEvent
+ * @param keyPressEvent
  */
 function onKeyDown(keyPressEvent: KeyboardEvent) {
 	// const key = keyPressEvent.key; // "a", "1", "Shift", etc.
@@ -20,8 +20,8 @@ function onKeyDown(keyPressEvent: KeyboardEvent) {
 }
 
 /**
- *  What happens when a key is released.
- * @param {KeyboardEvent} keyReleaseEvent
+ * What happens when a key is released.
+ * @param keyReleaseEvent
  */
 function onKeyUp(keyReleaseEvent: KeyboardEvent) {
 	// const key = keyReleaseEvent.key; // "a", "1", "Shift", etc.
