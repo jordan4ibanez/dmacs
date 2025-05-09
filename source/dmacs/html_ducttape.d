@@ -21,23 +21,14 @@ private:
         lines ~= [
             "<html>",
             "<head>",
+            "<script data-main=\"dmacs\" src=\"./require.js\"></script>",
             "</head>",
-            "<body>"
-        ];
-
-        // Add the compiled typescript code in.
-        lines ~= "<script type=\"text/javascript\" src=\"./dmacs.js\"></script>";
-
-        // Create the rest of this, with the actual payload to load the D then JS entry point.
-        // This allows the D and JS to have access to the full page. I have no idea why I have
-        // to do this like this but it works.
-        lines ~= [
-            // "<script>onload=Init.z____payload____();</script>",
-            "<script>onload=dMain();</script>",
-            "<script>onload=tsMain();</script>",
+            "<body>",
+            // "<script>onload=dMain();</script>",
             "</body>",
             "</html>"
         ];
+
     }
 
     void __htmlify() {
