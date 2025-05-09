@@ -5,6 +5,7 @@ export function ____deploy() {
 		throw new Error("CSS initialized twice.");
 	}
 	____deployed = true;
+
 	var styleSheet = document.createElement("style");
 	styleSheet.id = "SuperCSS";
 	styleSheet.textContent = "";
