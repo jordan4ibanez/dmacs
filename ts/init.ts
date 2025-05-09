@@ -1,6 +1,6 @@
 var __deployed: boolean = false;
 
-class Safety {
+export class Safety {
 	protected tick: boolean = false;
 }
 
@@ -9,10 +9,12 @@ var fns: (() => void)[] = [];
 var saf: Safety[] = [];
 
 /**
- *
- * @param fn You pass this function a blank object for
+ * 
+ * @param moduleName The name of the module.
+ * @param safety An object used to ensure that modules are not initialized multiple times.
+ * @param fn 
  */
-export function add(safety: Safety, fn: () => void) {
+export function deploy(moduleName: string, safety: Safety, fn: () => void) {
 	fns.push(fn);
 	if (!safety) {
 		throw new Error("Safety was null.");
