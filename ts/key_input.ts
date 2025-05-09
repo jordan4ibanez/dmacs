@@ -1,8 +1,7 @@
-import * as Init from "./init";
-Init.deploy("KeyInput", () => {
+export function z____deploy() {
 	document.addEventListener("keydown", onKeyDown);
 	document.addEventListener("keyup", onKeyUp);
-});
+}
 
 //? BEGIN IMPLEMENTATION.
 
