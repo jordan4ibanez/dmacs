@@ -12,9 +12,6 @@ import std.string;
 static final const class HTMLDuctTape {
 static:
 private:
-    // string __head = "<html><head>\n";
-    // string __tail = "<script>onload=dMain();</script>\n</head><body></body></html>";
-    // string scripts;
 
     string[] lines;
 
