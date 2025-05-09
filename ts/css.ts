@@ -55,7 +55,7 @@ function rebuild() {
  * @param value The value. If (clazzOrBulk or keyOrBulk) is an object, this has no effect.
  */
 export function set(
-	clazzOrBulk: string | { [id: string]: string },
+	clazzOrBulk: string | { [id: string]: { [id: string]: string } },
 	keyOrBulk?: string | { [id: string]: string },
 	value?: any
 ) {
