@@ -1,7 +1,7 @@
 {
 	"json.format.enable": true,
 	"javascript.format.enable": true,
-	"[javascript]": {
+	"[typescript]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
     "[html]": {
