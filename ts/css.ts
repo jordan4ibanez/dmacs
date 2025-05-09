@@ -12,7 +12,7 @@ export function ____deploy() {
 	document.head.appendChild(styleSheet);
 }
 
-var cssClassContainer: Map<string, () => void> = new Map();
+var cssClassContainer: Map<string, string> = new Map();
 
 /**
  * Updates the CSS of the page.
@@ -21,6 +21,7 @@ export function rebuild() {
 	var rebuild: string[] = [];
 
 	rebuild.push("\n");
+
 
 	for (let [clazz, component] of Object.entries(cssClassContainer)) {
 		if (clazz === "*") {
