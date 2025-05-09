@@ -1,15 +1,11 @@
-var ____deployed: boolean = false;
-export function ____deploy(): void {
-	if (____deployed) {
-		throw new Error("CSS initialized twice.");
-	}
-	____deployed = true;
+import * as Init from "./init";
 
+Init.deploy("CSS", () => {
 	var styleSheet = document.createElement("style");
 	styleSheet.id = "SuperCSS";
 	styleSheet.textContent = "";
 	document.head.appendChild(styleSheet);
-}
+});
 
 //? BEGIN IMPLEMENTATION.
 
