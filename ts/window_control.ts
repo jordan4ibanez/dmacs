@@ -1,3 +1,5 @@
+import * as Init from "./init";
+
 export enum Orientation {
 	vertical,
 	horizontal,
@@ -64,7 +66,7 @@ export function createSplit(
  */
 export function createTextArea(
 	id: string,
-	buffer: string
+	buffer: string = "*scratch*"
 ): HTMLTextAreaElement {
 	if (buffer == null) {
 		buffer = "*scratch*";
@@ -105,3 +107,24 @@ export function createTextArea(
 
 	return newTextArea;
 }
+
+Init.deploy("WindowControl", () => {
+	// The secret element is the master container.
+	const rootDiv = document.createElement("div");
+	rootDiv.className = "root";
+	rootDiv.id = "root";
+	rootDiv.style.height = "calc(100% - 26px)";
+	document.body.appendChild(rootDiv);
+
+	const windowArea = document.createElement("div");
+	windowArea.className = "window_area";
+	windowArea.id = "window_area";
+	windowArea.style.height = "100%";
+	rootDiv.appendChild(windowArea);
+
+	// Create the initial window area.
+	windowArea.appendChild(createTextArea("main_window"));
+
+	writeln("hi");
+	// rootDiv.appendChild
+});
