@@ -3,3 +3,9 @@
  * @param {any} any Anything.
  */
 function writeln(any: any): void;
+
+/**
+ * Create a buffer.
+ * @param buf The buffer name to create.
+ */
+function createBuffer(buf: string): void;
