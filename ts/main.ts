@@ -1,6 +1,9 @@
-import { Blah } from "./css";
+import { CSS } from "./css";
+
+(function main() {
+
+	
 
 
-function tsMain(): void {
-	writeln("hi");
-}
+
+})();
