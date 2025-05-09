@@ -51,6 +51,15 @@ function loadDefaultCSS() {
 	});
 }
 
+function close_window() {
+	if (confirm("Close Window?")) {
+		dClose("hi");
+	}
+}
+
+
+
 (function main() {
+	createBuffer("*scratch*");
 	loadDefaultCSS();
 })();
