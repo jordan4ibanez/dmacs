@@ -37,7 +37,7 @@ public:
         // Regular Dmacs utilities.
         wv.bindJs!dMain;
         wv.bindJs!dClose;
-        wv.bindJs!println;
+        wv.bindJs!(HTMLDuctTape.writeln);
 
         // Buffer utilities.
         wv.bindJs!(Buffer.createBuffer);
