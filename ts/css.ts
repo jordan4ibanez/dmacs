@@ -56,8 +56,8 @@ function rebuild() {
  */
 export function set(
 	clazzOrBulk: string | { [id: string]: string },
-	keyOrBulk: string | { [id: string]: string },
-	value: any
+	keyOrBulk?: string | { [id: string]: string },
+	value?: any
 ) {
 	if (typeof clazzOrBulk === "string") {
 		if (cssClassContainer[clazzOrBulk] == null) {
