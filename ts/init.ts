@@ -1,27 +1,30 @@
-var __deployed: boolean = false;
-
-export class Safety {
-	protected tick: boolean = false;
+/**
+ * Used for module initialization control.
+ */
+class ModInit {
+	locked: boolean = false;
+	fn: () => void;
+	constructor(fn: () => void) {
+		this.fn = fn;
+	}
 }
 
-//? These are synchronized.
-var fns: (() => void)[] = [];
-var saf: Safety[] = [];
+var mods: Map<string, ModInit> = new Map();
 
 /**
- * 
+ * Use this to initialize a module when the program opens.
  * @param moduleName The name of the module.
  * @param safety An object used to ensure that modules are not initialized multiple times.
- * @param fn 
+ * @param fn The function to run.
  */
-export function deploy(moduleName: string, safety: Safety, fn: () => void) {
-	fns.push(fn);
-	if (!safety) {
-		throw new Error("Safety was null.");
+export function deploy(moduleName: string, fn: () => void) {
+	if (mods.has(moduleName)) {
+		throw new Error("Module " + moduleName + " was already defined.");
 	}
-	saf.push(safety);
+	mods.set(moduleName, new ModInit(fn));
 }
 
+var __deployed: boolean = false;
 /**
  * Deploys all the modules to load up at initialization.
  */
@@ -31,7 +34,13 @@ export function run() {
 	}
 	__deployed = true;
 
-	fns.forEach((fn: () => void) => {
-		fn();
-	});
+	for (let [moduleName, mod] of mods) {
+		if (mod.locked) {
+			throw new Error(
+				"Mod [" + moduleName + "] was initialized twice, somehow."
+			);
+		}
+		mod.locked = true;
+		mod.fn();
+	}
 }
