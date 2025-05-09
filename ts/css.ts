@@ -12,8 +12,7 @@ export function ____deploy() {
 	document.head.appendChild(styleSheet);
 }
 
-// todo: fix this disaster.
-var cssClassContainer: Object = new Object();
+var cssClassContainer: { [id: string]: { [id: string]: string } } = {};
 
 /**
  * Updates the CSS of the page.
@@ -46,4 +45,64 @@ export function rebuild() {
 		return;
 	}
 	sc.textContent = f;
+}
+
+/**
+ * Set CSS through javascript.
+ * @param clazzOrBulk Which class this will work on. Or, a super-bulk set object.
+ * @param keyOrBulk The key. Or, Object if you want to bulk set. If clazzOrBulk is an object, this has no effect.
+ * @param value The value. If (clazzOrBulk or keyOrBulk) is an object, this has no effect.
+ */
+export function set(
+	clazzOrBulk: string | { [id: string]: string },
+	keyOrBulk: string | { [id: string]: string },
+	value: any
+) {
+	// const typeClassOrBulk = ;
+
+	if (typeof clazzOrBulk === "string") {
+		if (cssClassContainer[clazzOrBulk] == null) {
+			cssClassContainer[clazzOrBulk] = {};
+		}
+
+		//? Non bulk.
+		if (typeof keyOrBulk === "string") {
+			cssClassContainer[clazzOrBulk][keyOrBulk] = value;
+			//? Semi-bulk.
+		} else if (typeof keyOrBulk === "object") {
+			for (let [key, value] of Object.entries(keyOrBulk)) {
+				cssClassContainer[clazzOrBulk][key] = value;
+			}
+		} else {
+			throw new Error("wrong type! [1]");
+		}
+		//? Bulk.
+	} else if (typeof clazzOrBulk === "object") {
+		for (let [clazz, entry] of Object.entries(clazzOrBulk)) {
+			if (typeof entry !== "object") {
+				throw new Error(
+					"Bulk needs to use objects to define the class!"
+				);
+			}
+			if (cssClassContainer[clazz] == null) {
+				cssClassContainer[clazz] = {};
+			}
+
+			for (let [key, value] of Object.entries(entry)) {
+				if (typeof key === "string") {
+					if (typeof value === "string") {
+						cssClassContainer[clazz][key] = value;
+					} else {
+						throw new Error("key is not a string");
+					}
+				} else {
+					throw new Error("key is not a string.");
+				}
+			}
+		}
+	} else {
+		throw new Error("wrong type! [2]");
+	}
+
+	rebuild();
 }
