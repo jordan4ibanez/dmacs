@@ -20,15 +20,6 @@ private:
         // writeln("hi from D in js");
     }
 
-    // I do not feel like typing console.log over and over.
-    void println(JSONValue[] data) {
-        write("[js]: ");
-        foreach (JSONValue e; data) {
-            write(e, " ");
-        }
-        write("\n");
-    }
-
     void dClose(JSONValue[] blah) {
         writeln(blah);
         wv.terminate();
