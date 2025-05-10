@@ -474,11 +474,11 @@ const Split = (idsOption: any, options = {}) => {
 		self.dragging = false;
 
 		// Remove the stored event listeners. This is why we store them.
-		global[removeEventListener]("mouseup", self.stop);
-		global[removeEventListener]("touchend", self.stop);
-		global[removeEventListener]("touchcancel", self.stop);
-		global[removeEventListener]("mousemove", self.move);
-		global[removeEventListener]("touchmove", self.move);
+		global![removeEventListener]("mouseup", self.stop);
+		global![removeEventListener]("touchend", self.stop);
+		global![removeEventListener]("touchcancel", self.stop);
+		global![removeEventListener]("mousemove", self.move);
+		global![removeEventListener]("touchmove", self.move);
 
 		// Clear bound function references
 		self.stop = null;
