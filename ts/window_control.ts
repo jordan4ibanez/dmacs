@@ -6,12 +6,20 @@ export enum Orientation {
 	horizontal = "horizontal",
 }
 
+export class SplitViewDivs {
+	left: HTMLDivElement;
+	right: HTMLDivElement;
+	constructor(left: HTMLDivElement, right: HTMLDivElement) {
+		this.left = left;
+		this.right = right;
+	}
+}
+
 /**
  * Create a split pane.
  * @param id The ID of this split. It's 2 children will prepend left_ and right_ to this.
  * @param attachTo The HTML node to attach this split to.
  * @param orientation Horizontal or vertical.
- * @returns A split div node parent.
  */
 export function createSplit(
 	id: string,
