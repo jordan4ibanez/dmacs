@@ -14,5 +14,5 @@ export function setFocus(bufferName: string): void {
  * @returns The currently focused buffer. Or null.
  */
 export function getFocus(): string | null {
-    return focusedBuffer;
+	return focusedBuffer;
 }
