@@ -102,17 +102,21 @@ function defaultGutterFn(i: number, gutterDirection: string): HTMLDivElement {
 	return gut;
 }
 
-// const defaultElementStyleFn = (dim, size, gutSize) => {
-// 	const style = {};
+function defaultElementStyleFn(
+	dim: string,
+	size: number,
+	gutSize: number
+): { [id: string]: string | number } {
+	const style: { [id: string]: string | number } = {};
 
-// 	if (!isString(size)) {
-// 		style[dim] = `${calc}(${size}% - ${gutSize}px)`;
-// 	} else {
-// 		style[dim] = size;
-// 	}
+	if (!isString(size)) {
+		style[dim] = `${calc}(${size}% - ${gutSize}px)`;
+	} else {
+		style[dim] = size;
+	}
 
-// 	return style;
-// };
+	return style;
+}
 
 // const defaultGutterStyleFn = (dim, gutSize) => ({ [dim]: `${gutSize}px` });
 
