@@ -1,4 +1,5 @@
 import * as Split from "./split";
+import * as MiniBuffer from "./mini_buffer";
 
 export enum Orientation {
 	vertical = "vertical",
