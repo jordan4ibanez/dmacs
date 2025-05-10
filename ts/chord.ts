@@ -103,13 +103,12 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 		{
 			const chord = chordDatabase.get(currentChord);
 			if (chord) {
-				chord.fn();
-
 				MiniBuffer.setLabel(
 					"Chord: " + currentChord + " | Running: " + chord.name
 				);
 				MiniBuffer.flush();
 				exitRecord();
+				chord.fn();
 			}
 			// todo: exit and set a timer to clear the buffer.
 		}
