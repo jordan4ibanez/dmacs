@@ -28,11 +28,11 @@ export function testing() {
 // const HORIZONTAL = "horizontal";
 // const NOOP = () => false;
 
-// // Helper function determines which prefixes of CSS calc we need.
-// // We only need to do this once on startup, when this anonymous function is called.
-// //
-// // Tests -webkit, -moz and -o prefixes. Modified from StackOverflow:
-// // http://stackoverflow.com/questions/16625140/js-feature-detection-to-detect-the-usage-of-webkit-calc-over-calc/16625167#16625167
+// Helper function determines which prefixes of CSS calc we need.
+// We only need to do this once on startup, when this anonymous function is called.
+//
+// Tests -webkit, -moz and -o prefixes. Modified from StackOverflow:
+// http://stackoverflow.com/questions/16625140/js-feature-detection-to-detect-the-usage-of-webkit-calc-over-calc/16625167#16625167
 // const calc = ssr
 // 	? "calc"
 // 	: `${["", "-webkit-", "-moz-", "-o-"]
