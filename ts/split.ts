@@ -32,10 +32,9 @@ export function testing() {}
 // Tests -webkit, -moz and -o prefixes. Modified from StackOverflow:
 // http://stackoverflow.com/questions/16625140/js-feature-detection-to-detect-the-usage-of-webkit-calc-over-calc/16625167#16625167
 const calc: string = `${["", "-webkit-", "-moz-", "-o-"]
-	.filter((prefix) => {
-		const el = doccy.createElement("div");
+	.filter((prefix: string) => {
+		const el: HTMLElement = doccy.createElement("div");
 		el.style.cssText = `width:${prefix}calc(9px)`;
-
 		return !!el.style.length;
 	})
 	.shift()}calc`;
