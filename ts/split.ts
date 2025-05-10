@@ -129,6 +129,25 @@ function defaultGutterStyleFn(
 	return { [dim]: `${gutSize}px` };
 }
 
+export interface SplitOptions {
+	sizes?: (number | string)[];
+	minSize?: number | number[];
+	maxSize?: number | number[];
+	expandToMin?: boolean;
+	gutterSize?: number;
+	gutterAlign?: string;
+	snapOffset?: number;
+	dragInterval?: number;
+	direction?: "horizontal" | "vertical";
+	cursor?: string;
+	gutter?: () => void;
+	elementStyle?: () => void;
+	gutterStyle?: () => void;
+	onDrag?: () => void;
+	onDragStart?: () => void;
+	onDragEnd?: () => void;
+}
+
 // The main function to initialize a split. Split.js thinks about each pair
 // of elements as an independant pair. Dragging the gutter between two elements
 // only changes the dimensions of elements in that pair. This is key to understanding
