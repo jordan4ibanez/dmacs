@@ -104,7 +104,9 @@ const defaultElementStyleFn = (dim: any, size: any, gutSize: any) => {
 	return style;
 };
 
-const defaultGutterStyleFn = (dim, gutSize) => ({ [dim]: `${gutSize}px` });
+const defaultGutterStyleFn = (dim: any, gutSize: any) => ({
+	[dim]: `${gutSize}px`,
+});
 
 // The main function to initialize a split. Split.js thinks about each pair
 // of elements as an independant pair. Dragging the gutter between two elements
