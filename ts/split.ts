@@ -9,9 +9,9 @@ if (!window) {
 if (!window.document) {
 	throw new Error("No document.");
 }
-const global = typeof window !== "undefined" ? window : null;
-const ssr = global === null;
-const doccy = !ssr ? global.document : undefined;
+
+const ssr = false;
+const doccy = window.document;
 
 export function testing() {
 	writeln("hi");
