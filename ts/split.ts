@@ -49,7 +49,7 @@ function isString(v: any): boolean {
 // do `Split([elem1, elem2])` as well as `Split(['#id1', '#id2'])`.
 function elementOrSelector(el: any) {
 	if (isString(el)) {
-		const ele = doccy.querySelector(el);
+		const ele: HTMLElement | null = doccy.querySelector(el);
 		if (!ele) {
 			throw new Error(`Selector ${el} did not match a DOM element`);
 		}
