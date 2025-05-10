@@ -308,7 +308,7 @@ export function Split(idsOption: string[], options: SplitOptions = {}) {
 	// Element a's size is the same as offset. b's size is total size - a size.
 	// Both sizes are calculated from the initial parent percentage,
 	// then the gutter size is subtracted.
-	function adjust(offset) {
+	function adjust(offset: number) {
 		const a = elements[this.a];
 		const b = elements[this.b];
 		const percentage = a.size + b.size;
