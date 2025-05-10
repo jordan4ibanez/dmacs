@@ -148,7 +148,7 @@ export function z____deploy() {
 	split.right.appendChild(createTextArea("2"));
 
 	// Create the initial window area.
-	windowArea.appendChild(createTextArea("main_window"));
+	// windowArea.appendChild(createTextArea("main_window"));
 
 	writeln("hi");
 	// rootDiv.appendChild
