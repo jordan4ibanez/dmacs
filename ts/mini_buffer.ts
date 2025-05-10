@@ -6,7 +6,7 @@ var __lastInteractive: ((a: KeyboardEvent) => void) | null = null;
 var reentry: boolean = false;
 var __eventListener: (() => void) | null = null;
 
-class MiniBuffer extends HTMLInputElement {
+export class MiniBuffer extends HTMLInputElement {
 	label: string = "";
 	buffer: string = "";
 }
@@ -204,7 +204,7 @@ export function enterInteractiveMode(
 export function exitInteractiveMode(
 	shutDownCurrentScope: boolean = true
 ): void {
-	var mb = get();
+	var mb: MiniBuffer = get();
 
 	KeyInput.removeListener("minibufferlistener");
 	if (__eventListener) {
