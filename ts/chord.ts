@@ -96,9 +96,9 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 
 		// todo: search up function to run. if found: return
 		{
-			const func = chordDatabase.get(currentChord);
-			if (func) {
-				func();
+			const chord = chordDatabase.get(currentChord);
+			if (chord) {
+				chord.fn();
 			}
 		}
 
