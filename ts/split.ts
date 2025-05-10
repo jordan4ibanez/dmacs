@@ -52,7 +52,7 @@ const elementOrSelector = (el: any) => {
 };
 
 // Helper function gets a property from the properties object, with a default fallback
-const getOption = (options: any, propName: any, def: any) => {
+const getOption = (options: any, propName: any, def?: any) => {
 	const value = options[propName];
 	if (value !== undefined) {
 		return value;
