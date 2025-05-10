@@ -137,6 +137,12 @@ export function z____deploy() {
 	rootDiv.appendChild(windowArea);
 
 	MiniBuffer.deployMiniBuffer();
+
+	var split: SplitViewDivs = createSplit(
+		"testing",
+		windowArea,
+		Orientation.horizontal
+	);
 	// Create the initial window area.
 	windowArea.appendChild(createTextArea("main_window"));
 
