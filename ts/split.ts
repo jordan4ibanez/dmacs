@@ -19,6 +19,8 @@ export function testing() {
 	console.log(fff(1));
 }
 
+type dictionary = { [id: string]: any };
+
 // Save a couple long function names that are used frequently.
 // This optimization saves around 400 bytes.
 // const addEventListener = "addEventListener";
@@ -68,7 +70,7 @@ function getOption(
 	propName: string,
 	def?: any
 ): any | null {
-	const value: any = (options as { [id: string]: any })[propName];
+	const value: any = (options as dictionary)[propName];
 	if (value !== undefined) {
 		return value;
 	}
@@ -272,7 +274,7 @@ export function Split(idsOption: string[], options: SplitOptions = {}) {
 
 		Object.keys(style).forEach((prop: string) => {
 			// eslint-disable-next-line no-param-reassign
-			(el.style as { [id: string]: any })[prop] = style[prop];
+			(el.style as dictionary)[prop] = style[prop];
 		});
 	}
 
@@ -285,7 +287,7 @@ export function Split(idsOption: string[], options: SplitOptions = {}) {
 
 		Object.keys(style).forEach((prop) => {
 			// eslint-disable-next-line no-param-reassign
-			(gutterElement.style as { [id: string]: any })[prop] = style[prop];
+			(gutterElement.style as dictionary)[prop] = style[prop];
 		});
 	}
 
