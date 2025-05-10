@@ -622,70 +622,70 @@ class Split {
 		doccy.body.style.cursor = "";
 	}
 
-	// // startDragging calls `calculateSizes` to store the inital size in the pair object.
-	// // It also adds event listeners for mouse/touch events,
-	// // and prevents selection while dragging so avoid the selecting text.
-	// function startDragging(e) {
-	// 	// Right-clicking can't start dragging.
-	// 	if ("button" in e && e.button !== 0) {
-	// 		return;
-	// 	}
+	// startDragging calls `calculateSizes` to store the inital size in the pair object.
+	// It also adds event listeners for mouse/touch events,
+	// and prevents selection while dragging so avoid the selecting text.
+	startDragging(e: TouchEvent) {
+		// Right-clicking can't start dragging.
+		if ("button" in e && e.button !== 0) {
+			return;
+		}
 
-	// 	// Alias frequently used variables to save space. 200 bytes.
-	// 	const self = this;
-	// 	const a = elements[self.a].element;
-	// 	const b = elements[self.b].element;
+		// Alias frequently used variables to save space. 200 bytes.
+		const self = this;
+		const a = this.elements[self.a].element;
+		const b = this.elements[self.b].element;
 
-	// 	// Call the onDragStart callback.
-	// 	if (!self.dragging) {
-	// 		getOption(options, "onDragStart", NOOP)(getSizes());
-	// 	}
+		// Call the onDragStart callback.
+		if (!self.dragging) {
+			getOption(this.options, "onDragStart", NOOP)(this.getSizes());
+		}
 
-	// 	// Don't actually drag the element. We emulate that in the drag function.
-	// 	e.preventDefault();
+		// Don't actually drag the element. We emulate that in the drag function.
+		e.preventDefault();
 
-	// 	// Set the dragging property of the pair object.
-	// 	self.dragging = true;
+		// Set the dragging property of the pair object.
+		self.dragging = true;
 
-	// 	// Create two event listeners bound to the same pair object and store
-	// 	// them in the pair object.
-	// 	self.move = drag.bind(self);
-	// 	self.stop = stopDragging.bind(self);
+		// Create two event listeners bound to the same pair object and store
+		// them in the pair object.
+		self.move = this.drag.bind(self);
+		self.stop = this.stopDragging.bind(self);
 
-	// 	// All the binding. `window` gets the stop events in case we drag out of the elements.
-	// 	window[addEventListener]("mouseup", self.stop);
-	// 	window[addEventListener]("touchend", self.stop);
-	// 	window[addEventListener]("touchcancel", self.stop);
-	// 	window[addEventListener]("mousemove", self.move);
-	// 	window[addEventListener]("touchmove", self.move);
+		// All the binding. `window` gets the stop events in case we drag out of the elements.
+		window[addEventListener]("mouseup", self.stop);
+		window[addEventListener]("touchend", self.stop);
+		window[addEventListener]("touchcancel", self.stop);
+		window[addEventListener]("mousemove", self.move);
+		window[addEventListener]("touchmove", self.move);
 
-	// 	// Disable selection. Disable!
-	// 	a[addEventListener]("selectstart", NOOP);
-	// 	a[addEventListener]("dragstart", NOOP);
-	// 	b[addEventListener]("selectstart", NOOP);
-	// 	b[addEventListener]("dragstart", NOOP);
+		// Disable selection. Disable!
+		a[addEventListener]("selectstart", NOOP);
+		a[addEventListener]("dragstart", NOOP);
+		b[addEventListener]("selectstart", NOOP);
+		b[addEventListener]("dragstart", NOOP);
 
-	// 	a.style.userSelect = "none";
-	// 	a.style.webkitUserSelect = "none";
-	// 	a.style.MozUserSelect = "none";
-	// 	a.style.pointerEvents = "none";
+		a.style.userSelect = "none";
+		a.style.webkitUserSelect = "none";
+		a.style.MozUserSelect = "none";
+		a.style.pointerEvents = "none";
 
-	// 	b.style.userSelect = "none";
-	// 	b.style.webkitUserSelect = "none";
-	// 	b.style.MozUserSelect = "none";
-	// 	b.style.pointerEvents = "none";
+		b.style.userSelect = "none";
+		b.style.webkitUserSelect = "none";
+		b.style.MozUserSelect = "none";
+		b.style.pointerEvents = "none";
 
-	// 	// Set the cursor at multiple levels
-	// 	self.gutter.style.cursor = cursor;
-	// 	self.parent.style.cursor = cursor;
-	// 	doccy.body.style.cursor = cursor;
+		// Set the cursor at multiple levels
+		self.gutter.style.cursor = this.cursor;
+		self.parent.style.cursor = this.cursor;
+		doccy.body.style.cursor = this.cursor;
 
-	// 	// Cache the initial sizes of the pair.
-	// 	calculateSizes.call(self);
+		// Cache the initial sizes of the pair.
+		this.calculateSizes.call(self);
 
-	// 	// Determine the position of the mouse compared to the gutter
-	// 	self.dragOffset = getMousePosition(e) - self.end;
-	// }
+		// Determine the position of the mouse compared to the gutter
+		self.dragOffset = this.getMousePosition(e) - self.end;
+	}
 
 	// // adjust sizes to ensure percentage is within min size and gutter.
 	// sizes = trimToMin(sizes);
