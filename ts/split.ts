@@ -10,14 +10,7 @@ if (!window.document) {
 	throw new Error("No document.");
 }
 
-const ssr = false;
 const doccy = window.document;
-
-const fff = (v: any) => typeof v === "string" || v instanceof String;
-
-export function testing() {
-	console.log(fff(1));
-}
 
 type dictionary = { [id: string]: any };
 
