@@ -243,7 +243,7 @@ const Split = (idsOption: any, options = {}) => {
 	}
 
 	function getSizes() {
-		return elements.map((element) => element.size);
+		return elements.map((element: any) => element.size);
 	}
 
 	// Supports touch events, but not multitouch, so only the first
