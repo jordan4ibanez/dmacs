@@ -16,7 +16,7 @@ var chordCount: number = 0;
 /**
  * These are the keys that can initialize a chord.
  */
-const metaKeys: string[] = [
+const metaKeys: Set<string> = new Set([
 	"control",
 	"alt",
 	"escape",
@@ -32,7 +32,7 @@ const metaKeys: string[] = [
 	"f10",
 	"f11",
 	"f12",
-];
+]);
 
 interface ChordDefinition {
 	name: string;
