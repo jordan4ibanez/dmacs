@@ -181,9 +181,9 @@ export function Split(idsOption: string[], options: SplitOptions = {}) {
 	let ids = idsOption;
 	let dimension: string;
 	let clientAxis: string;
-	let position: number;
-	let positionEnd: number;
-	let clientSize: number;
+	let position: string;
+	let positionEnd: string;
+	let clientSize: string;
 	let elements: any[];
 
 	// Allow HTMLCollection to be used as an argument when supported
