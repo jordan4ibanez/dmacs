@@ -1,12 +1,3 @@
-export function z____deploy() {
-	var styleSheet = document.createElement("style");
-	styleSheet.id = "SuperCSS";
-	styleSheet.textContent = "";
-	document.head.appendChild(styleSheet);
-}
-
-//? BEGIN IMPLEMENTATION.
-
 var cssClassContainer: { [id: string]: { [id: string]: string } } = {};
 
 /**
@@ -99,4 +90,13 @@ export function set(
 	}
 
 	rebuild();
+}
+
+//? END IMPLEMENTATION.
+
+export function z____deploy() {
+	var styleSheet = document.createElement("style");
+	styleSheet.id = "SuperCSS";
+	styleSheet.textContent = "";
+	document.head.appendChild(styleSheet);
 }
