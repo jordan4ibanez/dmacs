@@ -82,7 +82,7 @@ function getGutterSize(
 	isFirst: boolean,
 	isLast: boolean,
 	gutterAlign: string
-) {
+): number {
 	if (isFirst) {
 		if (gutterAlign === "end") {
 			return 0;
@@ -195,6 +195,7 @@ class Split {
 	dragOffset: number = 0;
 	stop: any;
 	move: any;
+	pairs: any[] = [];
 
 	// All DOM elements in the split should have a common parent. We can grab
 	// the first elements parent and hope users read the docs because the
@@ -216,7 +217,7 @@ class Split {
 
 	// Get other options
 	readonly expandToMin: any;
-	readonly gutterSize: any;
+	readonly gutterSize: number;
 	readonly gutterAlign: any;
 	readonly snapOffset: any;
 	readonly snapOffsets: any;
@@ -303,6 +304,126 @@ class Split {
 			throw new Error("This is why typelessness is horrible.");
 		}
 		this.sizes = x;
+
+		// 5. Create pair and element objects. Each pair has an index reference to
+		// elements `a` and `b` of the pair (first and second elements).
+		// Loop through the elements while pairing them off. Every pair gets a
+		// `pair` object and a gutter.
+		//
+		// Basic logic:
+		//
+		// - Starting with the second element `i > 0`, create `pair` objects with
+		//   `a = i - 1` and `b = i`
+		// - Set gutter sizes based on the _pair_ being first/last. The first and last
+		//   pair have gutterSize / 2, since they only have one half gutter, and not two.
+		// - Create gutter elements and add event listeners.
+		// - Set the size of the elements, minus the gutter sizes.
+		//
+		// -----------------------------------------------------------------------
+		// |     i=0     |         i=1         |        i=2       |      i=3     |
+		// |             |                     |                  |              |
+		// |           pair 0                pair 1             pair 2           |
+		// |             |                     |                  |              |
+		// -----------------------------------------------------------------------
+
+		this.elements = this.ids.map((id, i) => {
+			// Create the element object.
+			const element = {
+				element: elementOrSelector(id),
+				size: this.sizes[i],
+				minSize: this.minSizes[i],
+				maxSize: this.maxSizes[i],
+				snapOffset: this.snapOffsets[i],
+				i,
+			};
+
+			let pair: dictionary = {};
+
+			if (i > 0) {
+				// Create the pair object with its metadata.
+				pair = {
+					a: i - 1,
+					b: i,
+					dragging: false,
+					direction: this.direction,
+					parent,
+				};
+
+				pair[aGutterSize] = getGutterSize(
+					this.gutterSize,
+					i - 1 === 0,
+					false,
+					this.gutterAlign
+				);
+				pair[bGutterSize] = getGutterSize(
+					this.gutterSize,
+					false,
+					i === this.ids.length - 1,
+					this.gutterAlign
+				);
+
+				// if the parent has a reverse flex-direction, switch the pair elements.
+				if (
+					this.parentFlexDirection === "row-reverse" ||
+					this.parentFlexDirection === "column-reverse"
+				) {
+					const temp = pair.a;
+					pair.a = pair.b;
+					pair.b = temp;
+				}
+			}
+
+			// Determine the size of the current element. IE8 is supported by
+			// staticly assigning sizes without draggable gutters. Assigns a string
+			// to `size`.
+			//
+			// Create gutter elements for each pair.
+			if (i > 0) {
+				const gutterElement = this.gutter(
+					i,
+					this.direction,
+					element.element
+				);
+				this.setGutterSize(gutterElement, this.gutterSize, i);
+
+				// Save bound event listener for removal later
+				pair[gutterStartDragging] = this.startDragging.bind(pair);
+
+				// Attach bound event listener
+				gutterElement[addEventListener](
+					"mousedown",
+					pair[gutterStartDragging]
+				);
+				gutterElement[addEventListener](
+					"touchstart",
+					pair[gutterStartDragging]
+				);
+
+				this.parent.insertBefore(gutterElement, element.element);
+
+				pair.gutter = gutterElement;
+			}
+
+			this.setElementSize(
+				element.element,
+				element.size,
+				getGutterSize(
+					this.gutterSize,
+					i === 0,
+					i === this.ids.length - 1,
+					this.gutterAlign
+				),
+				i
+			);
+
+			// After the first iteration, and we have a pair object, append it to the
+			// list of pairs.
+			if (i > 0) {
+				this.pairs.push(pair);
+			}
+
+			return element;
+		});
 	}
 
 	// 3. Define the dragging helper functions, and a few helpers to go with them.
@@ -318,8 +439,8 @@ class Split {
 
 	setElementSize(
 		el: HTMLElement,
-		size: string,
-		gutSize: string,
+		size: number,
+		gutSize: number,
 		i: number
 	): void {
 		// Split.js allows setting sizes via numbers (ideally), or if you must,
@@ -336,7 +457,7 @@ class Split {
 
 	setGutterSize(
 		gutterElement: HTMLElement,
-		gutSize: string,
+		gutSize: number,
 		i: number
 	): void {
 		const style = this.gutterStyle(this.dimension, gutSize, i);
@@ -693,122 +814,6 @@ class Split {
 		// Determine the position of the mouse compared to the gutter
 		self.dragOffset = this.getMousePosition(e) - self.end;
 	}
-
-	// // 5. Create pair and element objects. Each pair has an index reference to
-	// // elements `a` and `b` of the pair (first and second elements).
-	// // Loop through the elements while pairing them off. Every pair gets a
-	// // `pair` object and a gutter.
-	// //
-	// // Basic logic:
-	// //
-	// // - Starting with the second element `i > 0`, create `pair` objects with
-	// //   `a = i - 1` and `b = i`
-	// // - Set gutter sizes based on the _pair_ being first/last. The first and last
-	// //   pair have gutterSize / 2, since they only have one half gutter, and not two.
-	// // - Create gutter elements and add event listeners.
-	// // - Set the size of the elements, minus the gutter sizes.
-	// //
-	// // -----------------------------------------------------------------------
-	// // |     i=0     |         i=1         |        i=2       |      i=3     |
-	// // |             |                     |                  |              |
-	// // |           pair 0                pair 1             pair 2           |
-	// // |             |                     |                  |              |
-	// // -----------------------------------------------------------------------
-	// const pairs = [];
-	// elements = ids.map((id, i) => {
-	// 	// Create the element object.
-	// 	const element = {
-	// 		element: elementOrSelector(id),
-	// 		size: sizes[i],
-	// 		minSize: minSizes[i],
-	// 		maxSize: maxSizes[i],
-	// 		snapOffset: snapOffsets[i],
-	// 		i,
-	// 	};
-
-	// 	let pair;
-
-	// 	if (i > 0) {
-	// 		// Create the pair object with its metadata.
-	// 		pair = {
-	// 			a: i - 1,
-	// 			b: i,
-	// 			dragging: false,
-	// 			direction,
-	// 			parent,
-	// 		};
-
-	// 		pair[aGutterSize] = getGutterSize(
-	// 			gutterSize,
-	// 			i - 1 === 0,
-	// 			false,
-	// 			gutterAlign
-	// 		);
-	// 		pair[bGutterSize] = getGutterSize(
-	// 			gutterSize,
-	// 			false,
-	// 			i === ids.length - 1,
-	// 			gutterAlign
-	// 		);
-
-	// 		// if the parent has a reverse flex-direction, switch the pair elements.
-	// 		if (
-	// 			parentFlexDirection === "row-reverse" ||
-	// 			parentFlexDirection === "column-reverse"
-	// 		) {
-	// 			const temp = pair.a;
-	// 			pair.a = pair.b;
-	// 			pair.b = temp;
-	// 		}
-	// 	}
-
-	// 	// Determine the size of the current element. IE8 is supported by
-	// 	// staticly assigning sizes without draggable gutters. Assigns a string
-	// 	// to `size`.
-	// 	//
-	// 	// Create gutter elements for each pair.
-	// 	if (i > 0) {
-	// 		const gutterElement = gutter(i, direction, element.element);
-	// 		setGutterSize(gutterElement, gutterSize, i);
-
-	// 		// Save bound event listener for removal later
-	// 		pair[gutterStartDragging] = startDragging.bind(pair);
-
-	// 		// Attach bound event listener
-	// 		gutterElement[addEventListener](
-	// 			"mousedown",
-	// 			pair[gutterStartDragging]
-	// 		);
-	// 		gutterElement[addEventListener](
-	// 			"touchstart",
-	// 			pair[gutterStartDragging]
-	// 		);
-
-	// 		parent.insertBefore(gutterElement, element.element);
-
-	// 		pair.gutter = gutterElement;
-	// 	}
-
-	// 	setElementSize(
-	// 		element.element,
-	// 		element.size,
-	// 		getGutterSize(
-	// 			gutterSize,
-	// 			i === 0,
-	// 			i === ids.length - 1,
-	// 			gutterAlign
-	// 		),
-	// 		i
-	// 	);
-
-	// 	// After the first iteration, and we have a pair object, append it to the
-	// 	// list of pairs.
-	// 	if (i > 0) {
-	// 		pairs.push(pair);
-	// 	}
-
-	// 	return element;
-	// });
 
 	// function adjustToMin(element) {
 	// 	const isLast = element.i === pairs.length;
