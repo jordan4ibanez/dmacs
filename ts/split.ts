@@ -71,25 +71,29 @@ function getOption(
 	return def;
 }
 
-// const getGutterSize = (gutterSize, isFirst, isLast, gutterAlign) => {
-// 	if (isFirst) {
-// 		if (gutterAlign === "end") {
-// 			return 0;
-// 		}
-// 		if (gutterAlign === "center") {
-// 			return gutterSize / 2;
-// 		}
-// 	} else if (isLast) {
-// 		if (gutterAlign === "start") {
-// 			return 0;
-// 		}
-// 		if (gutterAlign === "center") {
-// 			return gutterSize / 2;
-// 		}
-// 	}
-
-// 	return gutterSize;
-// };
+function getGutterSize(
+	gutterSize: number,
+	isFirst: boolean,
+	isLast: boolean,
+	gutterAlign: string
+) {
+	if (isFirst) {
+		if (gutterAlign === "end") {
+			return 0;
+		}
+		if (gutterAlign === "center") {
+			return gutterSize / 2;
+		}
+	} else if (isLast) {
+		if (gutterAlign === "start") {
+			return 0;
+		}
+		if (gutterAlign === "center") {
+			return gutterSize / 2;
+		}
+	}
+	return gutterSize;
+}
 
 // // Default options
 // const defaultGutterFn = (i, gutterDirection) => {
