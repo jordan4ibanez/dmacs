@@ -139,7 +139,7 @@ export function isInInteractiveMode(): boolean {
  * @returns If has a pending interaction.
  */
 export function hasPendingInteractive(): boolean {
-	return __lastInteractive == null;
+	return __lastInteractive != null;
 }
 
 /**
