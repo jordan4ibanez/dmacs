@@ -1,10 +1,9 @@
-import * as Init from "./init";
-Init.deploy("CSS", () => {
+export function z____deploy() {
 	var styleSheet = document.createElement("style");
 	styleSheet.id = "SuperCSS";
 	styleSheet.textContent = "";
 	document.head.appendChild(styleSheet);
-});
+}
 
 //? BEGIN IMPLEMENTATION.
 
