@@ -189,6 +189,9 @@ class Split {
 	a: any;
 	b: any;
 	size: number = 0;
+	dragging: boolean = false;
+	start: number = 0;
+    dragOffset: number = 0;
 
 	// All DOM elements in the split should have a common parent. We can grab
 	// the first elements parent and hope users read the docs because the
@@ -363,67 +366,67 @@ class Split {
 		);
 	}
 
-	// // drag, where all the magic happens. The logic is really quite simple:
-	// //
-	// // 1. Ignore if the pair is not dragging.
-	// // 2. Get the offset of the event.
-	// // 3. Snap offset to min if within snappable range (within min + snapOffset).
-	// // 4. Actually adjust each element in the pair to offset.
-	// //
-	// // ---------------------------------------------------------------------
-	// // |    | <- a.minSize               ||              b.minSize -> |    |
-	// // |    |  | <- this.snapOffset      ||     this.snapOffset -> |  |    |
-	// // |    |  |                         ||                        |  |    |
-	// // |    |  |                         ||                        |  |    |
-	// // ---------------------------------------------------------------------
-	// // | <- this.start                                        this.size -> |
-	// function drag(e) {
-	// 	let offset;
-	// 	const a = elements[this.a];
-	// 	const b = elements[this.b];
+	// drag, where all the magic happens. The logic is really quite simple:
+	//
+	// 1. Ignore if the pair is not dragging.
+	// 2. Get the offset of the event.
+	// 3. Snap offset to min if within snappable range (within min + snapOffset).
+	// 4. Actually adjust each element in the pair to offset.
+	//
+	// ---------------------------------------------------------------------
+	// |    | <- a.minSize               ||              b.minSize -> |    |
+	// |    |  | <- this.snapOffset      ||     this.snapOffset -> |  |    |
+	// |    |  |                         ||                        |  |    |
+	// |    |  |                         ||                        |  |    |
+	// ---------------------------------------------------------------------
+	// | <- this.start                                        this.size -> |
+	drag(e: TouchEvent) {
+		let offset;
+		const a = this.elements[this.a];
+		const b = this.elements[this.b];
 
-	// 	if (!this.dragging) return;
+		if (!this.dragging) return;
 
-	// 	// Get the offset of the event from the first side of the
-	// 	// pair `this.start`. Then offset by the initial position of the
-	// 	// mouse compared to the gutter size.
-	// 	offset =
-	// 		getMousePosition(e) -
-	// 		this.start +
-	// 		(this[aGutterSize] - this.dragOffset);
+		// Get the offset of the event from the first side of the
+		// pair `this.start`. Then offset by the initial position of the
+		// mouse compared to the gutter size.
+		offset =
+			this.getMousePosition(e) -
+			this.start +
+			((this as dictionary)[aGutterSize] - this.dragOffset);
 
-	// 	if (dragInterval > 1) {
-	// 		offset = Math.round(offset / dragInterval) * dragInterval;
-	// 	}
+		if (this.dragInterval > 1) {
+			offset = Math.round(offset / this.dragInterval) * this.dragInterval;
+		}
 
-	// 	// If within snapOffset of min or max, set offset to min or max.
-	// 	// snapOffset buffers a.minSize and b.minSize, so logic is opposite for both.
-	// 	// Include the appropriate gutter sizes to prevent overflows.
-	// 	if (offset <= a.minSize + a.snapOffset + this[aGutterSize]) {
-	// 		offset = a.minSize + this[aGutterSize];
-	// 	} else if (
-	// 		offset >=
-	// 		this.size - (b.minSize + b.snapOffset + this[bGutterSize])
-	// 	) {
-	// 		offset = this.size - (b.minSize + this[bGutterSize]);
-	// 	}
+		// If within snapOffset of min or max, set offset to min or max.
+		// snapOffset buffers a.minSize and b.minSize, so logic is opposite for both.
+		// Include the appropriate gutter sizes to prevent overflows.
+		if (offset <= a.minSize + a.snapOffset + (this as dictionary)[aGutterSize]) {
+			offset = a.minSize + (this as dictionary)[aGutterSize];
+		} else if (
+			offset >=
+			this.size - (b.minSize + b.snapOffset + this[bGutterSize])
+		) {
+			offset = this.size - (b.minSize + this[bGutterSize]);
+		}
 
-	// 	if (offset >= a.maxSize - a.snapOffset + this[aGutterSize]) {
-	// 		offset = a.maxSize + this[aGutterSize];
-	// 	} else if (
-	// 		offset <=
-	// 		this.size - (b.maxSize - b.snapOffset + this[bGutterSize])
-	// 	) {
-	// 		offset = this.size - (b.maxSize + this[bGutterSize]);
-	// 	}
+		if (offset >= a.maxSize - a.snapOffset + this[aGutterSize]) {
+			offset = a.maxSize + this[aGutterSize];
+		} else if (
+			offset <=
+			this.size - (b.maxSize - b.snapOffset + this[bGutterSize])
+		) {
+			offset = this.size - (b.maxSize + this[bGutterSize]);
+		}
 
-	// 	// Actually adjust the size.
-	// 	adjust.call(this, offset);
+		// Actually adjust the size.
+		adjust.call(this, offset);
 
-	// 	// Call the drag callback continously. Don't do anything too intensive
-	// 	// in this callback.
-	// 	getOption(options, "onDrag", NOOP)(getSizes());
-	// }
+		// Call the drag callback continously. Don't do anything too intensive
+		// in this callback.
+		getOption(options, "onDrag", NOOP)(getSizes());
+	}
 
 	// // Cache some important sizes when drag starts, so we don't have to do that
 	// // continously:
