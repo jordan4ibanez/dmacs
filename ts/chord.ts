@@ -84,13 +84,10 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 	const thisKey = keyPressEvent.key.toLocaleLowerCase();
 
 	if (!inChord) {
-		for (const key of metaKeys) {
-			if (key === thisKey) {
-				currentChord = key;
-				inChord = true;
-				chordCount++;
-				break;
-			}
+		if (metaKeys.has(thisKey)) {
+			currentChord = thisKey;
+			inChord = true;
+			chordCount++;
 		}
 		if (inChord) {
 			MiniBuffer.reset();
