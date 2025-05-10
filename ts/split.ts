@@ -409,9 +409,9 @@ const Split = (idsOption: any, options = {}) => {
 		// Keep track of the excess pixels, the amount of pixels over the desired percentage
 		// Also keep track of the elements with pixels to spare, to decrease after if needed
 		let excessPixels = 0;
-		const toSpare = [];
+		const toSpare: any = [];
 
-		const pixelSizes = sizesToTrim.map((size, i) => {
+		const pixelSizes = sizesToTrim.map((size: any, i: any) => {
 			// Convert requested percentages to pixel sizes
 			const pixelSize = (parentSize * size) / 100;
 			const elementGutterSize = getGutterSize(
