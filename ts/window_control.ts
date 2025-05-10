@@ -59,7 +59,7 @@ export function createSplit(
 
 	attachTo.appendChild(newSplit);
 
-	new Split.Split([`#left_${id}`, `#right_${id}`], {
+	Split.Split([`#left_${id}`, `#right_${id}`], {
 		direction: orientation,
 		minSize: 40,
 	});
