@@ -16,7 +16,7 @@ var chordCount: number = 0;
 /**
  * These are the keys that can initialize a chord.
  */
-const metaKeys = [
+const metaKeys: string[] = [
 	"control",
 	"alt",
 	"escape",
