@@ -205,7 +205,7 @@ class Split {
 	readonly parentFlexDirection: any;
 
 	// Set default options.sizes to equal percentages of the parent element.
-	sizes: number | number[];
+	sizes: number[];
 
 	// Standardize minSize and maxSize to an array if it isn't already.
 	// This allows minSize and maxSize to be passed as a number.
@@ -296,6 +296,13 @@ class Split {
 			this.positionEnd = "bottom";
 			this.clientSize = "clientHeight";
 		}
+
+		// adjust sizes to ensure percentage is within min size and gutter.
+		const x = this.trimToMin(this.sizes);
+		if (!x) {
+			throw new Error("This is why typelessness is horrible.");
+		}
+		this.sizes = x;
 	}
 
 	// 3. Define the dragging helper functions, and a few helpers to go with them.
@@ -686,9 +693,6 @@ class Split {
 		// Determine the position of the mouse compared to the gutter
 		self.dragOffset = this.getMousePosition(e) - self.end;
 	}
-
-	// // adjust sizes to ensure percentage is within min size and gutter.
-	// sizes = trimToMin(sizes);
 
 	// // 5. Create pair and element objects. Each pair has an index reference to
 	// // elements `a` and `b` of the pair (first and second elements).
