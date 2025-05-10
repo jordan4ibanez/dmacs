@@ -34,18 +34,28 @@ const metaKeys: string[] = [
 	"f12",
 ];
 
-const chordLinks: Map<string, () => void> = new Map();
+interface ChordDefinition {
+	name: string;
+	fn: () => void;
+}
+
+const chordDatabase: Map<string, ChordDefinition> = new Map();
 
 /**
  * Register a chord key shortcut.
- * @param keySequence The chord sequence.
+ * @param name The name of this command.
+ * @param keySequence The chord's key sequence. control-alt-tab, etc
  * @param fn The function to run.
  */
-export function registerChord(keySequence: string, fn: () => void) {
-	if (chordLinks.has(keySequence)) {
+export function registerChord(
+	name: string,
+	keySequence: string,
+	fn: () => void
+) {
+	if (chordDatabase.has(keySequence)) {
 		writeln("Overwriting chord: " + keySequence);
 	}
-	chordLinks.set(keySequence, fn);
+	chordDatabase.set(keySequence, { name: name, fn: fn });
 }
 
 /**
@@ -86,7 +96,7 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 
 		// todo: search up function to run. if found: return
 		{
-			const func = chordLinks.get(currentChord);
+			const func = chordDatabase.get(currentChord);
 			if (func) {
 				func();
 			}
@@ -120,6 +130,9 @@ export function exitRecord(): void {
 
 function registerDefaultChords(): void {
 	// todo: Register the default chords.
+	registerChord("test_command", "control-control-x", () => {
+		writeln("hi from chord recording!");
+	});
 }
 
 //? END IMPLEMENTATION.
