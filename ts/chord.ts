@@ -85,9 +85,11 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 		MiniBuffer.flush();
 
 		// todo: search up function to run. if found: return
-		const func = chordLinks.get(currentChord);
-		if (func) {
-			func();
+		{
+			const func = chordLinks.get(currentChord);
+			if (func) {
+				func();
+			}
 		}
 
 		chordCount++;
