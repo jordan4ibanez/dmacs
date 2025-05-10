@@ -507,7 +507,7 @@ const Split = (idsOption: any, options = {}) => {
 	// startDragging calls `calculateSizes` to store the inital size in the pair object.
 	// It also adds event listeners for mouse/touch events,
 	// and prevents selection while dragging so avoid the selecting text.
-	function startDragging(e) {
+	function startDragging(this: any, e: any) {
 		// Right-clicking can't start dragging.
 		if ("button" in e && e.button !== 0) {
 			return;
