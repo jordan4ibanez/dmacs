@@ -9,7 +9,7 @@ var __deployed: boolean = false;
 /**
  * Deploys all the modules to load up at initialization.
  */
-export function z____run() {
+export function z____run(): void {
 	if (__deployed) {
 		throw new Error("Deploy run twice.");
 	}

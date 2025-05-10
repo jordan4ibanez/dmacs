@@ -94,7 +94,7 @@ export function set(
 
 //? END IMPLEMENTATION.
 
-export function z____deploy() {
+export function z____deploy(): void {
 	var styleSheet = document.createElement("style");
 	styleSheet.id = "SuperCSS";
 	styleSheet.textContent = "";

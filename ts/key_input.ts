@@ -43,7 +43,7 @@ export function removeListener(key: string): void {
 
 //? END IMPLEMENTATION.
 
-export function z____deploy() {
+export function z____deploy(): void {
 	document.addEventListener("keydown", onKeyDown);
 	document.addEventListener("keyup", onKeyUp);
 }

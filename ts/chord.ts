@@ -110,7 +110,7 @@ function registerDefaultChords(): void {
 
 //? END IMPLEMENTATION.
 
-export function z____deploy() {
+export function z____deploy(): void {
 	KeyInput.setListener("chord_recorder_5000", doLogic);
 	registerDefaultChords();
 }

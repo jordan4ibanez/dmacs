@@ -122,7 +122,7 @@ export function createTextArea(
 
 //? END IMPLEMENTATION.
 
-export function z____deploy() {
+export function z____deploy(): void {
 	// The secret element is the master container.
 	const rootDiv = document.createElement("div");
 	rootDiv.className = "root";
