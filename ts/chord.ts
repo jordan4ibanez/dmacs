@@ -37,6 +37,18 @@ const metaKeys: string[] = [
 const chordLinks: Map<string, () => void> = new Map();
 
 /**
+ * Register a chord key shortcut.
+ * @param keySequence The chord sequence.
+ * @param fn The function to run.
+ */
+export function registerChord(keySequence: string, fn: () => void) {
+	if (chordLinks.has(keySequence)) {
+		writeln("Overwriting chord: " + keySequence);
+	}
+	chordLinks.set(keySequence, fn);
+}
+
+/**
  * This is the logic that chord uses to chord. :D
  * @param keyPressEvent The key press.
  */
