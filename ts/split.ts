@@ -186,6 +186,9 @@ class Split {
 	positionEnd: string = "";
 	clientSize: string = "";
 	elements: any[] = [];
+	a: any;
+	b: any;
+	size: number = 0;
 
 	// All DOM elements in the split should have a common parent. We can grab
 	// the first elements parent and hope users read the docs because the
@@ -324,12 +327,13 @@ class Split {
 		return this.elements.map((element) => element.size);
 	}
 
-	// // Supports touch events, but not multitouch, so only the first
-	// // finger `touches[0]` is counted.
-	// function getMousePosition(e: TouchEvent) {
-	// 	if ("touches" in e) return (e.touches[0] as dictionary)[clientAxis];
-	// 	return e[clientAxis];
-	// }
+	// Supports touch events, but not multitouch, so only the first
+	// finger `touches[0]` is counted.
+	getMousePosition(e: TouchEvent) {
+		if ("touches" in e)
+			return (e.touches[0] as dictionary)[this.clientAxis];
+		return e[this.clientAxis];
+	}
 
 	// Actually adjust the size of elements `a` and `b` to `offset` while dragging.
 	// calc is used to allow calc(percentage + gutterpx) on the whole split instance,
@@ -337,17 +341,27 @@ class Split {
 	// Element a's size is the same as offset. b's size is total size - a size.
 	// Both sizes are calculated from the initial parent percentage,
 	// then the gutter size is subtracted.
-	// function adjust(offset: number) {
-	// 	const a = elements[this.a];
-	// 	const b = elements[this.b];
-	// 	const percentage = a.size + b.size;
+	adjust(offset: number) {
+		const a = this.elements[this.a];
+		const b = this.elements[this.b];
+		const percentage = a.size + b.size;
 
-	// 	a.size = (offset / this.size) * percentage;
-	// 	b.size = percentage - (offset / this.size) * percentage;
+		a.size = (offset / this.size) * percentage;
+		b.size = percentage - (offset / this.size) * percentage;
 
-	// 	setElementSize(a.element, a.size, this[aGutterSize], a.i);
-	// 	setElementSize(b.element, b.size, this[bGutterSize], b.i);
-	// }
+		this.setElementSize(
+			a.element,
+			a.size,
+			(this as dictionary)[aGutterSize],
+			a.i
+		);
+		this.setElementSize(
+			b.element,
+			b.size,
+			(this as dictionary)[bGutterSize],
+			b.i
+		);
+	}
 
 	// // drag, where all the magic happens. The logic is really quite simple:
 	// //
