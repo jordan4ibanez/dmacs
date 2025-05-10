@@ -13,7 +13,11 @@ if (!window.document) {
 const ssr = false;
 const doccy = window.document;
 
-export function testing() {}
+const fff = (v: any) => typeof v === "string" || v instanceof String;
+
+export function testing() {
+	console.log(fff(1));
+}
 
 // Save a couple long function names that are used frequently.
 // This optimization saves around 400 bytes.
