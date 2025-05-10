@@ -8,40 +8,45 @@
 // browser compatibility without additional requirements
 // and very few assumptions about the user's page layout.
 if (!window) {
-    throw new Error("How did this happen?");
+	throw new Error("No window.");
+}
+if (!window.document) {
+	throw new Error("No document.");
 }
 const global = typeof window !== "undefined" ? window : null;
-
 const ssr = global === null;
-
 const doccy = !ssr ? global.document : undefined;
+
+export function testing() {
+	writeln("hi");
+}
 
 // Save a couple long function names that are used frequently.
 // This optimization saves around 400 bytes.
 // const addEventListener = "addEventListener";
 // const removeEventListener = "removeEventListener";
-const getBoundingClientRect = "getBoundingClientRect";
-const gutterStartDragging = "_a";
-const aGutterSize = "_b";
-const bGutterSize = "_c";
-const HORIZONTAL = "horizontal";
-const NOOP = () => false;
+// const getBoundingClientRect = "getBoundingClientRect";
+// const gutterStartDragging = "_a";
+// const aGutterSize = "_b";
+// const bGutterSize = "_c";
+// const HORIZONTAL = "horizontal";
+// const NOOP = () => false;
 
 // // Helper function determines which prefixes of CSS calc we need.
 // // We only need to do this once on startup, when this anonymous function is called.
 // //
 // // Tests -webkit, -moz and -o prefixes. Modified from StackOverflow:
 // // http://stackoverflow.com/questions/16625140/js-feature-detection-to-detect-the-usage-of-webkit-calc-over-calc/16625167#16625167
-const calc = ssr
-	? "calc"
-	: `${["", "-webkit-", "-moz-", "-o-"]
-			.filter((prefix) => {
-				const el = doccy.createElement("div");
-				el.style.cssText = `width:${prefix}calc(9px)`;
+// const calc = ssr
+// 	? "calc"
+// 	: `${["", "-webkit-", "-moz-", "-o-"]
+// 			.filter((prefix) => {
+// 				const el = doccy.createElement("div");
+// 				el.style.cssText = `width:${prefix}calc(9px)`;
 
-				return !!el.style.length;
-			})
-			.shift()}calc`;
+// 				return !!el.style.length;
+// 			})
+// 			.shift()}calc`;
 
 // // Helper function checks if its argument is a string-like type
 // const isString = (v) => typeof v === "string" || v instanceof String;
