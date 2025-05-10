@@ -129,106 +129,106 @@ function defaultGutterStyleFn(
 	return { [dim]: `${gutSize}px` };
 }
 
-// // The main function to initialize a split. Split.js thinks about each pair
-// // of elements as an independant pair. Dragging the gutter between two elements
-// // only changes the dimensions of elements in that pair. This is key to understanding
-// // how the following functions operate, since each function is bound to a pair.
-// //
-// // A pair object is shaped like this:
-// //
-// // {
-// //     a: DOM element,
-// //     b: DOM element,
-// //     aMin: Number,
-// //     bMin: Number,
-// //     dragging: Boolean,
-// //     parent: DOM element,
-// //     direction: 'horizontal' | 'vertical'
-// // }
-// //
-// // The basic sequence:
-// //
-// // 1. Set defaults to something sane. `options` doesn't have to be passed at all.
-// // 2. Initialize a bunch of strings based on the direction we're splitting.
-// //    A lot of the behavior in the rest of the library is paramatized down to
-// //    rely on CSS strings and classes.
-// // 3. Define the dragging helper functions, and a few helpers to go with them.
-// // 4. Loop through the elements while pairing them off. Every pair gets an
-// //    `pair` object and a gutter.
-// // 5. Actually size the pair elements, insert gutters and attach event listeners.
-// Split = (idsOption, options = {}) => {
-// 	if (ssr) return {};
+// The main function to initialize a split. Split.js thinks about each pair
+// of elements as an independant pair. Dragging the gutter between two elements
+// only changes the dimensions of elements in that pair. This is key to understanding
+// how the following functions operate, since each function is bound to a pair.
+//
+// A pair object is shaped like this:
+//
+// {
+//     a: DOM element,
+//     b: DOM element,
+//     aMin: Number,
+//     bMin: Number,
+//     dragging: Boolean,
+//     parent: DOM element,
+//     direction: 'horizontal' | 'vertical'
+// }
+//
+// The basic sequence:
+//
+// 1. Set defaults to something sane. `options` doesn't have to be passed at all.
+// 2. Initialize a bunch of strings based on the direction we're splitting.
+//    A lot of the behavior in the rest of the library is paramatized down to
+//    rely on CSS strings and classes.
+// 3. Define the dragging helper functions, and a few helpers to go with them.
+// 4. Loop through the elements while pairing them off. Every pair gets an
+//    `pair` object and a gutter.
+// 5. Actually size the pair elements, insert gutters and attach event listeners.
+Split = (idsOption, options = {}) => {
+	if (ssr) return {};
 
-// 	let ids = idsOption;
-// 	let dimension;
-// 	let clientAxis;
-// 	let position;
-// 	let positionEnd;
-// 	let clientSize;
-// 	let elements;
+	let ids = idsOption;
+	let dimension;
+	let clientAxis;
+	let position;
+	let positionEnd;
+	let clientSize;
+	let elements;
 
-// 	// Allow HTMLCollection to be used as an argument when supported
-// 	if (Array.from) {
-// 		ids = Array.from(ids);
-// 	}
+	// Allow HTMLCollection to be used as an argument when supported
+	if (Array.from) {
+		ids = Array.from(ids);
+	}
 
-// 	// All DOM elements in the split should have a common parent. We can grab
-// 	// the first elements parent and hope users read the docs because the
-// 	// behavior will be whacky otherwise.
-// 	const firstElement = elementOrSelector(ids[0]);
-// 	const parent = firstElement.parentNode;
-// 	const parentStyle = getComputedStyle ? getComputedStyle(parent) : null;
-// 	const parentFlexDirection = parentStyle ? parentStyle.flexDirection : null;
+	// All DOM elements in the split should have a common parent. We can grab
+	// the first elements parent and hope users read the docs because the
+	// behavior will be whacky otherwise.
+	const firstElement = elementOrSelector(ids[0]);
+	const parent = firstElement.parentNode;
+	const parentStyle = getComputedStyle ? getComputedStyle(parent) : null;
+	const parentFlexDirection = parentStyle ? parentStyle.flexDirection : null;
 
-// 	// Set default options.sizes to equal percentages of the parent element.
-// 	let sizes = getOption(options, "sizes") || ids.map(() => 100 / ids.length);
+	// Set default options.sizes to equal percentages of the parent element.
+	let sizes = getOption(options, "sizes") || ids.map(() => 100 / ids.length);
 
-// 	// Standardize minSize and maxSize to an array if it isn't already.
-// 	// This allows minSize and maxSize to be passed as a number.
-// 	const minSize = getOption(options, "minSize", 100);
-// 	const minSizes = Array.isArray(minSize) ? minSize : ids.map(() => minSize);
-// 	const maxSize = getOption(options, "maxSize", Infinity);
-// 	const maxSizes = Array.isArray(maxSize) ? maxSize : ids.map(() => maxSize);
+	// Standardize minSize and maxSize to an array if it isn't already.
+	// This allows minSize and maxSize to be passed as a number.
+	const minSize = getOption(options, "minSize", 100);
+	const minSizes = Array.isArray(minSize) ? minSize : ids.map(() => minSize);
+	const maxSize = getOption(options, "maxSize", Infinity);
+	const maxSizes = Array.isArray(maxSize) ? maxSize : ids.map(() => maxSize);
 
-// 	// Get other options
-// 	const expandToMin = getOption(options, "expandToMin", false);
-// 	const gutterSize = getOption(options, "gutterSize", 10);
-// 	const gutterAlign = getOption(options, "gutterAlign", "center");
-// 	const snapOffset = getOption(options, "snapOffset", 30);
-// 	const snapOffsets = Array.isArray(snapOffset)
-// 		? snapOffset
-// 		: ids.map(() => snapOffset);
-// 	const dragInterval = getOption(options, "dragInterval", 1);
-// 	const direction = getOption(options, "direction", HORIZONTAL);
-// 	const cursor = getOption(
-// 		options,
-// 		"cursor",
-// 		direction === HORIZONTAL ? "col-resize" : "row-resize"
-// 	);
-// 	const gutter = getOption(options, "gutter", defaultGutterFn);
-// 	const elementStyle = getOption(
-// 		options,
-// 		"elementStyle",
-// 		defaultElementStyleFn
-// 	);
-// 	const gutterStyle = getOption(options, "gutterStyle", defaultGutterStyleFn);
+	// Get other options
+	const expandToMin = getOption(options, "expandToMin", false);
+	const gutterSize = getOption(options, "gutterSize", 10);
+	const gutterAlign = getOption(options, "gutterAlign", "center");
+	const snapOffset = getOption(options, "snapOffset", 30);
+	const snapOffsets = Array.isArray(snapOffset)
+		? snapOffset
+		: ids.map(() => snapOffset);
+	const dragInterval = getOption(options, "dragInterval", 1);
+	const direction = getOption(options, "direction", HORIZONTAL);
+	const cursor = getOption(
+		options,
+		"cursor",
+		direction === HORIZONTAL ? "col-resize" : "row-resize"
+	);
+	const gutter = getOption(options, "gutter", defaultGutterFn);
+	const elementStyle = getOption(
+		options,
+		"elementStyle",
+		defaultElementStyleFn
+	);
+	const gutterStyle = getOption(options, "gutterStyle", defaultGutterStyleFn);
 
-// 	// 2. Initialize a bunch of strings based on the direction we're splitting.
-// 	// A lot of the behavior in the rest of the library is paramatized down to
-// 	// rely on CSS strings and classes.
-// 	if (direction === HORIZONTAL) {
-// 		dimension = "width";
-// 		clientAxis = "clientX";
-// 		position = "left";
-// 		positionEnd = "right";
-// 		clientSize = "clientWidth";
-// 	} else if (direction === "vertical") {
-// 		dimension = "height";
-// 		clientAxis = "clientY";
-// 		position = "top";
-// 		positionEnd = "bottom";
-// 		clientSize = "clientHeight";
-// 	}
+	// 2. Initialize a bunch of strings based on the direction we're splitting.
+	// A lot of the behavior in the rest of the library is paramatized down to
+	// rely on CSS strings and classes.
+	if (direction === HORIZONTAL) {
+		dimension = "width";
+		clientAxis = "clientX";
+		position = "left";
+		positionEnd = "right";
+		clientSize = "clientWidth";
+	} else if (direction === "vertical") {
+		dimension = "height";
+		clientAxis = "clientY";
+		position = "top";
+		positionEnd = "bottom";
+		clientSize = "clientHeight";
+	}
 
 // 	// 3. Define the dragging helper functions, and a few helpers to go with them.
 // 	// Each helper is bound to a pair object that contains its metadata. This
