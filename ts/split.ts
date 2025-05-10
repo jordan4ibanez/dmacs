@@ -14,7 +14,8 @@ const ssr = false;
 const doccy = window.document;
 
 export function testing() {
-	writeln("hi");
+	writeln(ssr);
+	writeln(ssr ? "left" : "right");
 }
 
 // Save a couple long function names that are used frequently.
