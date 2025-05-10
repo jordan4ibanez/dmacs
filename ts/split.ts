@@ -298,12 +298,7 @@ class Split {
 	// The pair object saves metadata like dragging state, position and
 	// event listener references.
 
-	 setElementSize(
-		el: HTMLElement,
-		size: string,
-		gutSize: string,
-		i: number
-	) {
+	setElementSize(el: HTMLElement, size: string, gutSize: string, i: number) {
 		// Split.js allows setting sizes via numbers (ideally), or if you must,
 		// by string, like '300px'. This is less than ideal, because it breaks
 		// the fluid layout that `calc(% - px)` provides. You're on your own if you do that,
@@ -316,22 +311,18 @@ class Split {
 		});
 	}
 
-	// function setGutterSize(
-	// 	gutterElement: HTMLElement,
-	// 	gutSize: string,
-	// 	i: number
-	// ) {
-	// 	const style = gutterStyle(dimension, gutSize, i);
+	setGutterSize(gutterElement: HTMLElement, gutSize: string, i: number) {
+		const style = this.gutterStyle(this.dimension, gutSize, i);
 
-	// 	Object.keys(style).forEach((prop) => {
-	// 		// eslint-disable-next-line no-param-reassign
-	// 		(gutterElement.style as dictionary)[prop] = style[prop];
-	// 	});
-	// }
+		Object.keys(style).forEach((prop) => {
+			// eslint-disable-next-line no-param-reassign
+			(gutterElement.style as dictionary)[prop] = style[prop];
+		});
+	}
 
-	// function getSizes() {
-	// 	return elements.map((element) => element.size);
-	// }
+	getSizes() {
+		return this.elements.map((element) => element.size);
+	}
 
 	// // Supports touch events, but not multitouch, so only the first
 	// // finger `touches[0]` is counted.
