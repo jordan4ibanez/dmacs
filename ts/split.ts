@@ -863,44 +863,33 @@ class Split {
 		});
 	}
 
-	// function destroy(preserveStyles, preserveGutter) {
-	// 	pairs.forEach((pair) => {
-	// 		if (preserveGutter !== true) {
-	// 			pair.parent.removeChild(pair.gutter);
-	// 		} else {
-	// 			pair.gutter[removeEventListener](
-	// 				"mousedown",
-	// 				pair[gutterStartDragging]
-	// 			);
-	// 			pair.gutter[removeEventListener](
-	// 				"touchstart",
-	// 				pair[gutterStartDragging]
-	// 			);
-	// 		}
+	destroy(preserveStyles: boolean, preserveGutter: boolean) {
+		this.pairs.forEach((pair) => {
+			if (preserveGutter !== true) {
+				pair.parent.removeChild(pair.gutter);
+			} else {
+				pair.gutter[removeEventListener](
+					"mousedown",
+					pair[gutterStartDragging]
+				);
+				pair.gutter[removeEventListener](
+					"touchstart",
+					pair[gutterStartDragging]
+				);
+			}
 
-	// 		if (preserveStyles !== true) {
-	// 			const style = elementStyle(
-	// 				dimension,
-	// 				pair.a.size,
-	// 				pair[aGutterSize]
-	// 			);
+			if (preserveStyles !== true) {
+				const style = this.elementStyle(
+					this.dimension,
+					pair.a.size,
+					pair[aGutterSize]
+				);
 
-	// 			Object.keys(style).forEach((prop) => {
-	// 				elements[pair.a].element.style[prop] = "";
-	// 				elements[pair.b].element.style[prop] = "";
-	// 			});
-	// 		}
-	// 	});
-	// }
-
-	// // return {
-	// // 	setSizes,
-	// // 	getSizes,
-	// // 	collapse(i) {
-	// // 		adjustToMin(elements[i]);
-	// // 	},
-	// // 	destroy,
-	// // 	parent,
-	// // 	pairs,
-	// // };
+				Object.keys(style).forEach((prop) => {
+					this.elements[pair.a].element.style[prop] = "";
+					this.elements[pair.b].element.style[prop] = "";
+				});
+			}
+		});
+	}
 }
