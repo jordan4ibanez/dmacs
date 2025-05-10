@@ -40,6 +40,7 @@ interface ChordDefinition {
 }
 
 const chordDatabase: Map<string, ChordDefinition> = new Map();
+const nameToSequenceDatabase: Map<string, string> = new Map();
 
 /**
  * Register a chord key shortcut.
@@ -56,6 +57,7 @@ export function registerChord(
 		writeln("Overwriting chord: " + keySequence);
 	}
 	chordDatabase.set(keySequence, { name: name, fn: fn });
+	nameToSequenceDatabase.set(name, keySequence);
 }
 
 /**
