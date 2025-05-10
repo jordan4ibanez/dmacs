@@ -1,8 +1,3 @@
-export function z____deploy() {
-	document.addEventListener("keydown", onKeyDown);
-	document.addEventListener("keyup", onKeyUp);
-}
-
 //? BEGIN IMPLEMENTATION.
 
 const keyDownListenerEvents: Map<string, (a: KeyboardEvent) => void> =
@@ -44,4 +39,11 @@ export function setListener(key: string, fn: (a: KeyboardEvent) => void): void {
  */
 export function removeListener(key: string): void {
 	keyDownListenerEvents.delete(key);
+}
+
+//? END IMPLEMENTATION.
+
+export function z____deploy() {
+	document.addEventListener("keydown", onKeyDown);
+	document.addEventListener("keyup", onKeyUp);
 }
