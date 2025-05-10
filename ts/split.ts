@@ -535,11 +535,11 @@ const Split = (idsOption: any, options = {}) => {
 		self.stop = stopDragging.bind(self);
 
 		// All the binding. `window` gets the stop events in case we drag out of the elements.
-		global[addEventListener]("mouseup", self.stop);
-		global[addEventListener]("touchend", self.stop);
-		global[addEventListener]("touchcancel", self.stop);
-		global[addEventListener]("mousemove", self.move);
-		global[addEventListener]("touchmove", self.move);
+		global![addEventListener]("mouseup", self.stop);
+		global![addEventListener]("touchend", self.stop);
+		global![addEventListener]("touchcancel", self.stop);
+		global![addEventListener]("mousemove", self.move);
+		global![addEventListener]("touchmove", self.move);
 
 		// Disable selection. Disable!
 		a[addEventListener]("selectstart", NOOP);
