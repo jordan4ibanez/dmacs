@@ -260,16 +260,16 @@ export function Split(idsOption: string[], options: SplitOptions = {}) {
 	// The pair object saves metadata like dragging state, position and
 	// event listener references.
 
-	function setElementSize(el, size, gutSize, i) {
+	function setElementSize(el: HTMLElement, size: string, gutSize: string, i: number) {
 		// Split.js allows setting sizes via numbers (ideally), or if you must,
 		// by string, like '300px'. This is less than ideal, because it breaks
 		// the fluid layout that `calc(% - px)` provides. You're on your own if you do that,
 		// make sure you calculate the gutter size by hand.
 		const style = elementStyle(dimension, size, gutSize, i);
 
-		Object.keys(style).forEach((prop) => {
+		Object.keys(style).forEach((prop: string) => {
 			// eslint-disable-next-line no-param-reassign
-			el.style[prop] = style[prop];
+            (el.style as {[id:string]: any })[prop]   = style[prop];
 		});
 	}
 
