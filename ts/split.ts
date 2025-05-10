@@ -842,23 +842,26 @@ class Split {
 		this.adjust.call(pair, size);
 	}
 
-	// function setSizes(newSizes) {
-	// 	const trimmed = trimToMin(newSizes);
-	// 	trimmed.forEach((newSize, i) => {
-	// 		if (i > 0) {
-	// 			const pair = pairs[i - 1];
+	setSizes(newSizes: number[]): void {
+		const trimmed = this.trimToMin(newSizes);
+		if (!trimmed) {
+			throw new Error("wat");
+		}
+		trimmed.forEach((newSize, i) => {
+			if (i > 0) {
+				const pair = this.pairs[i - 1];
 
-	// 			const a = elements[pair.a];
-	// 			const b = elements[pair.b];
+				const a = this.elements[pair.a];
+				const b = this.elements[pair.b];
 
-	// 			a.size = trimmed[i - 1];
-	// 			b.size = newSize;
+				a.size = trimmed[i - 1];
+				b.size = newSize;
 
-	// 			setElementSize(a.element, a.size, pair[aGutterSize], a.i);
-	// 			setElementSize(b.element, b.size, pair[bGutterSize], b.i);
-	// 		}
-	// 	});
-	// }
+				this.setElementSize(a.element, a.size, pair[aGutterSize], a.i);
+				this.setElementSize(b.element, b.size, pair[bGutterSize], b.i);
+			}
+		});
+	}
 
 	// function destroy(preserveStyles, preserveGutter) {
 	// 	pairs.forEach((pair) => {
