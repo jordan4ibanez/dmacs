@@ -135,16 +135,16 @@ const defaultGutterStyleFn = (dim: any, gutSize: any) => ({
 // 4. Loop through the elements while pairing them off. Every pair gets an
 //    `pair` object and a gutter.
 // 5. Actually size the pair elements, insert gutters and attach event listeners.
-const Split = (idsOption, options = {}) => {
+const Split = (idsOption: any, options = {}) => {
 	if (ssr) return {};
 
 	let ids = idsOption;
-	let dimension;
-	let clientAxis;
-	let position;
-	let positionEnd;
-	let clientSize;
-	let elements;
+	let dimension: any;
+	let clientAxis: any;
+	let position: any;
+	let positionEnd: any;
+	let clientSize: any;
+	let elements: any;
 
 	// Allow HTMLCollection to be used as an argument when supported
 	if (Array.from) {
