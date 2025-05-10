@@ -173,9 +173,16 @@ export function exitRecord(): void {
 }
 
 function registerDefaultChords(): void {
-	// todo: Register the default chords.
 	registerChord("test_command", "control-control-x", () => {
 		writeln("hi from chord recording!");
+	});
+
+	registerChord("split_vertical", "control-x-2", () => {
+		writeln("split vertical");
+	});
+
+	registerChord("split_horizontal", "control-x-3", () => {
+		writeln("split horizontal");
 	});
 }
 
