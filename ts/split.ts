@@ -13,10 +13,7 @@ if (!window.document) {
 const ssr = false;
 const doccy = window.document;
 
-export function testing() {
-	writeln(ssr);
-	writeln(ssr ? "left" : "right");
-}
+export function testing() {}
 
 // Save a couple long function names that are used frequently.
 // This optimization saves around 400 bytes.
