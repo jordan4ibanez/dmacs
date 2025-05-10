@@ -169,6 +169,14 @@ export function exitRecord(): void {
 	}
 }
 
+/**
+ * Add a new meta key to use with initializing chords.
+ * @param key The meta key to add.
+ */
+export function addMetaKey(key: string): void {
+	metaKeys.add(key);
+}
+
 function registerDefaultChords(): void {
 	registerChord("test_command", "control-control-x", () => {
 		writeln("hi from chord recording!");
