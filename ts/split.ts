@@ -471,31 +471,31 @@ class Split {
 		this.end = aBounds[this.positionEnd];
 	}
 
-	// function innerSize(element) {
-	// 	// Return nothing if getComputedStyle is not supported (< IE9)
-	// 	// Or if parent element has no layout yet
-	// 	if (!getComputedStyle) return null;
+	innerSize(element: HTMLElement): number | null {
+		// Return nothing if getComputedStyle is not supported (< IE9)
+		// Or if parent element has no layout yet
+		if (!getComputedStyle) return null;
 
-	// 	const computedStyle = getComputedStyle(element);
+		const computedStyle = getComputedStyle(element);
 
-	// 	if (!computedStyle) return null;
+		if (!computedStyle) return null;
 
-	// 	let size = element[clientSize];
+		let size = (element as dictionary)[this.clientSize];
 
-	// 	if (size === 0) return null;
+		if (size === 0) return null;
 
-	// 	if (direction === HORIZONTAL) {
-	// 		size -=
-	// 			parseFloat(computedStyle.paddingLeft) +
-	// 			parseFloat(computedStyle.paddingRight);
-	// 	} else {
-	// 		size -=
-	// 			parseFloat(computedStyle.paddingTop) +
-	// 			parseFloat(computedStyle.paddingBottom);
-	// 	}
+		if (this.direction === HORIZONTAL) {
+			size -=
+				parseFloat(computedStyle.paddingLeft) +
+				parseFloat(computedStyle.paddingRight);
+		} else {
+			size -=
+				parseFloat(computedStyle.paddingTop) +
+				parseFloat(computedStyle.paddingBottom);
+		}
 
-	// 	return size;
-	// }
+		return size;
+	}
 
 	// // When specifying percentage sizes that are less than the computed
 	// // size of the element minus the gutter, the lesser percentages must be increased
