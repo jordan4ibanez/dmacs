@@ -233,7 +233,7 @@ const Split = (idsOption: any, options = {}) => {
 		});
 	}
 
-	function setGutterSize(gutterElement, gutSize, i) {
+	function setGutterSize(gutterElement: any, gutSize: any, i: any) {
 		const style = gutterStyle(dimension, gutSize, i);
 
 		Object.keys(style).forEach((prop) => {
