@@ -39,8 +39,11 @@ interface ChordDefinition {
 	fn: () => void;
 }
 
+//* sequence -> {name, function}
 const chordDatabase: Map<string, ChordDefinition> = new Map();
+//* name -> squence
 const nameToSequenceDatabase: Map<string, string> = new Map();
+//? Done like this to prioritize sequence access time.
 
 /**
  * Register a chord key shortcut.
