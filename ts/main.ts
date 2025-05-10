@@ -11,4 +11,5 @@ function closeWindow() {
 
 (function main() {
 	createBuffer("*scratch*");
+	Split.testing();
 })();
