@@ -178,7 +178,7 @@ export interface SplitOptions {
 //    `pair` object and a gutter.
 // 5. Actually size the pair elements, insert gutters and attach event listeners.
 // export function Split() {
-class Split {
+export class Split {
 	ids: string[];
 	dimension: string = "";
 	clientAxis: string = "";
