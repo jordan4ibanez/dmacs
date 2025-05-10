@@ -220,7 +220,7 @@ const Split = (idsOption: any, options = {}) => {
 	// The pair object saves metadata like dragging state, position and
 	// event listener references.
 
-	function setElementSize(el, size, gutSize, i) {
+	function setElementSize(el: any, size: any, gutSize: any, i: any) {
 		// Split.js allows setting sizes via numbers (ideally), or if you must,
 		// by string, like '300px'. This is less than ideal, because it breaks
 		// the fluid layout that `calc(% - px)` provides. You're on your own if you do that,
