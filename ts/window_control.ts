@@ -20,6 +20,7 @@ export class SplitViewDivs {
  * @param id The ID of this split. It's 2 children will prepend left_ and right_ to this.
  * @param attachTo The HTML node to attach this split to.
  * @param orientation Horizontal or vertical.
+ * @returns An object that holds the two split divs.
  */
 export function createSplit(
 	id: string,
