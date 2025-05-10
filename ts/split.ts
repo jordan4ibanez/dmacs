@@ -13,8 +13,8 @@ const doccy = !ssr ? global.document : undefined;
 
 // Save a couple long function names that are used frequently.
 // This optimization saves around 400 bytes.
-const addEventListener = "addEventListener";
-const removeEventListener = "removeEventListener";
+// const addEventListener = "addEventListener";
+// const removeEventListener = "removeEventListener";
 const getBoundingClientRect = "getBoundingClientRect";
 const gutterStartDragging = "_a";
 const aGutterSize = "_b";
