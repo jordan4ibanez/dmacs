@@ -47,17 +47,16 @@ function isString(v: any): boolean {
 // Helper function allows elements and string selectors to be used
 // interchangeably. In either case an element is returned. This allows us to
 // do `Split([elem1, elem2])` as well as `Split(['#id1', '#id2'])`.
-// const elementOrSelector = (el) => {
-// 	if (isString(el)) {
-// 		const ele = doccy.querySelector(el);
-// 		if (!ele) {
-// 			throw new Error(`Selector ${el} did not match a DOM element`);
-// 		}
-// 		return ele;
-// 	}
-
-// 	return el;
-// };
+function elementOrSelector(el: any) {
+	if (isString(el)) {
+		const ele = doccy.querySelector(el);
+		if (!ele) {
+			throw new Error(`Selector ${el} did not match a DOM element`);
+		}
+		return ele;
+	}
+	return el;
+}
 
 // // Helper function gets a property from the properties object, with a default fallback
 // const getOption = (options, propName, def) => {
