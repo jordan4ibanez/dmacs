@@ -56,9 +56,16 @@ export function registerChord(
 	keySequence: string,
 	fn: () => void
 ) {
-	if (chordDatabase.has(keySequence)) {
-		writeln("Overwriting chord: " + keySequence);
+	{
+		const old: ChordDefinition | undefined = chordDatabase.get(keySequence);
+		if (old) {
+			// Wipe the old reverse lookup from the database.
+			writeln("Overwriting chord: " + keySequence);
+			const n: string = old.name;
+			nameToSequenceDatabase.delete(n);
+		}
 	}
+
 	chordDatabase.set(keySequence, { name: name, fn: fn });
 	nameToSequenceDatabase.set(name, keySequence);
 }
