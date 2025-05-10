@@ -23,8 +23,8 @@ type dictionary = { [id: string]: any };
 
 // Save a couple long function names that are used frequently.
 // This optimization saves around 400 bytes.
-// const addEventListener = "addEventListener";
-// const removeEventListener = "removeEventListener";
+const addEventListener = "addEventListener";
+const removeEventListener = "removeEventListener";
 const getBoundingClientRect = "getBoundingClientRect";
 const gutterStartDragging = "_a";
 const aGutterSize = "_b";
@@ -193,6 +193,8 @@ class Split {
 	start: number = 0;
 	end: number = 0;
 	dragOffset: number = 0;
+	stop: any;
+	move: any;
 
 	// All DOM elements in the split should have a common parent. We can grab
 	// the first elements parent and hope users read the docs because the
@@ -577,48 +579,48 @@ class Split {
 		});
 	}
 
-	// // stopDragging is very similar to startDragging in reverse.
-	// function stopDragging() {
-	// 	const self = this;
-	// 	const a = elements[self.a].element;
-	// 	const b = elements[self.b].element;
+	// stopDragging is very similar to startDragging in reverse.
+	stopDragging(): void {
+		const self = this;
+		const a = this.elements[self.a].element;
+		const b = this.elements[self.b].element;
 
-	// 	if (self.dragging) {
-	// 		getOption(options, "onDragEnd", NOOP)(getSizes());
-	// 	}
+		if (self.dragging) {
+			getOption(this.options, "onDragEnd", NOOP)(this.getSizes());
+		}
 
-	// 	self.dragging = false;
+		self.dragging = false;
 
-	// 	// Remove the stored event listeners. This is why we store them.
-	// 	global[removeEventListener]("mouseup", self.stop);
-	// 	global[removeEventListener]("touchend", self.stop);
-	// 	global[removeEventListener]("touchcancel", self.stop);
-	// 	global[removeEventListener]("mousemove", self.move);
-	// 	global[removeEventListener]("touchmove", self.move);
+		// Remove the stored event listeners. This is why we store them.
+		window[removeEventListener]("mouseup", self.stop);
+		window[removeEventListener]("touchend", self.stop);
+		window[removeEventListener]("touchcancel", self.stop);
+		window[removeEventListener]("mousemove", self.move);
+		window[removeEventListener]("touchmove", self.move);
 
-	// 	// Clear bound function references
-	// 	self.stop = null;
-	// 	self.move = null;
+		// Clear bound function references
+		self.stop = null;
+		self.move = null;
 
-	// 	a[removeEventListener]("selectstart", NOOP);
-	// 	a[removeEventListener]("dragstart", NOOP);
-	// 	b[removeEventListener]("selectstart", NOOP);
-	// 	b[removeEventListener]("dragstart", NOOP);
+		a[removeEventListener]("selectstart", NOOP);
+		a[removeEventListener]("dragstart", NOOP);
+		b[removeEventListener]("selectstart", NOOP);
+		b[removeEventListener]("dragstart", NOOP);
 
-	// 	a.style.userSelect = "";
-	// 	a.style.webkitUserSelect = "";
-	// 	a.style.MozUserSelect = "";
-	// 	a.style.pointerEvents = "";
+		a.style.userSelect = "";
+		a.style.webkitUserSelect = "";
+		a.style.MozUserSelect = "";
+		a.style.pointerEvents = "";
 
-	// 	b.style.userSelect = "";
-	// 	b.style.webkitUserSelect = "";
-	// 	b.style.MozUserSelect = "";
-	// 	b.style.pointerEvents = "";
+		b.style.userSelect = "";
+		b.style.webkitUserSelect = "";
+		b.style.MozUserSelect = "";
+		b.style.pointerEvents = "";
 
-	// 	self.gutter.style.cursor = "";
-	// 	self.parent.style.cursor = "";
-	// 	doccy.body.style.cursor = "";
-	// }
+		self.gutter.style.cursor = "";
+		self.parent.style.cursor = "";
+		doccy.body.style.cursor = "";
+	}
 
 	// // startDragging calls `calculateSizes` to store the inital size in the pair object.
 	// // It also adds event listeners for mouse/touch events,
@@ -651,11 +653,11 @@ class Split {
 	// 	self.stop = stopDragging.bind(self);
 
 	// 	// All the binding. `window` gets the stop events in case we drag out of the elements.
-	// 	global[addEventListener]("mouseup", self.stop);
-	// 	global[addEventListener]("touchend", self.stop);
-	// 	global[addEventListener]("touchcancel", self.stop);
-	// 	global[addEventListener]("mousemove", self.move);
-	// 	global[addEventListener]("touchmove", self.move);
+	// 	window[addEventListener]("mouseup", self.stop);
+	// 	window[addEventListener]("touchend", self.stop);
+	// 	window[addEventListener]("touchcancel", self.stop);
+	// 	window[addEventListener]("mousemove", self.move);
+	// 	window[addEventListener]("touchmove", self.move);
 
 	// 	// Disable selection. Disable!
 	// 	a[addEventListener]("selectstart", NOOP);
