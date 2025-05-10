@@ -134,6 +134,19 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 	}
 }
 
+function resetMiniBufferAfterRecording() {
+	writeln("running", MiniBuffer.hasPendingInteractive());
+	if (
+		MiniBuffer.isInInteractiveMode() ||
+		MiniBuffer.hasPendingInteractive() ||
+		inChord
+	) {
+		return;
+	}
+
+	MiniBuffer.reset();
+}
+
 /**
  * Cancel the current recording, if any.
  * Resets the state.
