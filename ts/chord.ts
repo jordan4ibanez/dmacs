@@ -108,6 +108,8 @@ function registerDefaultChords(): void {
 	// todo: Register the default chords.
 }
 
+//? END IMPLEMENTATION.
+
 export function z____deploy() {
 	KeyInput.setListener("chord_recorder_5000", doLogic);
 	registerDefaultChords();
