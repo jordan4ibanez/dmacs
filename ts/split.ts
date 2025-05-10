@@ -297,7 +297,7 @@ export function Split(idsOption: string[], options: SplitOptions = {}) {
 
 	// Supports touch events, but not multitouch, so only the first
 	// finger `touches[0]` is counted.
-	function getMousePosition(e) {
+	function getMousePosition(e: TouchEvent) {
 		if ("touches" in e) return e.touches[0][clientAxis];
 		return e[clientAxis];
 	}
