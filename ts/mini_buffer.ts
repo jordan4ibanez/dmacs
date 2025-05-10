@@ -135,6 +135,14 @@ export function isInInteractiveMode(): boolean {
 }
 
 /**
+ * Get if the mini buffer has a pending function that the user can interact with.
+ * @returns If has a pending interaction.
+ */
+export function hasPendingInteractive(): boolean {
+	return __lastInteractive == null;
+}
+
+/**
  * Reset the mini buffer.
  */
 export function reset(): void {
