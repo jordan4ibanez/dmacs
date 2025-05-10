@@ -307,7 +307,12 @@ class Split {
 	// The pair object saves metadata like dragging state, position and
 	// event listener references.
 
-	setElementSize(el: HTMLElement, size: string, gutSize: string, i: number) {
+	setElementSize(
+		el: HTMLElement,
+		size: string,
+		gutSize: string,
+		i: number
+	): void {
 		// Split.js allows setting sizes via numbers (ideally), or if you must,
 		// by string, like '300px'. This is less than ideal, because it breaks
 		// the fluid layout that `calc(% - px)` provides. You're on your own if you do that,
@@ -320,7 +325,11 @@ class Split {
 		});
 	}
 
-	setGutterSize(gutterElement: HTMLElement, gutSize: string, i: number) {
+	setGutterSize(
+		gutterElement: HTMLElement,
+		gutSize: string,
+		i: number
+	): void {
 		const style = this.gutterStyle(this.dimension, gutSize, i);
 
 		Object.keys(style).forEach((prop) => {
@@ -329,13 +338,13 @@ class Split {
 		});
 	}
 
-	getSizes() {
+	getSizes(): number[] {
 		return this.elements.map((element) => element.size);
 	}
 
 	// Supports touch events, but not multitouch, so only the first
 	// finger `touches[0]` is counted.
-	getMousePosition(e: TouchEvent) {
+	getMousePosition(e: TouchEvent): any {
 		if ("touches" in e)
 			return (e.touches[0] as dictionary)[this.clientAxis];
 		return e[this.clientAxis];
@@ -347,7 +356,7 @@ class Split {
 	// Element a's size is the same as offset. b's size is total size - a size.
 	// Both sizes are calculated from the initial parent percentage,
 	// then the gutter size is subtracted.
-	adjust(offset: number) {
+	adjust(offset: number): void {
 		const a = this.elements[this.a];
 		const b = this.elements[this.b];
 		const percentage = a.size + b.size;
@@ -383,7 +392,7 @@ class Split {
 	// |    |  |                         ||                        |  |    |
 	// ---------------------------------------------------------------------
 	// | <- this.start                                        this.size -> |
-	drag(e: TouchEvent) {
+	drag(e: TouchEvent): void {
 		let offset;
 		const a = this.elements[this.a];
 		const b = this.elements[this.b];
@@ -454,7 +463,7 @@ class Split {
 	// |                     ||| <- bGutterSize       |
 	// ------------------------------------------------
 	// | <- start                             size -> |
-	calculateSizes() {
+	calculateSizes(): void {
 		// Figure out the parent size minus padding.
 		const a = this.elements[this.a].element;
 		const b = this.elements[this.b].element;
