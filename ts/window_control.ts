@@ -143,6 +143,10 @@ export function z____deploy() {
 		windowArea,
 		Orientation.horizontal
 	);
+
+	split.left.appendChild(createTextArea("1"));
+	split.right.appendChild(createTextArea("2"));
+
 	// Create the initial window area.
 	windowArea.appendChild(createTextArea("main_window"));
 
