@@ -95,12 +95,12 @@ function getGutterSize(
 	return gutterSize;
 }
 
-// // Default options
-// const defaultGutterFn = (i, gutterDirection) => {
-// 	const gut = doccy.createElement("div");
-// 	gut.className = `gutter gutter-${gutterDirection}`;
-// 	return gut;
-// };
+// Default options
+function defaultGutterFn(i: number, gutterDirection: string): HTMLDivElement {
+	const gut: HTMLDivElement = doccy.createElement("div");
+	gut.className = `gutter gutter-${gutterDirection}`;
+	return gut;
+}
 
 // const defaultElementStyleFn = (dim, size, gutSize) => {
 // 	const style = {};
