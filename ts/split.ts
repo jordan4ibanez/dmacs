@@ -191,7 +191,7 @@ class Split {
 	size: number = 0;
 	dragging: boolean = false;
 	start: number = 0;
-    dragOffset: number = 0;
+	dragOffset: number = 0;
 
 	// All DOM elements in the split should have a common parent. We can grab
 	// the first elements parent and hope users read the docs because the
@@ -223,8 +223,10 @@ class Split {
 	readonly gutter: any;
 	readonly elementStyle: any;
 	readonly gutterStyle: any;
+	readonly options: SplitOptions;
 
 	constructor(idsOption: string[], options: SplitOptions = {}) {
+		this.options = options;
 		this.ids = idsOption;
 		// Allow HTMLCollection to be used as an argument when supported
 		if (Array.from) {
@@ -402,30 +404,40 @@ class Split {
 		// If within snapOffset of min or max, set offset to min or max.
 		// snapOffset buffers a.minSize and b.minSize, so logic is opposite for both.
 		// Include the appropriate gutter sizes to prevent overflows.
-		if (offset <= a.minSize + a.snapOffset + (this as dictionary)[aGutterSize]) {
+		if (
+			offset <=
+			a.minSize + a.snapOffset + (this as dictionary)[aGutterSize]
+		) {
 			offset = a.minSize + (this as dictionary)[aGutterSize];
 		} else if (
 			offset >=
-			this.size - (b.minSize + b.snapOffset + this[bGutterSize])
+			this.size -
+				(b.minSize + b.snapOffset + (this as dictionary)[bGutterSize])
 		) {
-			offset = this.size - (b.minSize + this[bGutterSize]);
+			offset =
+				this.size - (b.minSize + (this as dictionary)[bGutterSize]);
 		}
 
-		if (offset >= a.maxSize - a.snapOffset + this[aGutterSize]) {
-			offset = a.maxSize + this[aGutterSize];
+		if (
+			offset >=
+			a.maxSize - a.snapOffset + (this as dictionary)[aGutterSize]
+		) {
+			offset = a.maxSize + (this as dictionary)[aGutterSize];
 		} else if (
 			offset <=
-			this.size - (b.maxSize - b.snapOffset + this[bGutterSize])
+			this.size -
+				(b.maxSize - b.snapOffset + (this as dictionary)[bGutterSize])
 		) {
-			offset = this.size - (b.maxSize + this[bGutterSize]);
+			offset =
+				this.size - (b.maxSize + (this as dictionary)[bGutterSize]);
 		}
 
 		// Actually adjust the size.
-		adjust.call(this, offset);
+		this.adjust.call(this, offset);
 
 		// Call the drag callback continously. Don't do anything too intensive
 		// in this callback.
-		getOption(options, "onDrag", NOOP)(getSizes());
+		getOption(this.options, "onDrag", NOOP)(this.getSizes());
 	}
 
 	// // Cache some important sizes when drag starts, so we don't have to do that
