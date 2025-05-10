@@ -64,7 +64,10 @@ export function createSplit(
 		minSize: 40,
 	});
 
-	return newSplit;
+	return new SplitViewDivs(
+		document.getElementById(`left_${id}`)! as HTMLDivElement,
+		document.getElementById(`right_${id}`)! as HTMLDivElement
+	);
 }
 
 /**
