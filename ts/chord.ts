@@ -11,7 +11,7 @@ var chordCount: number = 0;
 //? So, you can just hit C-M-x, etc, and it'll work the same.
 //? This is also designed to accept ANY key.
 
-//.todo: make it so more keys could be added in?
+//todo: make it so more keys could be added in?
 
 /**
  * These are the keys that can initialize a chord.
