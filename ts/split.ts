@@ -851,4 +851,8 @@ interface Instance {
 
 	// Destroy the instance. It removes the gutter elements, and the size CSS styles Split.js set.
 	destroy(preserveStyles?: boolean, preserveGutters?: boolean): void;
+
+	//? I don't know why these weren't included but here it is. I have no idea what this is.
+	parent?: any;
+	pairs?: any;
 }
