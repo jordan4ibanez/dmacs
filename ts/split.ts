@@ -135,7 +135,7 @@ const defaultGutterStyleFn = (dim: any, gutSize: any) => ({
 // 4. Loop through the elements while pairing them off. Every pair gets an
 //    `pair` object and a gutter.
 // 5. Actually size the pair elements, insert gutters and attach event listeners.
-const Split = (idsOption: any, options = {}) => {
+export const Split = (idsOption: any, options = {}) => {
 	if (ssr) return {};
 
 	let ids = idsOption;
@@ -774,5 +774,3 @@ const Split = (idsOption: any, options = {}) => {
 		pairs,
 	};
 };
-
-export default Split;
