@@ -1,8 +1,8 @@
-import * as Init from "./init";
+import * as Split from "./split";
 
 export enum Orientation {
-	vertical,
-	horizontal,
+	vertical = "vertical",
+	horizontal = "horizontal",
 }
 
 /**
@@ -49,11 +49,10 @@ export function createSplit(
 
 	attachTo.appendChild(newSplit);
 
-	// todo: fix this.
-	// Split([`#left_${id}`, `#right_${id}`], {
-	// 	direction: orientation,
-	// 	minSize: 40,
-	// });
+	new Split.Split([`#left_${id}`, `#right_${id}`], {
+		direction: orientation,
+		minSize: 40,
+	});
 
 	return newSplit;
 }
