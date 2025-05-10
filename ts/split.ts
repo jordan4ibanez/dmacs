@@ -347,7 +347,7 @@ const Split = (idsOption: any, options = {}) => {
 	// |                     ||| <- bGutterSize       |
 	// ------------------------------------------------
 	// | <- start                             size -> |
-	function calculateSizes() {
+	function calculateSizes(this: any) {
 		// Figure out the parent size minus padding.
 		const a = elements[this.a].element;
 		const b = elements[this.b].element;
@@ -364,7 +364,7 @@ const Split = (idsOption: any, options = {}) => {
 		this.end = aBounds[positionEnd];
 	}
 
-	function innerSize(element) {
+	function innerSize(element: any) {
 		// Return nothing if getComputedStyle is not supported (< IE9)
 		// Or if parent element has no layout yet
 		if (!getComputedStyle) return null;
@@ -394,7 +394,7 @@ const Split = (idsOption: any, options = {}) => {
 	// size of the element minus the gutter, the lesser percentages must be increased
 	// (and decreased from the other elements) to make space for the pixels
 	// subtracted by the gutters.
-	function trimToMin(sizesToTrim) {
+	function trimToMin(sizesToTrim: any) {
 		// Try to get inner size of parent element.
 		// If it's no supported, return original sizes.
 		const parentSize = innerSize(parent);
@@ -402,7 +402,7 @@ const Split = (idsOption: any, options = {}) => {
 			return sizesToTrim;
 		}
 
-		if (minSizes.reduce((a, b) => a + b, 0) > parentSize) {
+		if (minSizes.reduce((a: any, b: any) => a + b, 0) > parentSize) {
 			return sizesToTrim;
 		}
 
