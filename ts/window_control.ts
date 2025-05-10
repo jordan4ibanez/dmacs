@@ -26,7 +26,7 @@ export function createSplit(
 	id: string,
 	attachTo: Node,
 	orientation: Orientation
-): HTMLDivElement {
+): SplitViewDivs {
 	var newSplit: HTMLDivElement = document.createElement("div");
 	newSplit.className = "split";
 	newSplit.id = id;
