@@ -497,76 +497,76 @@ class Split {
 		return size;
 	}
 
-	// // When specifying percentage sizes that are less than the computed
-	// // size of the element minus the gutter, the lesser percentages must be increased
-	// // (and decreased from the other elements) to make space for the pixels
-	// // subtracted by the gutters.
-	// function trimToMin(sizesToTrim) {
-	// 	// Try to get inner size of parent element.
-	// 	// If it's no supported, return original sizes.
-	// 	const parentSize = innerSize(parent);
-	// 	if (parentSize === null) {
-	// 		return sizesToTrim;
-	// 	}
+	// When specifying percentage sizes that are less than the computed
+	// size of the element minus the gutter, the lesser percentages must be increased
+	// (and decreased from the other elements) to make space for the pixels
+	// subtracted by the gutters.
+	trimToMin(sizesToTrim: number[]): number[] | null {
+		// Try to get inner size of parent element.
+		// If it's no supported, return original sizes.
+		const parentSize = this.innerSize(this.parent);
+		if (parentSize === null) {
+			return sizesToTrim;
+		}
 
-	// 	if (minSizes.reduce((a, b) => a + b, 0) > parentSize) {
-	// 		return sizesToTrim;
-	// 	}
+		if (this.minSizes.reduce((a, b) => a + b, 0) > parentSize) {
+			return sizesToTrim;
+		}
 
-	// 	// Keep track of the excess pixels, the amount of pixels over the desired percentage
-	// 	// Also keep track of the elements with pixels to spare, to decrease after if needed
-	// 	let excessPixels = 0;
-	// 	const toSpare = [];
+		// Keep track of the excess pixels, the amount of pixels over the desired percentage
+		// Also keep track of the elements with pixels to spare, to decrease after if needed
+		let excessPixels = 0;
+		const toSpare: any[] = [];
 
-	// 	const pixelSizes = sizesToTrim.map((size, i) => {
-	// 		// Convert requested percentages to pixel sizes
-	// 		const pixelSize = (parentSize * size) / 100;
-	// 		const elementGutterSize = getGutterSize(
-	// 			gutterSize,
-	// 			i === 0,
-	// 			i === sizesToTrim.length - 1,
-	// 			gutterAlign
-	// 		);
-	// 		const elementMinSize = minSizes[i] + elementGutterSize;
+		const pixelSizes = sizesToTrim.map((size, i) => {
+			// Convert requested percentages to pixel sizes
+			const pixelSize = (parentSize * size) / 100;
+			const elementGutterSize = getGutterSize(
+				this.gutterSize,
+				i === 0,
+				i === sizesToTrim.length - 1,
+				this.gutterAlign
+			);
+			const elementMinSize = this.minSizes[i] + elementGutterSize;
 
-	// 		// If element is too smal, increase excess pixels by the difference
-	// 		// and mark that it has no pixels to spare
-	// 		if (pixelSize < elementMinSize) {
-	// 			excessPixels += elementMinSize - pixelSize;
-	// 			toSpare.push(0);
-	// 			return elementMinSize;
-	// 		}
+			// If element is too smal, increase excess pixels by the difference
+			// and mark that it has no pixels to spare
+			if (pixelSize < elementMinSize) {
+				excessPixels += elementMinSize - pixelSize;
+				toSpare.push(0);
+				return elementMinSize;
+			}
 
-	// 		// Otherwise, mark the pixels it has to spare and return it's original size
-	// 		toSpare.push(pixelSize - elementMinSize);
-	// 		return pixelSize;
-	// 	});
+			// Otherwise, mark the pixels it has to spare and return it's original size
+			toSpare.push(pixelSize - elementMinSize);
+			return pixelSize;
+		});
 
-	// 	// If nothing was adjusted, return the original sizes
-	// 	if (excessPixels === 0) {
-	// 		return sizesToTrim;
-	// 	}
+		// If nothing was adjusted, return the original sizes
+		if (excessPixels === 0) {
+			return sizesToTrim;
+		}
 
-	// 	return pixelSizes.map((pixelSize, i) => {
-	// 		let newPixelSize = pixelSize;
+		return pixelSizes.map((pixelSize, i) => {
+			let newPixelSize = pixelSize;
 
-	// 		// While there's still pixels to take, and there's enough pixels to spare,
-	// 		// take as many as possible up to the total excess pixels
-	// 		if (excessPixels > 0 && toSpare[i] - excessPixels > 0) {
-	// 			const takenPixels = Math.min(
-	// 				excessPixels,
-	// 				toSpare[i] - excessPixels
-	// 			);
+			// While there's still pixels to take, and there's enough pixels to spare,
+			// take as many as possible up to the total excess pixels
+			if (excessPixels > 0 && toSpare[i] - excessPixels > 0) {
+				const takenPixels = Math.min(
+					excessPixels,
+					toSpare[i] - excessPixels
+				);
 
-	// 			// Subtract the amount taken for the next iteration
-	// 			excessPixels -= takenPixels;
-	// 			newPixelSize = pixelSize - takenPixels;
-	// 		}
+				// Subtract the amount taken for the next iteration
+				excessPixels -= takenPixels;
+				newPixelSize = pixelSize - takenPixels;
+			}
 
-	// 		// Return the pixel size adjusted as a percentage
-	// 		return (newPixelSize / parentSize) * 100;
-	// 	});
-	// }
+			// Return the pixel size adjusted as a percentage
+			return (newPixelSize / parentSize) * 100;
+		});
+	}
 
 	// // stopDragging is very similar to startDragging in reverse.
 	// function stopDragging() {
