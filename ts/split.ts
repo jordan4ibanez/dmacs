@@ -560,7 +560,7 @@ const Split = (idsOption: any, options = {}) => {
 		// Set the cursor at multiple levels
 		self.gutter.style.cursor = cursor;
 		self.parent.style.cursor = cursor;
-		document.body.style.cursor = cursor;
+		document!.body.style.cursor = cursor;
 
 		// Cache the initial sizes of the pair.
 		calculateSizes.call(self);
