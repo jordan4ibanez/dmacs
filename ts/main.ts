@@ -10,5 +10,4 @@ function closeWindow() {
 
 (function main() {
 	createBuffer("*scratch*");
-	loadDefaultCSS();
 })();
