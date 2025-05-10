@@ -6,6 +6,7 @@ var inChord: boolean = false;
 var currentChord: string = "";
 var chordCount: number = 0;
 var clearTimeout: number = 2000;
+var timeOutIDs: number[] = [];
 
 //? Note: This is set up slightly differently than emacs.
 //? Emacs kind of forces you to cramp your hand and that hurt mine.
@@ -85,6 +86,9 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 
 	if (!inChord) {
 		if (metaKeys.has(thisKey)) {
+			while (timeOutIDs.length > 0) {
+				window.clearTimeout(timeOutIDs.pop()!);
+			}
 			currentChord = thisKey;
 			inChord = true;
 			chordCount++;
@@ -116,7 +120,12 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 				chord.fn();
 
 				// Automatically clear out the minibuffer after 1 second when command is run.
-				window.setTimeout(resetMiniBufferAfterRecording, clearTimeout);
+				timeOutIDs.push(
+					window.setTimeout(
+						resetMiniBufferAfterRecording,
+						clearTimeout
+					)
+				);
 				return;
 			}
 		}
@@ -131,7 +140,9 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 			exitRecord();
 
 			// Automatically clear out the minibuffer after 1 second when failure is hit.
-			window.setTimeout(resetMiniBufferAfterRecording, clearTimeout);
+			timeOutIDs.push(
+				window.setTimeout(resetMiniBufferAfterRecording, clearTimeout)
+			);
 		}
 	}
 }
