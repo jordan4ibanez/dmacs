@@ -150,6 +150,6 @@ export function z____deploy(): void {
 	// Create the initial window area.
 	// windowArea.appendChild(createTextArea("main_window"));
 
-	writeln("hi");
+	// writeln("hi");
 	// rootDiv.appendChild
 }
