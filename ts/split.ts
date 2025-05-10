@@ -191,6 +191,7 @@ class Split {
 	size: number = 0;
 	dragging: boolean = false;
 	start: number = 0;
+	end: number = 0;
 	dragOffset: number = 0;
 
 	// All DOM elements in the split should have a common parent. We can grab
@@ -440,35 +441,35 @@ class Split {
 		getOption(this.options, "onDrag", NOOP)(this.getSizes());
 	}
 
-	// // Cache some important sizes when drag starts, so we don't have to do that
-	// // continously:
-	// //
-	// // `size`: The total size of the pair. First + second + first gutter + second gutter.
-	// // `start`: The leading side of the first element.
-	// //
-	// // ------------------------------------------------
-	// // |      aGutterSize -> |||                      |
-	// // |                     |||                      |
-	// // |                     |||                      |
-	// // |                     ||| <- bGutterSize       |
-	// // ------------------------------------------------
-	// // | <- start                             size -> |
-	// function calculateSizes() {
-	// 	// Figure out the parent size minus padding.
-	// 	const a = elements[this.a].element;
-	// 	const b = elements[this.b].element;
+	// Cache some important sizes when drag starts, so we don't have to do that
+	// continously:
+	//
+	// `size`: The total size of the pair. First + second + first gutter + second gutter.
+	// `start`: The leading side of the first element.
+	//
+	// ------------------------------------------------
+	// |      aGutterSize -> |||                      |
+	// |                     |||                      |
+	// |                     |||                      |
+	// |                     ||| <- bGutterSize       |
+	// ------------------------------------------------
+	// | <- start                             size -> |
+	calculateSizes() {
+		// Figure out the parent size minus padding.
+		const a = this.elements[this.a].element;
+		const b = this.elements[this.b].element;
 
-	// 	const aBounds = a[getBoundingClientRect]();
-	// 	const bBounds = b[getBoundingClientRect]();
+		const aBounds = a[getBoundingClientRect]();
+		const bBounds = b[getBoundingClientRect]();
 
-	// 	this.size =
-	// 		aBounds[dimension] +
-	// 		bBounds[dimension] +
-	// 		this[aGutterSize] +
-	// 		this[bGutterSize];
-	// 	this.start = aBounds[position];
-	// 	this.end = aBounds[positionEnd];
-	// }
+		this.size =
+			aBounds[this.dimension] +
+			bBounds[this.dimension] +
+			(this as dictionary)[aGutterSize] +
+			(this as dictionary)[bGutterSize];
+		this.start = aBounds[this.position];
+		this.end = aBounds[this.positionEnd];
+	}
 
 	// function innerSize(element) {
 	// 	// Return nothing if getComputedStyle is not supported (< IE9)
