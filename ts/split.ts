@@ -176,15 +176,15 @@ export interface SplitOptions {
 //    `pair` object and a gutter.
 // 5. Actually size the pair elements, insert gutters and attach event listeners.
 export function Split(idsOption: string[], options: SplitOptions = {}) {
-	if (ssr) return {};
+	
 
 	let ids = idsOption;
-	let dimension;
-	let clientAxis;
-	let position;
-	let positionEnd;
-	let clientSize;
-	let elements;
+	let dimension: string;
+	let clientAxis: string;
+	let position: number;
+	let positionEnd: number;
+	let clientSize: number;
+	let elements: any[];
 
 	// Allow HTMLCollection to be used as an argument when supported
 	if (Array.from) {
@@ -812,4 +812,4 @@ export function Split(idsOption: string[], options: SplitOptions = {}) {
 		parent,
 		pairs,
 	};
-};
+}
