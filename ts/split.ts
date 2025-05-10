@@ -440,7 +440,7 @@ const Split = (idsOption: any, options = {}) => {
 			return sizesToTrim;
 		}
 
-		return pixelSizes.map((pixelSize, i) => {
+		return pixelSizes.map((pixelSize: any, i: any) => {
 			let newPixelSize = pixelSize;
 
 			// While there's still pixels to take, and there's enough pixels to spare,
@@ -462,7 +462,7 @@ const Split = (idsOption: any, options = {}) => {
 	}
 
 	// stopDragging is very similar to startDragging in reverse.
-	function stopDragging() {
+	function stopDragging(this: any) {
 		const self = this;
 		const a = elements[self.a].element;
 		const b = elements[self.b].element;
