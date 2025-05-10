@@ -501,7 +501,7 @@ const Split = (idsOption: any, options = {}) => {
 
 		self.gutter.style.cursor = "";
 		self.parent.style.cursor = "";
-		document.body.style.cursor = "";
+		document!.body.style.cursor = "";
 	}
 
 	// startDragging calls `calculateSizes` to store the inital size in the pair object.
