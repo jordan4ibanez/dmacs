@@ -23,12 +23,12 @@ export function testing() {
 // This optimization saves around 400 bytes.
 // const addEventListener = "addEventListener";
 // const removeEventListener = "removeEventListener";
-// const getBoundingClientRect = "getBoundingClientRect";
-// const gutterStartDragging = "_a";
-// const aGutterSize = "_b";
-// const bGutterSize = "_c";
-// const HORIZONTAL = "horizontal";
-// const NOOP = () => false;
+const getBoundingClientRect = "getBoundingClientRect";
+const gutterStartDragging = "_a";
+const aGutterSize = "_b";
+const bGutterSize = "_c";
+const HORIZONTAL = "horizontal";
+const NOOP = () => false;
 
 // Helper function determines which prefixes of CSS calc we need.
 // We only need to do this once on startup, when this anonymous function is called.
