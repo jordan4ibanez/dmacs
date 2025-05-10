@@ -116,8 +116,11 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 				MiniBuffer.flush();
 				exitRecord();
 				chord.fn();
+
+				// Automatically clear out the minibuffer after 1 second when command is run.
+				window.setTimeout(resetMiniBufferAfterRecording, 1000);
+				return;
 			}
-			// todo: exit and set a timer to clear the buffer.
 		}
 
 		chordCount++;
@@ -129,7 +132,8 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 			MiniBuffer.flush();
 			exitRecord();
 
-			// todo: timeout function. If there's not a new chord and there's not an interaction, wipe the minibuffer
+			// Automatically clear out the minibuffer after 1 second when failure is hit.
+			window.setTimeout(resetMiniBufferAfterRecording, 1000);
 		}
 	}
 }
