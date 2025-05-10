@@ -248,7 +248,7 @@ const Split = (idsOption: any, options = {}) => {
 
 	// Supports touch events, but not multitouch, so only the first
 	// finger `touches[0]` is counted.
-	function getMousePosition(e) {
+	function getMousePosition(e: any) {
 		if ("touches" in e) return e.touches[0][clientAxis];
 		return e[clientAxis];
 	}
@@ -259,7 +259,8 @@ const Split = (idsOption: any, options = {}) => {
 	// Element a's size is the same as offset. b's size is total size - a size.
 	// Both sizes are calculated from the initial parent percentage,
 	// then the gutter size is subtracted.
-	function adjust(offset) {
+
+	function adjust(this: any, offset: any) {
 		const a = elements[this.a];
 		const b = elements[this.b];
 		const percentage = a.size + b.size;
@@ -285,7 +286,7 @@ const Split = (idsOption: any, options = {}) => {
 	// |    |  |                         ||                        |  |    |
 	// ---------------------------------------------------------------------
 	// | <- this.start                                        this.size -> |
-	function drag(e) {
+	function drag(this: any, e: any) {
 		let offset;
 		const a = elements[this.a];
 		const b = elements[this.b];
