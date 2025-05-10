@@ -47,7 +47,7 @@ function isString(v: any): boolean {
 // Helper function allows elements and string selectors to be used
 // interchangeably. In either case an element is returned. This allows us to
 // do `Split([elem1, elem2])` as well as `Split(['#id1', '#id2'])`.
-function elementOrSelector(el: any) {
+function elementOrSelector(el: any): any | null {
 	if (isString(el)) {
 		const ele: HTMLElement | null = doccy.querySelector(el);
 		if (!ele) {
