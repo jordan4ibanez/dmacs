@@ -15,8 +15,8 @@ export function z____run() {
 	}
 	__deployed = true;
 
-	CSS.z____deploy();
 	Chord.z____deploy();
+	CSS.z____deploy();
 	WindowControl.z____deploy();
 	KeyInput.z____deploy();
 }
