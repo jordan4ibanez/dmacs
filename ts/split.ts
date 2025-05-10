@@ -45,9 +45,9 @@ function isString(v: any): boolean {
 	return typeof v === "string" || v instanceof String;
 }
 
-// // Helper function allows elements and string selectors to be used
-// // interchangeably. In either case an element is returned. This allows us to
-// // do `Split([elem1, elem2])` as well as `Split(['#id1', '#id2'])`.
+// Helper function allows elements and string selectors to be used
+// interchangeably. In either case an element is returned. This allows us to
+// do `Split([elem1, elem2])` as well as `Split(['#id1', '#id2'])`.
 // const elementOrSelector = (el) => {
 // 	if (isString(el)) {
 // 		const ele = doccy.querySelector(el);
