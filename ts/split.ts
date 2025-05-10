@@ -276,12 +276,16 @@ export function Split(idsOption: string[], options: SplitOptions = {}) {
 		});
 	}
 
-	function setGutterSize(gutterElement, gutSize, i) {
+	function setGutterSize(
+		gutterElement: HTMLElement,
+		gutSize: string,
+		i: number
+	) {
 		const style = gutterStyle(dimension, gutSize, i);
 
 		Object.keys(style).forEach((prop) => {
 			// eslint-disable-next-line no-param-reassign
-			gutterElement.style[prop] = style[prop];
+			(gutterElement.style as { [id: string]: any })[prop] = style[prop];
 		});
 	}
 
