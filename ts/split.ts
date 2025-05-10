@@ -58,14 +58,14 @@ function elementOrSelector(el: any): any | null {
 	return el;
 }
 
-// // Helper function gets a property from the properties object, with a default fallback
-// const getOption = (options, propName, def) => {
-// 	const value = options[propName];
-// 	if (value !== undefined) {
-// 		return value;
-// 	}
-// 	return def;
-// };
+// Helper function gets a property from the properties object, with a default fallback
+const getOption = (options, propName, def) => {
+	const value = options[propName];
+	if (value !== undefined) {
+		return value;
+	}
+	return def;
+};
 
 // const getGutterSize = (gutterSize, isFirst, isLast, gutterAlign) => {
 // 	if (isFirst) {
