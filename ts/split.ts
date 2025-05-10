@@ -424,6 +424,20 @@ class Split {
 
 			return element;
 		});
+
+		this.elements.forEach((element) => {
+			const computedSize =
+				element.element[getBoundingClientRect]()[this.dimension];
+
+			if (computedSize < element.minSize) {
+				if (this.expandToMin) {
+					this.adjustToMin(element);
+				} else {
+					// eslint-disable-next-line no-param-reassign
+					element.minSize = computedSize;
+				}
+			}
+		});
 	}
 
 	// 3. Define the dragging helper functions, and a few helpers to go with them.
@@ -815,32 +829,18 @@ class Split {
 		self.dragOffset = this.getMousePosition(e) - self.end;
 	}
 
-	// function adjustToMin(element) {
-	// 	const isLast = element.i === pairs.length;
-	// 	const pair = isLast ? pairs[element.i - 1] : pairs[element.i];
+	adjustToMin(element: any): void {
+		const isLast = element.i === this.pairs.length;
+		const pair = isLast ? this.pairs[element.i - 1] : this.pairs[element.i];
 
-	// 	calculateSizes.call(pair);
+		this.calculateSizes.call(pair);
 
-	// 	const size = isLast
-	// 		? pair.size - element.minSize - pair[bGutterSize]
-	// 		: element.minSize + pair[aGutterSize];
+		const size = isLast
+			? pair.size - element.minSize - pair[bGutterSize]
+			: element.minSize + pair[aGutterSize];
 
-	// 	adjust.call(pair, size);
-	// }
-
-	// elements.forEach((element) => {
-	// 	const computedSize =
-	// 		element.element[getBoundingClientRect]()[dimension];
-
-	// 	if (computedSize < element.minSize) {
-	// 		if (expandToMin) {
-	// 			adjustToMin(element);
-	// 		} else {
-	// 			// eslint-disable-next-line no-param-reassign
-	// 			element.minSize = computedSize;
-	// 		}
-	// 	}
-	// });
+		this.adjust.call(pair, size);
+	}
 
 	// function setSizes(newSizes) {
 	// 	const trimmed = trimToMin(newSizes);
