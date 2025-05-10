@@ -10,8 +10,6 @@ if (!window.document) {
 	throw new Error("No document.");
 }
 
-const doccy = window.document;
-
 type dictionary = { [id: string]: any };
 
 // Save a couple long function names that are used frequently.
@@ -32,7 +30,7 @@ const NOOP = () => false;
 // http://stackoverflow.com/questions/16625140/js-feature-detection-to-detect-the-usage-of-webkit-calc-over-calc/16625167#16625167
 const calc: string = `${["", "-webkit-", "-moz-", "-o-"]
 	.filter((prefix: string) => {
-		const el: HTMLElement = doccy.createElement("div");
+		const el: HTMLElement = window.document.createElement("div");
 		el.style.cssText = `width:${prefix}calc(9px)`;
 		return !!el.style.length;
 	})
@@ -48,7 +46,7 @@ function isString(v: any): boolean {
 // do `Split([elem1, elem2])` as well as `Split(['#id1', '#id2'])`.
 function elementOrSelector(el: any): any | null {
 	if (isString(el)) {
-		const ele: HTMLElement | null = doccy.querySelector(el);
+		const ele: HTMLElement | null = window.document.querySelector(el);
 		if (!ele) {
 			throw new Error(`Selector ${el} did not match a DOM element`);
 		}
@@ -96,7 +94,7 @@ function getGutterSize(
 
 // Default options
 function defaultGutterFn(i: number, gutterDirection: string): HTMLDivElement {
-	const gut: HTMLDivElement = doccy.createElement("div");
+	const gut: HTMLDivElement = window.document.createElement("div");
 	gut.className = `gutter gutter-${gutterDirection}`;
 	return gut;
 }
@@ -754,7 +752,7 @@ export class Split {
 
 		self.gutter.style.cursor = "";
 		self.parent.style.cursor = "";
-		doccy.body.style.cursor = "";
+		window.document.body.style.cursor = "";
 	}
 
 	// startDragging calls `calculateSizes` to store the inital size in the pair object.
@@ -813,7 +811,7 @@ export class Split {
 		// Set the cursor at multiple levels
 		self.gutter.style.cursor = this.cursor;
 		self.parent.style.cursor = this.cursor;
-		doccy.body.style.cursor = this.cursor;
+		window.document.body.style.cursor = this.cursor;
 
 		// Cache the initial sizes of the pair.
 		this.calculateSizes.call(self);
