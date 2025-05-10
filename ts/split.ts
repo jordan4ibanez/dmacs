@@ -2,19 +2,19 @@
 // maintainable code, while at the same time manually optimizing for tiny minified file size,
 // browser compatibility without additional requirements
 // and very few assumptions about the user's page layout.
-const global = typeof window !== "undefined" ? window : null;
-const ssr = global === null;
-const document = !ssr ? global.document : undefined;
+const global: any = typeof window !== "undefined" ? window : null;
+const ssr: any = global === null;
+const document: any = !ssr ? global.document : undefined;
 
 // Save a couple long function names that are used frequently.
 // This optimization saves around 400 bytes.
-const addEventListener = "addEventListener";
-const removeEventListener = "removeEventListener";
-const getBoundingClientRect = "getBoundingClientRect";
-const gutterStartDragging = "_a";
-const aGutterSize = "_b";
-const bGutterSize = "_c";
-const HORIZONTAL = "horizontal";
+const addEventListener: any = "addEventListener";
+const removeEventListener: any = "removeEventListener";
+const getBoundingClientRect: any = "getBoundingClientRect";
+const gutterStartDragging: any = "_a";
+const aGutterSize: any = "_b";
+const bGutterSize: any = "_c";
+const HORIZONTAL: any = "horizontal";
 const NOOP = () => false;
 
 // Helper function determines which prefixes of CSS calc we need.
@@ -592,8 +592,8 @@ const Split = (idsOption: any, options = {}) => {
 	// |           pair 0                pair 1             pair 2           |
 	// |             |                     |                  |              |
 	// -----------------------------------------------------------------------
-	const pairs = [];
-	elements = ids.map((id, i) => {
+	const pairs: any = [];
+	elements = ids.map((id: any, i: any) => {
 		// Create the element object.
 		const element = {
 			element: elementOrSelector(id),
@@ -604,7 +604,7 @@ const Split = (idsOption: any, options = {}) => {
 			i,
 		};
 
-		let pair;
+		let pair: any;
 
 		if (i > 0) {
 			// Create the pair object with its metadata.
