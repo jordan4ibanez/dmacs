@@ -100,6 +100,7 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 			if (chord) {
 				chord.fn();
 			}
+			// todo: exit and set a timer to clear the buffer.
 		}
 
 		chordCount++;
