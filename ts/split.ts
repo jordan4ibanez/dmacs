@@ -64,11 +64,11 @@ function elementOrSelector(el: any): any | null {
 
 // Helper function gets a property from the properties object, with a default fallback
 function getOption(
-	options: { [id: string]: any },
+	options: SplitOptions,
 	propName: string,
-	def: object
+	def?: any
 ): any | null {
-	const value = options[propName];
+	const value: any = (options as {[id: string]: any})[propName];
 	if (value !== undefined) {
 		return value;
 	}
