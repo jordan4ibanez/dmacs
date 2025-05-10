@@ -688,7 +688,7 @@ const Split = (idsOption: any, options = {}) => {
 		return element;
 	});
 
-	function adjustToMin(element) {
+	function adjustToMin(element: any) {
 		const isLast = element.i === pairs.length;
 		const pair = isLast ? pairs[element.i - 1] : pairs[element.i];
 
@@ -701,7 +701,7 @@ const Split = (idsOption: any, options = {}) => {
 		adjust.call(pair, size);
 	}
 
-	elements.forEach((element) => {
+	elements.forEach((element: any) => {
 		const computedSize =
 			element.element[getBoundingClientRect]()[dimension];
 
@@ -715,9 +715,9 @@ const Split = (idsOption: any, options = {}) => {
 		}
 	});
 
-	function setSizes(newSizes) {
+	function setSizes(newSizes: any) {
 		const trimmed = trimToMin(newSizes);
-		trimmed.forEach((newSize, i) => {
+		trimmed.forEach((newSize: any, i: any) => {
 			if (i > 0) {
 				const pair = pairs[i - 1];
 
@@ -733,8 +733,8 @@ const Split = (idsOption: any, options = {}) => {
 		});
 	}
 
-	function destroy(preserveStyles, preserveGutter) {
-		pairs.forEach((pair) => {
+	function destroy(preserveStyles: any, preserveGutter: any) {
+		pairs.forEach((pair: any) => {
 			if (preserveGutter !== true) {
 				pair.parent.removeChild(pair.gutter);
 			} else {
@@ -766,7 +766,7 @@ const Split = (idsOption: any, options = {}) => {
 	return {
 		setSizes,
 		getSizes,
-		collapse(i) {
+		collapse(i: any) {
 			adjustToMin(elements[i]);
 		},
 		destroy,
