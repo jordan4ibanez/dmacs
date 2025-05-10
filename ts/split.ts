@@ -68,7 +68,7 @@ function getOption(
 	propName: string,
 	def?: any
 ): any | null {
-	const value: any = (options as {[id: string]: any})[propName];
+	const value: any = (options as { [id: string]: any })[propName];
 	if (value !== undefined) {
 		return value;
 	}
@@ -175,7 +175,7 @@ export interface SplitOptions {
 // 4. Loop through the elements while pairing them off. Every pair gets an
 //    `pair` object and a gutter.
 // 5. Actually size the pair elements, insert gutters and attach event listeners.
-export function Split  (idsOption: string[], options: SplitOptions = {})  {
+export function Split(idsOption: string[], options: SplitOptions = {}) {
 	if (ssr) return {};
 
 	let ids = idsOption;
