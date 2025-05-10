@@ -7,8 +7,13 @@
 // maintainable code, while at the same time manually optimizing for tiny minified file size,
 // browser compatibility without additional requirements
 // and very few assumptions about the user's page layout.
+if (!window) {
+    throw new Error("How did this happen?");
+}
 const global = typeof window !== "undefined" ? window : null;
+
 const ssr = global === null;
+
 const doccy = !ssr ? global.document : undefined;
 
 // Save a couple long function names that are used frequently.
@@ -27,16 +32,16 @@ const NOOP = () => false;
 // //
 // // Tests -webkit, -moz and -o prefixes. Modified from StackOverflow:
 // // http://stackoverflow.com/questions/16625140/js-feature-detection-to-detect-the-usage-of-webkit-calc-over-calc/16625167#16625167
-// const calc = ssr
-// 	? "calc"
-// 	: `${["", "-webkit-", "-moz-", "-o-"]
-// 			.filter((prefix) => {
-// 				const el = doccy.createElement("div");
-// 				el.style.cssText = `width:${prefix}calc(9px)`;
+const calc = ssr
+	? "calc"
+	: `${["", "-webkit-", "-moz-", "-o-"]
+			.filter((prefix) => {
+				const el = doccy.createElement("div");
+				el.style.cssText = `width:${prefix}calc(9px)`;
 
-// 				return !!el.style.length;
-// 			})
-// 			.shift()}calc`;
+				return !!el.style.length;
+			})
+			.shift()}calc`;
 
 // // Helper function checks if its argument is a string-like type
 // const isString = (v) => typeof v === "string" || v instanceof String;
