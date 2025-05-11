@@ -122,6 +122,8 @@ export function createTextArea(
 		writeln("bye");
 	};
 
+	newTextArea.tabIndex = -1;
+
 	newTextArea.addEventListener("input", () => {
 		// println(newTextArea.value);
 	});
