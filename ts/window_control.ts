@@ -114,6 +114,13 @@ export function createTextArea(
 	newTextArea.ondrop = () => {
 		return false;
 	};
+	newTextArea.onfocus = () => {
+		writeln("hi");
+	};
+
+	newTextArea.onblur = () => {
+		writeln("bye");
+	};
 
 	newTextArea.addEventListener("input", () => {
 		// println(newTextArea.value);
