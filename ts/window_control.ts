@@ -98,7 +98,10 @@ function createTextArea(buffer: string = "*scratch*"): WindowTextArea {
 	// 	throw new Error("id is null");
 	// }
 
-	const newTextArea: HTMLTextAreaElement = document.createElement("textarea");
+	const newTextArea: WindowTextArea = document.createElement(
+		"textarea"
+	) as WindowTextArea;
+
 	newTextArea.className = "textarea";
 	newTextArea.id = getIDAndIncrement();
 
