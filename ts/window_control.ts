@@ -79,6 +79,10 @@ function getIDAndIncrement(): string {
 	return thisID.toString();
 }
 
+export class WindowTextArea extends HTMLTextAreaElement {
+	focusedBuffer: string = "";
+}
+
 /**
  * Create a textarea node.
  * @param id The ID of this text area.
