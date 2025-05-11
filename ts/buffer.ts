@@ -20,6 +20,4 @@ export function getFocus(): string | null {
 	return focusedBuffer;
 }
 
-export function create(name: string): void {
-	
 }
