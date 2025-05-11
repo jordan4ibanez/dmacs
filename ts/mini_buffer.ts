@@ -61,6 +61,8 @@ export function deployMiniBuffer(): void {
 		Buffer.setFocus(mb.id);
 	};
 
+	mb.tabIndex = -1;
+
 	mb.onfocus = () => {
 		if (!__inInteractiveMode && __lastInteractive) {
 			reentry = true;
