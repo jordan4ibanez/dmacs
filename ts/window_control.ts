@@ -77,7 +77,7 @@ function createSplit(
 function getIDAndIncrement(): string {
 	const thisID: number = __nextID;
 	__nextID++;
-	return thisID.toString();
+	return "win_" + thisID.toString();
 }
 
 export class WindowTextArea extends HTMLTextAreaElement {
@@ -173,7 +173,7 @@ export function split(orientation: Orientation): void {
  */
 export function focusWindow(id: string): void {
 	const unknownElement: HTMLElement | null =
-		document.getElementById(currentFocus);
+		window.document.getElementById(id);
 
 	if (!unknownElement) {
 		writeln(`Cannot focus window [${id}]. It does not exist.`);
