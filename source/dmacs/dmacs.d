@@ -20,8 +20,8 @@ private:
         // writeln("hi from D in js");
     }
 
-    void dClose(JSONValue[] blah) {
-        writeln(blah);
+    void dClose() {
+        writeln("Thanks for using dmacs!");
         wv.terminate();
     }
 
