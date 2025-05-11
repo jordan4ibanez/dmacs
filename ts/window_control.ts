@@ -89,7 +89,7 @@ export class WindowTextArea extends HTMLTextAreaElement {
  * @param buffer Which text buffer this text area is attached to.
  * @returns The new textarea node.
  */
-function createTextArea(buffer: string = "*scratch*"): HTMLTextAreaElement {
+function createTextArea(buffer: string = "*scratch*"): WindowTextArea {
 	if (buffer == null) {
 		buffer = "*scratch*";
 	}
