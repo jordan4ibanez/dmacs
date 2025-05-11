@@ -227,6 +227,15 @@ export function getFinishedClearTimeout(): number {
 export function setRecordingTimeout(newTimeout: number): void {
 	chordRecordTimeout = newTimeout;
 }
+
+/**
+ * Get the minibuffer clear timeout after a key was pressed in the sequence.
+ * @returns The timeout for recording chord input.
+ */
+export function getRecordingTimeout(): number {
+	return chordRecordTimeout;
+}
+
 /**
  * Cancel the current recording, if any.
  * Resets the state.
