@@ -8,7 +8,6 @@ var chordCount: number = 0;
 var clearMinibufferTimeout: number = 2000;
 var timeOutIDs: number[] = [];
 
-
 //? Note: This is set up slightly differently than emacs.
 //? Emacs kind of forces you to cramp your hand and that hurt mine.
 //? So, you can just hit C-M-x, etc, and it'll work the same.
@@ -93,8 +92,7 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 			currentChord = thisKey;
 			inChord = true;
 			chordCount++;
-		}
-		if (inChord) {
+
 			MiniBuffer.reset();
 			MiniBuffer.setLabel("Chord: " + currentChord);
 			MiniBuffer.flush();
@@ -142,7 +140,10 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 
 			// Automatically clear out the minibuffer after 1 second when failure is hit.
 			timeOutIDs.push(
-				window.setTimeout(resetMiniBufferAfterRecording, clearMinibufferTimeout)
+				window.setTimeout(
+					resetMiniBufferAfterRecording,
+					clearMinibufferTimeout
+				)
 			);
 		}
 	}
