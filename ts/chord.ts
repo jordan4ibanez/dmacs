@@ -90,6 +90,14 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 			while (timeOutIDs.length > 0) {
 				window.clearTimeout(timeOutIDs.pop()!);
 			}
+			if (chordRecordTimeout > 0) {
+				timeOutIDs.push(
+					window.setTimeout(
+						resetMiniBufferAfterTimeout,
+						chordRecordTimeout
+					)
+				);
+			}
 			currentChord = thisKey;
 			inChord = true;
 			chordCount++;
@@ -102,6 +110,15 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 		while (timeOutIDs.length > 0) {
 			window.clearTimeout(timeOutIDs.pop()!);
 		}
+		if (chordRecordTimeout > 0) {
+			timeOutIDs.push(
+				window.setTimeout(
+					resetMiniBufferAfterTimeout,
+					chordRecordTimeout
+				)
+			);
+		}
+
 		if (thisKey == " ") {
 			currentChord += "-space";
 		} else {
@@ -115,6 +132,10 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 		{
 			const chord = chordDatabase.get(currentChord);
 			if (chord) {
+				while (timeOutIDs.length > 0) {
+					window.clearTimeout(timeOutIDs.pop()!);
+				}
+
 				MiniBuffer.setLabel(
 					"Chord: " + currentChord + " | Running: " + chord.name
 				);
@@ -136,6 +157,10 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 		chordCount++;
 
 		if (chordCount > 5) {
+			while (timeOutIDs.length > 0) {
+				window.clearTimeout(timeOutIDs.pop()!);
+			}
+
 			MiniBuffer.setLabel(
 				"Chord: " + currentChord + " is not a command."
 			);
@@ -153,8 +178,23 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 	}
 }
 
+function resetMiniBufferAfterTimeout() {
+	writeln("a", MiniBuffer.hasPendingInteractive());
+	if (
+		MiniBuffer.isInInteractiveMode() ||
+		MiniBuffer.hasPendingInteractive() ||
+		!inChord
+	) {
+		return;
+	}
+
+	exitRecord();
+
+	MiniBuffer.reset();
+}
+
 function resetMiniBufferAfterRecording() {
-	writeln("running", MiniBuffer.hasPendingInteractive());
+	writeln("b", MiniBuffer.hasPendingInteractive());
 	if (
 		MiniBuffer.isInInteractiveMode() ||
 		MiniBuffer.hasPendingInteractive() ||
