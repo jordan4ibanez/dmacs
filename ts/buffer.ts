@@ -1,5 +1,7 @@
 var focusedBuffer: string | null = null;
 
+const database: Map<string, string> = new Map();
+
 /**
  * Set the currently focused buffer.
  * @param bufferName The name of the buffer.
@@ -15,4 +17,8 @@ export function setFocus(bufferName: string): void {
  */
 export function getFocus(): string | null {
 	return focusedBuffer;
+}
+
+export function create(name: string): void {
+	
 }
