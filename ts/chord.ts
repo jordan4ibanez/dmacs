@@ -256,6 +256,15 @@ export function addMetaKey(key: string): void {
 	metaKeys.add(key);
 }
 
+/**
+ * Add an existing meta key.
+ * @param key The meta key to remove.
+ * @returns Success.
+ */
+export function removeMetaKey(key: string): boolean {
+	return metaKeys.delete(key);
+}
+
 function registerDefaultChords(): void {
 	registerChord("test_command", "control-control-x", () => {
 		writeln("hi from chord recording!");
