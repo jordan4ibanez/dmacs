@@ -87,9 +87,7 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 
 	if (!inChord) {
 		if (metaKeys.has(thisKey)) {
-			while (timeOutIDs.length > 0) {
-				window.clearTimeout(timeOutIDs.pop()!);
-			}
+			clearTimeouts();
 			if (chordRecordTimeout > 0) {
 				timeOutIDs.push(
 					window.setTimeout(
@@ -107,9 +105,7 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 			MiniBuffer.flush();
 		}
 	} else {
-		while (timeOutIDs.length > 0) {
-			window.clearTimeout(timeOutIDs.pop()!);
-		}
+		clearTimeouts();
 		if (chordRecordTimeout > 0) {
 			timeOutIDs.push(
 				window.setTimeout(
@@ -132,9 +128,7 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 		{
 			const chord = chordDatabase.get(currentChord);
 			if (chord) {
-				while (timeOutIDs.length > 0) {
-					window.clearTimeout(timeOutIDs.pop()!);
-				}
+				clearTimeouts();
 
 				MiniBuffer.setLabel(
 					"Chord: " + currentChord + " | Running: " + chord.name
@@ -157,9 +151,7 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 		chordCount++;
 
 		if (chordCount > 5) {
-			while (timeOutIDs.length > 0) {
-				window.clearTimeout(timeOutIDs.pop()!);
-			}
+			clearTimeouts();
 
 			MiniBuffer.setLabel(
 				"Chord: " + currentChord + " is not a command."
@@ -175,6 +167,12 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 				)
 			);
 		}
+	}
+}
+
+function clearTimeouts() {
+	while (timeOutIDs.length > 0) {
+		window.clearTimeout(timeOutIDs.pop()!);
 	}
 }
 
