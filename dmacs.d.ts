@@ -12,6 +12,5 @@ function writeln(...any: any): void;
 
 /**
  * Close the window.
- * @param any Anything.
  */
-function dClose(any: any): void;
+function dClose(): void;
