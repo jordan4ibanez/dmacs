@@ -206,7 +206,7 @@ function resetMiniBufferAfterRecording() {
 
 /**
  * Set the minibuffer clear timeout after a command either runs or the chord fails.
- * @param newTimeout The time it should take for the minibuffer to be cleared after a command runs or the chord fails.
+ * @param newTimeout The time it takes for the minibuffer to be cleared after a command runs or the chord fails.
  */
 export function setFeedbackClearTimeout(newTimeout: number): void {
 	clearMinibufferTimeout = newTimeout;
