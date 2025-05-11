@@ -8,7 +8,7 @@ function writeln(...any: any): void;
  * Create a buffer.
  * @param buf The buffer name to create.
  */
-function createBuffer(buf: string): void;
+// function createBuffer(buf: string): void;
 
 /**
  * Close the window.
