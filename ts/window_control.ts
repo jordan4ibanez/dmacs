@@ -114,10 +114,13 @@ export function createTextArea(
 	newTextArea.ondrop = () => {
 		return false;
 	};
+
+	// When the user focuses (clicks) the window.
 	newTextArea.onfocus = () => {
 		writeln("hi");
 	};
 
+	// When the user unfocuses (unclicks) on the window.
 	newTextArea.onblur = () => {
 		writeln("bye");
 	};
