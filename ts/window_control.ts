@@ -1,6 +1,8 @@
 import * as Split from "./split";
 import * as MiniBuffer from "./mini_buffer";
 
+var currentFocus: string = "";
+
 export enum Orientation {
 	vertical = "vertical",
 	horizontal = "horizontal",
