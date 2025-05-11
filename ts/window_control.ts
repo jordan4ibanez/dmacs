@@ -133,7 +133,9 @@ function createTextArea(buffer: string = "*scratch*"): WindowTextArea {
 	// When the user focuses (clicks) the window.
 	newTextArea.onfocus = () => {
 		currentFocus = newTextArea.id;
-		Buffer.setFocus(newTextArea.focusedBuffer);
+
+		Buffer.setFocus("*scratch*");
+
 		writeln(
 			`focused on textarea: ${currentFocus} | Buffer: ${newTextArea.focusedBuffer}`
 		);
@@ -155,6 +157,31 @@ function createTextArea(buffer: string = "*scratch*"): WindowTextArea {
 
 export function split(orientation: Orientation): void {
 	writeln("Splitting.");
+	const blah: WindowTextArea | null = window.document.getElementById(
+		currentFocus
+	) as WindowTextArea | null;
+
+	if (!blah) {
+		writeln(`Cannot split ${currentFocus}, it does not exist.`);
+		return;
+	}
+}
+
+/**
+ * Focus a window by it's ID.
+ * @param id The id of the window.
+ */
+export function focusWindow(id: string): void {
+	const unknownElement: HTMLElement | null =
+		document.getElementById(currentFocus);
+
+	if (!unknownElement) {
+		writeln(`Cannot focus window [${id}]. It does not exist.`);
+		return;
+	}
+
+	unknownElement.focus();
+	currentFocus = unknownElement.id;
 }
 
 //? END IMPLEMENTATION.
@@ -185,8 +212,10 @@ export function z____deploy(): void {
 	// split.right.appendChild(createTextArea("2"));
 
 	// Create the initial window area.
-	windowArea.appendChild(createTextArea());
-
+	var newWin = createTextArea();
+	windowArea.appendChild(newWin);
 	// writeln("hi");
 	rootDiv.appendChild;
+
+	focusWindow(newWin.id);
 }
