@@ -2,6 +2,7 @@ import * as Split from "./split";
 import * as MiniBuffer from "./mini_buffer";
 
 var currentFocus: string = "";
+var __nextID = 0;
 
 export enum Orientation {
 	vertical = "vertical",
@@ -24,7 +25,7 @@ export class SplitViewDivs {
  * @param orientation Horizontal or vertical.
  * @returns An object that holds the two split divs.
  */
-export function createSplit(
+function createSplit(
 	id: string,
 	attachTo: Node,
 	orientation: Orientation
@@ -72,26 +73,30 @@ export function createSplit(
 	);
 }
 
+function getIDAndIncrement(): string {
+	const thisID: number = __nextID;
+	__nextID++;
+	return thisID.toString();
+}
+
 /**
  * Create a textarea node.
  * @param id The ID of this text area.
  * @param buffer Which text buffer this text area is attached to.
  * @returns The new textarea node.
  */
-export function createTextArea(
-	id: string,
-	buffer: string = "*scratch*"
-): HTMLTextAreaElement {
+function createTextArea(buffer: string = "*scratch*"): HTMLTextAreaElement {
 	if (buffer == null) {
 		buffer = "*scratch*";
 	}
-	if (id == null) {
-		throw new Error("id is null");
-	}
+
+	// if (id == null) {
+	// 	throw new Error("id is null");
+	// }
 
 	const newTextArea: HTMLTextAreaElement = document.createElement("textarea");
 	newTextArea.className = "textarea";
-	newTextArea.id = id;
+	newTextArea.id = getIDAndIncrement();
 
 	newTextArea.oncut = () => {
 		return false;
@@ -117,12 +122,13 @@ export function createTextArea(
 
 	// When the user focuses (clicks) the window.
 	newTextArea.onfocus = () => {
-		writeln("hi");
+		currentFocus = newTextArea.id;
+		writeln(`focused on textarea: ${currentFocus}`);
 	};
 
 	// When the user unfocuses (unclicks) on the window.
 	newTextArea.onblur = () => {
-		writeln("bye");
+		// writeln("bye");
 	};
 
 	newTextArea.tabIndex = -1;
@@ -152,18 +158,18 @@ export function z____deploy(): void {
 
 	MiniBuffer.deployMiniBuffer();
 
-	var split: SplitViewDivs = createSplit(
-		"testing",
-		windowArea,
-		Orientation.horizontal
-	);
+	// var split: SplitViewDivs = createSplit(
+	// 	"testing",
+	// 	windowArea,
+	// 	Orientation.horizontal
+	// );
 
-	split.left.appendChild(createTextArea("1"));
-	split.right.appendChild(createTextArea("2"));
+	// split.left.appendChild(createTextArea("1"));
+	// split.right.appendChild(createTextArea("2"));
 
 	// Create the initial window area.
-	// windowArea.appendChild(createTextArea("main_window"));
+	windowArea.appendChild(createTextArea("main_window"));
 
 	// writeln("hi");
-	// rootDiv.appendChild
+	rootDiv.appendChild;
 }
