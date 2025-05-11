@@ -213,6 +213,13 @@ export function setFinishedClearTimeout(newTimeout: number): void {
 }
 
 /**
+ * Get the minibuffer clear timeout after a command either runs or the chord fails.
+ * @returns The current clear timeout.
+ */
+export function getFinishedClearTimeout(): number {
+	return clearMinibufferTimeout;
+}
+/**
  * Cancel the current recording, if any.
  * Resets the state.
  */
