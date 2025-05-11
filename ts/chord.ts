@@ -124,7 +124,6 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 		MiniBuffer.setLabel("Chord: " + currentChord);
 		MiniBuffer.flush();
 
-		// todo: search up function to run. if found: return
 		{
 			const chord = chordDatabase.get(currentChord);
 			if (chord) {
