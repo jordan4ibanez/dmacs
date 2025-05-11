@@ -1,4 +1,7 @@
 default:
+	@./dmacs
+
+rebuild:
 	@DFLAGS="--linker=mold" dub run 
 
 # The TS compiler is absolutely horrible at cold starts.
