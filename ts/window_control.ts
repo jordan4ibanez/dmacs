@@ -1,5 +1,6 @@
 import * as Split from "./split";
 import * as MiniBuffer from "./mini_buffer";
+import * as Buffer from "./buffer";
 
 var currentFocus: string = "";
 var __nextID = 0;
@@ -132,7 +133,10 @@ function createTextArea(buffer: string = "*scratch*"): WindowTextArea {
 	// When the user focuses (clicks) the window.
 	newTextArea.onfocus = () => {
 		currentFocus = newTextArea.id;
-		writeln(`focused on textarea: ${currentFocus}`);
+		Buffer.setFocus(newTextArea.focusedBuffer);
+		writeln(
+			`focused on textarea: ${currentFocus} | Buffer: ${newTextArea.focusedBuffer}`
+		);
 	};
 
 	// When the user unfocuses (unclicks) on the window.
@@ -142,9 +146,9 @@ function createTextArea(buffer: string = "*scratch*"): WindowTextArea {
 
 	newTextArea.tabIndex = -1;
 
-	newTextArea.addEventListener("input", () => {
-		// println(newTextArea.value);
-	});
+	// newTextArea.addEventListener("input", () => {
+	// println(newTextArea.value);
+	// });
 
 	return newTextArea;
 }
@@ -177,7 +181,7 @@ export function z____deploy(): void {
 	// split.right.appendChild(createTextArea("2"));
 
 	// Create the initial window area.
-	windowArea.appendChild(createTextArea("main_window"));
+	windowArea.appendChild(createTextArea());
 
 	// writeln("hi");
 	rootDiv.appendChild;
