@@ -49,6 +49,8 @@ export function destroy(bufName: string): void {
 	database.delete(bufName);
 }
 
+//? END IMPLEMENTATION.
+
 export function z____deploy(): void {
 	create("*scratch*");
 }
