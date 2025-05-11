@@ -5,8 +5,9 @@ import * as KeyInput from "./key_input";
 var inChord: boolean = false;
 var currentChord: string = "";
 var chordCount: number = 0;
-var clearTimeout: number = 2000;
+var clearMinibufferTimeout: number = 2000;
 var timeOutIDs: number[] = [];
+
 
 //? Note: This is set up slightly differently than emacs.
 //? Emacs kind of forces you to cramp your hand and that hurt mine.
@@ -123,7 +124,7 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 				timeOutIDs.push(
 					window.setTimeout(
 						resetMiniBufferAfterRecording,
-						clearTimeout
+						clearMinibufferTimeout
 					)
 				);
 				return;
@@ -141,7 +142,7 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 
 			// Automatically clear out the minibuffer after 1 second when failure is hit.
 			timeOutIDs.push(
-				window.setTimeout(resetMiniBufferAfterRecording, clearTimeout)
+				window.setTimeout(resetMiniBufferAfterRecording, clearMinibufferTimeout)
 			);
 		}
 	}
@@ -165,7 +166,7 @@ function resetMiniBufferAfterRecording() {
  * @param newTimeout The time it should take for the minibuffer to be cleared after a command runs or the chord fails.
  */
 export function setFeedbackClearTimeout(newTimeout: number): void {
-	clearTimeout = newTimeout;
+	clearMinibufferTimeout = newTimeout;
 }
 
 /**
