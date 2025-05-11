@@ -40,7 +40,7 @@ public:
         writeln("Created buffer [" ~ name ~ "]");
     }
 
-    void jsGetBufferText(string name) {
+    void getBufferText(string name) {
 
     }
 
