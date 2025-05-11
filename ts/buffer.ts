@@ -1,5 +1,6 @@
-var focusedBuffer: string | null = null;
+import * as Chord from "./chord";
 
+var focusedBuffer: string | null = null;
 const database: Map<string, string> = new Map();
 
 /**
@@ -8,7 +9,7 @@ const database: Map<string, string> = new Map();
  */
 export function setFocus(bufferName: string): void {
 	focusedBuffer = bufferName;
-	// Chord.exitRecord(); // todo: fix this
+	Chord.exitRecord();
 }
 
 /**
