@@ -1,6 +1,6 @@
 import * as Chord from "./chord";
 
-var focusedBuffer: string | null = null;
+var focusedBuffer: string = "*scratch*";
 const database: Map<string, string> = new Map();
 
 /**
