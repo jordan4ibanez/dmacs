@@ -102,6 +102,8 @@ function createTextArea(buffer: string = "*scratch*"): WindowTextArea {
 		"textarea"
 	) as WindowTextArea;
 
+	newTextArea.focusedBuffer = buffer;
+
 	newTextArea.className = "textarea";
 	newTextArea.id = getIDAndIncrement();
 
