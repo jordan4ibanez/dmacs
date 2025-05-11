@@ -15,6 +15,7 @@ export function z____run(): void {
 	}
 	__deployed = true;
 
+	Buffer.z____deploy();
 	Chord.z____deploy();
 	CSS.z____deploy();
 	WindowControl.z____deploy();
