@@ -34,4 +34,21 @@ export function create(bufName: string, text: string = ""): void {
 	}
 	database.set(bufName, text);
 }
+
+/**
+ * Destroy a buffer. This is a no-op if the buffer does not exist.
+ * @param bufName The name of the buffer to destroy.
+ */
+export function destroy(bufName: string): void {
+	if (!database.has(bufName)) {
+		writeln(
+			"Warning: Buffer [" + bufName + "] does not exist. Cannot destroy."
+		);
+		return;
+	}
+	database.delete(bufName);
+}
+
+export function z____deploy(): void {
+	create("*scratch*");
 }
