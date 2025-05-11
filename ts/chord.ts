@@ -7,6 +7,7 @@ var currentChord: string = "";
 var chordCount: number = 0;
 var clearMinibufferTimeout: number = 2000;
 var timeOutIDs: number[] = [];
+var chordRecordTimeout = 2000;
 
 //? Note: This is set up slightly differently than emacs.
 //? Emacs kind of forces you to cramp your hand and that hurt mine.
@@ -98,6 +99,9 @@ export function doLogic(keyPressEvent: KeyboardEvent): void {
 			MiniBuffer.flush();
 		}
 	} else {
+		while (timeOutIDs.length > 0) {
+			window.clearTimeout(timeOutIDs.pop()!);
+		}
 		if (thisKey == " ") {
 			currentChord += "-space";
 		} else {
