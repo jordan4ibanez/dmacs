@@ -8,6 +8,14 @@ const database: Map<string, string> = new Map();
  * @param bufferName The name of the buffer.
  */
 export function setFocus(bufferName: string): void {
+	if (!database.has(bufferName)) {
+		writeln(
+			"Warning: Buffer [" +
+				bufferName +
+				"] does not exist. Focusing on [*scratch*]."
+		);
+		bufferName = "*scratch*";
+	}
 	focusedBuffer = bufferName;
 	Chord.exitRecord();
 }
