@@ -153,6 +153,10 @@ function createTextArea(buffer: string = "*scratch*"): WindowTextArea {
 	return newTextArea;
 }
 
+export function split(orientation: Orientation): void {
+	writeln("Splitting.");
+}
+
 //? END IMPLEMENTATION.
 
 export function z____deploy(): void {
