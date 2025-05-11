@@ -266,8 +266,8 @@ export function removeMetaKey(key: string): boolean {
 }
 
 function registerDefaultChords(): void {
-	registerChord("test_command", "control-control-x", () => {
-		writeln("hi from chord recording!");
+	registerChord("exit", "control-x-c", () => {
+		dClose();
 	});
 
 	registerChord("split_vertical", "control-x-2", () => {
