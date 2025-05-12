@@ -23,7 +23,7 @@ private:
             "<head>",
             "</head>",
             "<body>",
-            "<script data-main=\"main\" src=\"./require.js\"></script>",
+            "<script src=\"./bundle.js\"></script>",
             "<script>onload=dMain();</script>",
             "</body>",
             "</html>"
