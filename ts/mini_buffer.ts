@@ -67,7 +67,7 @@ export function deployMiniBuffer(): void {
 		if (!__inInteractiveMode && __lastInteractive) {
 			reentry = true;
 			// If it was able to re-enter this interaction, it's not clickout cancel.
-			enterInteractiveMode(false, __lastInteractive, null);
+			enterInteractiveMode(false, __lastInteractive);
 		}
 	};
 
