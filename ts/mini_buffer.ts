@@ -155,6 +155,11 @@ export function reset(): void {
 	__lastInteractive = null;
 }
 
+export interface InitialBufferData {
+	buffer?: string;
+	label?: string;
+}
+
 /**
  * Interactive mode allows the buffer to intake user input.
  * @param clickOutCancel If the user can click out to cancel the interaction. If false, it just pauses. (defaults true)
@@ -165,7 +170,7 @@ export function reset(): void {
 export function enterInteractiveMode(
 	clickOutCancel: boolean,
 	fn: (a: KeyboardEvent) => void,
-	initial: { [id: string]: string } | null
+	initial?: InitialBufferData
 ): boolean {
 	if (__inInteractiveMode) {
 		return true;
