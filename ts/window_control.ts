@@ -225,7 +225,7 @@ export function destroy(): void {
 	const ind: string = parent.id.split("_")[2]!.toString();
 
 	// Get neighbor.
-	const neighbor: HTMLDivElement = (() => {
+	var neighbor: HTMLElement = (() => {
 		if (isLeft) {
 			return document.getElementById("right_divider_" + ind)!
 				.childNodes[0]!;
@@ -233,24 +233,34 @@ export function destroy(): void {
 			return document.getElementById("left_divider_" + ind)!
 				.childNodes[0]!;
 		}
-	})() as HTMLDivElement;
+	})() as HTMLElement;
 
 	var split: HTMLDivElement = parent.parentElement! as HTMLDivElement;
-
 	var masterDiv: HTMLDivElement = split.parentElement! as HTMLDivElement;
 
-	// writeln(masterDiv.id);
-
-	// parent.removeChild(gottenTextArea);
-	// split.removeChild(parent);
+	parent.removeChild(gottenTextArea);
+	split.removeChild(parent);
 	masterDiv.removeChild(split);
 
 	masterDiv.appendChild(neighbor);
 	neighbor.style.height = "100%";
 	neighbor.style.width = "100%";
 
-	// writeln(neighbor.id);
-	focusWindow(neighbor.id);
+	if (neighbor instanceof HTMLTextAreaElement) {
+		// writeln("text");
+		focusWindow(neighbor.id);
+	} else {
+		// writeln("div: looping");
+
+		for (let _ = 0; _ < 10; _++) {
+			neighbor = neighbor.childNodes[0]! as HTMLElement;
+			// writeln("ne:", neighbor.id);
+			if (neighbor instanceof HTMLTextAreaElement) {
+				focusWindow(neighbor.id);
+				break;
+			}
+		}
+	}
 }
 
 /**
