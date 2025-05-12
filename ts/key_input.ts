@@ -18,7 +18,7 @@ function onKeyDown(keyPressEvent: KeyboardEvent): void {
  * What happens when a key is released.
  * @param keyReleaseEvent
  */
-function onKeyUp(keyReleaseEvent: KeyboardEvent): void {
+function onKeyUp(_: KeyboardEvent): void {
 	// const key = keyReleaseEvent.key; // "a", "1", "Shift", etc.
 	// print(key, "UP");
 }
