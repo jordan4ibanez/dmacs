@@ -172,8 +172,8 @@ export function split(orientation: Orientation): void {
  * @param id The id of the window.
  */
 export function focusWindow(id: string): void {
-	const unknownElement: HTMLElement | null =
-		window.document.getElementById(id);
+	const unknownElement: WindowTextArea | null =
+		window.document.getElementById(id) as WindowTextArea | null;
 
 	if (!unknownElement) {
 		writeln(`Cannot focus window [${id}]. It does not exist.`);
@@ -182,6 +182,8 @@ export function focusWindow(id: string): void {
 
 	unknownElement.focus();
 	currentFocus = unknownElement.id;
+
+	Buffer.setFocus(unknownElement.focusedBuffer);
 }
 
 //? END IMPLEMENTATION.
