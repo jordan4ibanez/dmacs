@@ -86,7 +86,7 @@ const getGutterSize = (
 };
 
 // Default options
-const defaultGutterFn = (i: any, gutterDirection: any) => {
+const defaultGutterFn = (_: any, gutterDirection: any) => {
 	const gut = document!!.createElement("div");
 	gut.className = `gutter gutter-${gutterDirection}`;
 	return gut;
