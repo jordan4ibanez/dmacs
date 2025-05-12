@@ -172,24 +172,22 @@ export function split(orientation: Orientation): void {
 		return;
 	}
 
-	writeln(orientation);
+	//? Parent is ALWAYS a div.
+	//? If it's not, then explode.
+	const parent: HTMLElement = gottenElement.parentElement!;
 
-	const parent: HTMLDivElement =
-		gottenElement.parentElement! as HTMLDivElement;
+	if (!(parent instanceof HTMLDivElement)) {
+		throw new Error("not a div!");
+	}
 
-	// Parent is the master window area.
-	// if (parent.id == "window_area") {
 	parent.removeChild(gottenElement);
-
 	var split: SplitViewDivs = createSplit(
 		getDivIDAndIncrement(),
 		parent,
 		orientation
 	);
 	split.left.appendChild(gottenElement);
-
 	split.right.appendChild(createTextArea(gottenElement.focusedBuffer));
-	// }
 }
 
 /**
