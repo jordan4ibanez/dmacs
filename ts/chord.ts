@@ -277,6 +277,10 @@ function registerDefaultChords(): void {
 	registerChord("split_horizontal", "control-x-3", () => {
 		WindowControl.split(WindowControl.Orientation.horizontal);
 	});
+
+	registerChord("destroy_window", "control-x-0", () => {
+		WindowControl.destroy();
+	});
 }
 
 //? END IMPLEMENTATION.

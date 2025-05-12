@@ -162,7 +162,6 @@ function createTextArea(buffer: string = "*scratch*"): WindowTextArea {
 }
 
 export function split(orientation: Orientation): void {
-	writeln("Splitting.");
 	const gottenElement: WindowTextArea | null = window.document.getElementById(
 		currentFocus
 	) as WindowTextArea | null;
@@ -189,6 +188,33 @@ export function split(orientation: Orientation): void {
 	split.left.appendChild(gottenElement);
 	split.right.appendChild(createTextArea(gottenElement.focusedBuffer));
 	focusWindow(gottenElement.id);
+}
+
+export function destroy(): void {
+	const gottenElement: WindowTextArea | null = window.document.getElementById(
+		currentFocus
+	) as WindowTextArea | null;
+
+	if (!gottenElement) {
+		writeln(`Cannot split ${currentFocus}, it does not exist.`);
+		return;
+	}
+
+	//? Parent is ALWAYS a div.
+	//? If it's not, then explode.
+	const parent: HTMLElement = gottenElement.parentElement!;
+
+	if (!(parent instanceof HTMLDivElement)) {
+		throw new Error("not a div!");
+	}
+
+	if (parent.id === "window_area") {
+		MiniBuffer.reset();
+		MiniBuffer.setLabel("Cannot delete window. It is the only one left.");
+		MiniBuffer.flush();
+	}
+
+    
 }
 
 /**
