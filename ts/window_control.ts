@@ -188,6 +188,7 @@ export function split(orientation: Orientation): void {
 	);
 	split.left.appendChild(gottenElement);
 	split.right.appendChild(createTextArea(gottenElement.focusedBuffer));
+	focusWindow(gottenElement.id);
 }
 
 /**
