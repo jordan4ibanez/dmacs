@@ -1,5 +1,5 @@
 import * as MiniBuffer from "./mini_buffer";
-import * as Init from "./init";
+// import * as Init from "./init";
 import * as KeyInput from "./key_input";
 import * as WindowControl from "./window_control";
 
