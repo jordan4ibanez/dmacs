@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   entry: './ts/main.ts',
   mode: "development",
-  devtool: 'inline-source-map',
+//   devtool: 'inline-source-map',
   module: {
     rules: [
       {
@@ -18,6 +18,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
+    pathinfo: true,
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'lib'),
   },
