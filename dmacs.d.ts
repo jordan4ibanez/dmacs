@@ -2,7 +2,7 @@
  * Write to the D standard output.
  * @param {any} any Anything.
  */
-function writeln(...any: any): void;
+declare function writeln(...any: any): void;
 
 /**
  * Create a buffer.
@@ -13,4 +13,4 @@ function writeln(...any: any): void;
 /**
  * Close the window.
  */
-function dClose(): void;
+declare function dClose(): void;
