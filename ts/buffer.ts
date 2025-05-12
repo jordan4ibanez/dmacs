@@ -17,7 +17,7 @@ export function setFocus(bufferName: string): void {
 		bufferName = "*scratch*";
 	}
 	focusedBuffer = bufferName;
-	Chord.exitRecord();
+	// Chord.exitRecord();
 }
 
 /**
