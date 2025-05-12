@@ -191,18 +191,17 @@ export function split(orientation: Orientation): void {
 }
 
 export function destroy(): void {
-	const gottenElement: WindowTextArea | null = window.document.getElementById(
-		currentFocus
-	) as WindowTextArea | null;
+	const gottenTextArea: WindowTextArea | null =
+		window.document.getElementById(currentFocus) as WindowTextArea | null;
 
-	if (!gottenElement) {
+	if (!gottenTextArea) {
 		writeln(`Cannot split ${currentFocus}, it does not exist.`);
 		return;
 	}
 
 	//? Parent is ALWAYS a div.
 	//? If it's not, then explode.
-	const parent: HTMLElement = gottenElement.parentElement!;
+	const parent: HTMLElement = gottenTextArea.parentElement!;
 
 	if (!(parent instanceof HTMLDivElement)) {
 		throw new Error("not a div!");
@@ -212,9 +211,46 @@ export function destroy(): void {
 		MiniBuffer.reset();
 		MiniBuffer.setLabel("Cannot delete window. It is the only one left.");
 		MiniBuffer.flush();
+		return;
 	}
 
-    
+	// Parent is always a div in the split.
+	const isLeft: boolean = parent.id.startsWith("left_divider_");
+	const isRight: boolean = parent.id.startsWith("right_divider_");
+
+	if (!isLeft && !isRight) {
+		throw new Error("what happened here? " + parent.id);
+	}
+
+	const ind: string = parent.id.split("_")[2]!.toString();
+
+	// Get neighbor.
+	const neighbor: HTMLDivElement = (() => {
+		if (isLeft) {
+			return document.getElementById("right_divider_" + ind)!
+				.childNodes[0]!;
+		} else {
+			return document.getElementById("left_divider_" + ind)!
+				.childNodes[0]!;
+		}
+	})() as HTMLDivElement;
+
+	var split: HTMLDivElement = parent.parentElement! as HTMLDivElement;
+
+	var masterDiv: HTMLDivElement = split.parentElement! as HTMLDivElement;
+
+	// writeln(masterDiv.id);
+
+	// parent.removeChild(gottenTextArea);
+	// split.removeChild(parent);
+	masterDiv.removeChild(split);
+
+	masterDiv.appendChild(neighbor);
+	neighbor.style.height = "100%";
+	neighbor.style.width = "100%";
+
+	// writeln(neighbor.id);
+	focusWindow(neighbor.id);
 }
 
 /**
