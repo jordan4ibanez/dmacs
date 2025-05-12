@@ -74,10 +74,16 @@ function createSplit(
 	);
 }
 
-function getIDAndIncrement(): string {
+function getWindowIDAndIncrement(): string {
 	const thisID: number = __nextID;
 	__nextID++;
-	return "win_" + thisID.toString();
+	return "window_" + thisID.toString();
+}
+
+function getDivIDAndIncrement(): string {
+	const thisID: number = __nextID;
+	__nextID++;
+	return "divider_" + thisID.toString();
 }
 
 export class WindowTextArea extends HTMLTextAreaElement {
@@ -106,7 +112,7 @@ function createTextArea(buffer: string = "*scratch*"): WindowTextArea {
 	newTextArea.focusedBuffer = buffer;
 
 	newTextArea.className = "textarea";
-	newTextArea.id = getIDAndIncrement();
+	newTextArea.id = getWindowIDAndIncrement();
 
 	newTextArea.oncut = () => {
 		return false;
@@ -157,16 +163,33 @@ function createTextArea(buffer: string = "*scratch*"): WindowTextArea {
 
 export function split(orientation: Orientation): void {
 	writeln("Splitting.");
-	const blah: WindowTextArea | null = window.document.getElementById(
+	const gottenElement: WindowTextArea | null = window.document.getElementById(
 		currentFocus
 	) as WindowTextArea | null;
 
-	if (!blah) {
+	if (!gottenElement) {
 		writeln(`Cannot split ${currentFocus}, it does not exist.`);
 		return;
 	}
 
-    writeln(orientation)
+	writeln(orientation);
+
+	const parent: HTMLDivElement =
+		gottenElement.parentElement! as HTMLDivElement;
+
+	// Parent is the master window area.
+	// if (parent.id == "window_area") {
+	parent.removeChild(gottenElement);
+
+	var split: SplitViewDivs = createSplit(
+		getDivIDAndIncrement(),
+		parent,
+		orientation
+	);
+	split.left.appendChild(gottenElement);
+
+	split.right.appendChild(createTextArea(gottenElement.focusedBuffer));
+	// }
 }
 
 /**
