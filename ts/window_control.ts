@@ -165,6 +165,8 @@ export function split(orientation: Orientation): void {
 		writeln(`Cannot split ${currentFocus}, it does not exist.`);
 		return;
 	}
+
+    writeln(orientation)
 }
 
 /**
