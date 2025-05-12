@@ -252,7 +252,9 @@ export function destroy(): void {
 	} else {
 		// writeln("div: looping");
 
-		for (let _ = 0; _ < 10; _++) {
+		// This div could be a huge nesting of divs. Find the text area.
+
+		for (let _ = 0; _ < 100; _++) {
 			neighbor = neighbor.childNodes[0]! as HTMLElement;
 			// writeln("ne:", neighbor.id);
 			if (neighbor instanceof HTMLTextAreaElement) {
