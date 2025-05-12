@@ -7,7 +7,7 @@
     "types": ["./dmacs"],
     "allowJs": false,
     "checkJs": false,
-    "sourceMap": true,
+    // "sourceMap": true,
     "forceConsistentCasingInFileNames": true,
 
     //? Type Checking 
