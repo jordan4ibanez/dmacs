@@ -245,7 +245,6 @@ export function exitRecord(): void {
 		inChord = false;
 		currentChord = "";
 		chordCount = 0;
-		// todo: This does not seem like a very elegant solution.
 		MiniBuffer.reset();
 	}
 }
