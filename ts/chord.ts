@@ -185,6 +185,7 @@ function resetMiniBufferAfterTimeout() {
 	) {
 		return;
 	}
+    test
 
 	exitRecord();
 
